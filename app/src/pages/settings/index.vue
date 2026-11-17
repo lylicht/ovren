@@ -84,9 +84,11 @@ const themeLabel = computed(() => {
   if (form.theme === THEME_IDS.dark) return t('settings.themeDark');
   return t('settings.themeSystem');
 });
-const colorThemeLabel = computed(() =>
-  t(form.colorTheme === COLOR_THEME_IDS.warmGray ? 'settings.colorThemeWarmGray' : 'settings.colorThemeBlue')
-);
+const colorThemeLabel = computed(() => {
+  if (form.colorTheme === COLOR_THEME_IDS.purple) return t('settings.colorThemePurple');
+  if (form.colorTheme === COLOR_THEME_IDS.bloodRed) return t('settings.colorThemeBloodRed');
+  return t('settings.colorThemeBlue');
+});
 const hasPermissionObservation = computed(
   () => permissionObservation.value.applicationDataStatus !== MACOS_ACCESS_STATUS_IDS.notChecked
 );
@@ -233,7 +235,8 @@ function updateTheme(value: unknown) {
           </SelectTrigger>
           <SelectContent>
             <SelectItem :value="COLOR_THEME_IDS.mango">{{ t('settings.colorThemeBlue') }}</SelectItem>
-            <SelectItem :value="COLOR_THEME_IDS.warmGray">{{ t('settings.colorThemeWarmGray') }}</SelectItem>
+            <SelectItem :value="COLOR_THEME_IDS.purple">{{ t('settings.colorThemePurple') }}</SelectItem>
+            <SelectItem :value="COLOR_THEME_IDS.bloodRed">{{ t('settings.colorThemeBloodRed') }}</SelectItem>
           </SelectContent>
         </Select>
       </MdSettingsRow>

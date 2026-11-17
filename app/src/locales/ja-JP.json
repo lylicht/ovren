@@ -2466,7 +2466,8 @@
     "colorThemeTitle": "テーマカラー",
     "colorThemeDescription": "ライト・ダークモードとは別に配色を選択します",
     "colorThemeBlue": "ブルー",
-    "colorThemeWarmGray": "ウォームグレー",
+    "colorThemePurple": "パープル",
+    "colorThemeBloodRed": "血のような赤",
     "themeTitle": "テーマ",
     "themeDescription": "ライト、ダーク、またはシステムテーマを使用",
     "themeLight": "ライト",
@@ -4288,7 +4289,7 @@
       "sfStudioSymbols": {
         "name": "SFStudio symbol data",
         "license": "Apache-2.0 and Apple SF Symbols terms",
-        "description": "SFStudio interface glyphs. SF Symbols are Apple's property and are not used in Ovren's logo or app icon.",
+        "description": "SFStudio interface glyphs. SF Symbols are Apple's property and are not used in Ovren's logo or app icon",
         "appleTerms": "Apple SF Symbols guidance"
       }
     },

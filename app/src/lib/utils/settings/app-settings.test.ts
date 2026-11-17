@@ -51,7 +51,7 @@ describe('AppSettingsUtils', () => {
     }
   );
 
-  it.each([undefined, null, 0, 'unsupported'])(
+  it.each([undefined, null, 0, 'unsupported', 'warm-gray'])(
     'falls back from unavailable palette %s without losing preferences',
     colorTheme => {
       const saved = {

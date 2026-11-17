@@ -2576,7 +2576,7 @@ checksum = "4050469837a6ff301cd14c1f8f24f88549e6d548f24f64e2148eb0f72cebc51f"
 
 [[package]]
 name = "mangodisk"
-version = "2.0.0"
+version = "1.0.0"
 dependencies = [
  "base64 0.23.1",
  "blake3",
@@ -2619,7 +2619,7 @@ dependencies = [
 
 [[package]]
 name = "mangodisk-cli"
-version = "2.0.0"
+version = "1.0.0"
 dependencies = [
  "clap",
  "ctrlc",
@@ -2633,7 +2633,7 @@ dependencies = [
 
 [[package]]
 name = "mangodisk-core"
-version = "2.0.0"
+version = "1.0.0"
 dependencies = [
  "base64 0.23.1",
  "blake3",
@@ -2660,7 +2660,7 @@ dependencies = [
 
 [[package]]
 name = "mangodisk-platform"
-version = "2.0.0"
+version = "1.0.0"
 dependencies = [
  "base64 0.23.1",
  "blake3",
@@ -2700,7 +2700,7 @@ dependencies = [
 
 [[package]]
 name = "mangodisk-privileged"
-version = "2.0.0"
+version = "1.0.0"
 dependencies = [
  "embed-resource",
  "mangodisk-privileged-protocol",
@@ -2715,7 +2715,7 @@ dependencies = [
 
 [[package]]
 name = "mangodisk-privileged-protocol"
-version = "2.0.0"
+version = "1.0.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -6398,7 +6398,7 @@ dependencies = [
 
 [[package]]
 name = "xtask"
-version = "2.0.0"
+version = "1.0.0"
 dependencies = [
  "blake3",
  "mangodisk-core",

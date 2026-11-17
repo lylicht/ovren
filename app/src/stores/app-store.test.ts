@@ -65,7 +65,7 @@ describe('app store settings upgrade', () => {
     const settings = {
       ...AppSettingsUtils.defaults(LANGUAGE_IDS.enUS, BYTE_UNIT_BASES.decimal),
       theme: THEME_IDS.dark,
-      colorTheme: COLOR_THEME_IDS.warmGray,
+      colorTheme: COLOR_THEME_IDS.purple,
     };
 
     store.saveSettings(settings);
@@ -73,7 +73,7 @@ describe('app store settings upgrade', () => {
     expect(store.settings).toEqual(settings);
     expect(save).toHaveBeenCalledWith(settings);
     expect(ThemeService.apply).toHaveBeenCalledWith(THEME_IDS.dark);
-    expect(ThemeService.applyColorTheme).toHaveBeenCalledWith(COLOR_THEME_IDS.warmGray);
+    expect(ThemeService.applyColorTheme).toHaveBeenCalledWith(COLOR_THEME_IDS.purple);
   });
 
   it('preserves a saved alert choice in the current format', async () => {
@@ -81,7 +81,7 @@ describe('app store settings upgrade', () => {
       ...AppSettingsUtils.defaults(LANGUAGE_IDS.jaJP, BYTE_UNIT_BASES.decimal),
       theme: THEME_IDS.light,
       hideCleanupReadFailureAlerts: true,
-      colorTheme: COLOR_THEME_IDS.warmGray,
+      colorTheme: COLOR_THEME_IDS.bloodRed,
     };
     vi.spyOn(ByteSizeService, 'currentUnitBase').mockReturnValue(BYTE_UNIT_BASES.decimal);
     vi.spyOn(PreferenceStorageService, 'loadSettings').mockResolvedValue(settings);
@@ -94,7 +94,7 @@ describe('app store settings upgrade', () => {
     expect(clear).not.toHaveBeenCalled();
     expect(LanguageService.apply).toHaveBeenCalledWith(settings.language);
     expect(ThemeService.apply).toHaveBeenCalledWith(settings.theme);
-    expect(ThemeService.applyColorTheme).toHaveBeenCalledWith(COLOR_THEME_IDS.warmGray);
+    expect(ThemeService.applyColorTheme).toHaveBeenCalledWith(COLOR_THEME_IDS.bloodRed);
   });
 
   it('preserves valid settings when a saved palette is unavailable', async () => {

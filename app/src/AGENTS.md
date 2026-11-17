@@ -43,7 +43,7 @@ Pages may present several domains together, but shared product orchestration mus
 ## Styling and interaction
 
 - `assets/themes/base-tokens.css` owns shared brand identity, typography, native icon colors, and semantic derivations. It must not define a selectable surface palette.
-- `assets/themes/mango.css` and `assets/themes/warm-gray.css` own independent light and dark palettes. Theme selectors must be mutually exclusive and match only their own ID; neither theme may require the other stylesheet to render correctly. Mango also handles the initial state before preferences load; persisted invalid preferences are normalized to Mango.
+- `assets/themes/mango.css`, `assets/themes/purple.css`, and `assets/themes/blood-red.css` own independent light and dark palettes. Theme selectors must be mutually exclusive and match only their own ID; no palette may require another stylesheet to render correctly. Mango also handles the initial state before preferences load; persisted invalid preferences are normalized to Mango.
 - `assets/main.css` imports the shared tokens and both palettes, maps tokens to Tailwind, and owns global layout and interaction styles. Components consume semantic tokens instead of inspecting theme IDs.
 - Use `text-primary-text` and `text-destructive-text` for standalone labels and icons; `primary` and `destructive` are filled-control colors paired with their `*-foreground` tokens. The style-system check enforces this distinction.
 - Tailwind's `dark:` variant must follow the application `data-theme` attribute so manual brightness settings remain independent of the OS preference.

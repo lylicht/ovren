@@ -12,15 +12,15 @@ afterEach(() => {
 
 describe('independent color and brightness preferences', () => {
   it('keeps the selected palette when the system brightness changes', () => {
-    ThemeService.applyColorTheme(COLOR_THEME_IDS.warmGray);
+    ThemeService.applyColorTheme(COLOR_THEME_IDS.bloodRed);
     ThemeService.apply(THEME_IDS.system);
     const systemPreference = ThemeService.mediaQuery!;
     systemPreference.dispatchEvent(new MediaQueryListEvent('change', { matches: true }));
     expect(document.documentElement.dataset.theme).toBe(THEME_IDS.dark);
-    expect(document.documentElement.dataset.colorTheme).toBe(COLOR_THEME_IDS.warmGray);
+    expect(document.documentElement.dataset.colorTheme).toBe(COLOR_THEME_IDS.bloodRed);
     systemPreference.dispatchEvent(new MediaQueryListEvent('change', { matches: false }));
     expect(document.documentElement.dataset.theme).toBe(THEME_IDS.light);
-    expect(document.documentElement.dataset.colorTheme).toBe(COLOR_THEME_IDS.warmGray);
+    expect(document.documentElement.dataset.colorTheme).toBe(COLOR_THEME_IDS.bloodRed);
   });
 
   it('ignores system brightness events after selecting a fixed mode', () => {
@@ -34,7 +34,7 @@ describe('independent color and brightness preferences', () => {
 
   it('switches back to classic colors without changing a fixed dark preference', () => {
     ThemeService.apply(THEME_IDS.dark);
-    ThemeService.applyColorTheme(COLOR_THEME_IDS.warmGray);
+    ThemeService.applyColorTheme(COLOR_THEME_IDS.purple);
     ThemeService.applyColorTheme(COLOR_THEME_IDS.mango);
     expect(document.documentElement.dataset.theme).toBe(THEME_IDS.dark);
     expect(document.documentElement.dataset.colorTheme).toBe(COLOR_THEME_IDS.mango);

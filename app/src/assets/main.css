@@ -2,7 +2,8 @@
 @import 'tw-animate-css';
 @import './themes/base-tokens.css';
 @import './themes/mango.css';
-@import './themes/warm-gray.css';
+@import './themes/purple.css';
+@import './themes/blood-red.css';
 
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 

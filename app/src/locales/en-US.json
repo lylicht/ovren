@@ -2466,7 +2466,8 @@
     "colorThemeTitle": "Theme color",
     "colorThemeDescription": "Choose a color palette independently of light or dark mode",
     "colorThemeBlue": "Blue",
-    "colorThemeWarmGray": "Warm Gray",
+    "colorThemePurple": "Purple",
+    "colorThemeBloodRed": "Blood Red",
     "themeTitle": "Theme",
     "themeDescription": "Use a light, dark, or system theme",
     "themeLight": "Light",
@@ -4288,7 +4289,7 @@
       "sfStudioSymbols": {
         "name": "SFStudio symbol data",
         "license": "Apache-2.0 and Apple SF Symbols terms",
-        "description": "SFStudio interface glyphs. SF Symbols are Apple's property and are not used in Ovren's logo or app icon.",
+        "description": "SFStudio interface glyphs. SF Symbols are Apple's property and are not used in Ovren's logo or app icon",
         "appleTerms": "Apple SF Symbols guidance"
       }
     },

@@ -2466,7 +2466,8 @@
     "colorThemeTitle": "Tema rengi",
     "colorThemeDescription": "Açık veya koyu moddan bağımsız bir renk paleti seçin",
     "colorThemeBlue": "Mavi",
-    "colorThemeWarmGray": "Sıcak Gri",
+    "colorThemePurple": "Mor",
+    "colorThemeBloodRed": "Kan kırmızısı",
     "themeTitle": "Tema",
     "themeDescription": "Açık, koyu veya sistem temasını kullanın",
     "themeLight": "Açık",
@@ -4288,7 +4289,7 @@
       "sfStudioSymbols": {
         "name": "SFStudio symbol data",
         "license": "Apache-2.0 and Apple SF Symbols terms",
-        "description": "SFStudio interface glyphs. SF Symbols are Apple's property and are not used in Ovren's logo or app icon.",
+        "description": "SFStudio interface glyphs. SF Symbols are Apple's property and are not used in Ovren's logo or app icon",
         "appleTerms": "Apple SF Symbols guidance"
       }
     },

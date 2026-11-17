@@ -113,7 +113,8 @@ export function isThemeId(value: unknown): value is ThemeId {
 
 export const COLOR_THEME_IDS = {
   mango: 'mango',
-  warmGray: 'warm-gray',
+  purple: 'purple',
+  bloodRed: 'blood-red',
 } as const;
 
 export type ColorThemeId = (typeof COLOR_THEME_IDS)[keyof typeof COLOR_THEME_IDS];

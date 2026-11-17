@@ -9,6 +9,7 @@ Ovren is the new desktop identity for the project, made and maintained by Licht.
 - Added the original Ovren logo and regenerated the platform icons from its vector mark.
 - Updated the application identity, metadata, interface names, updater links, and release workflow to Ovren.
 - Switched the interface symbol source to SFStudio while keeping SF Symbols out of the brand mark and app icon.
+- Replaced the warm-gray palette with independent purple and blood-red themes for light and dark mode.
 - Kept existing Wyre installations and data separate; Ovren does not import them automatically.
 
 ## 2.0.0 — 2026-11-10

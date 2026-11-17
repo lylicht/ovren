@@ -82,7 +82,7 @@ describe('third-party licenses dialog', () => {
     expect(installer?.textContent).not.toContain('LGPL');
     expect(installer?.textContent).toContain('namazso');
     expect(modules?.textContent).toContain('namazso');
-    expect(document.body.querySelectorAll('[data-document-action]')).toHaveLength(2);
+    expect(document.body.querySelectorAll('[data-document-action]')).toHaveLength(4);
     expect(document.body.querySelector('[data-slot="dialog-description"]')?.classList.contains('sr-only')).toBe(true);
 
     modulesButton(i18n.global.t('thirdPartyLicenses.readLicense')).click();

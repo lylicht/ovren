@@ -2466,7 +2466,8 @@
     "colorThemeTitle": "Palette de couleurs",
     "colorThemeDescription": "Choisir les couleurs indépendamment du mode clair ou sombre",
     "colorThemeBlue": "Bleu",
-    "colorThemeWarmGray": "Gris chaud",
+    "colorThemePurple": "Violet",
+    "colorThemeBloodRed": "Rouge sang",
     "themeTitle": "Apparence",
     "themeDescription": "Choisir le mode clair, sombre ou celui du système",
     "themeLight": "Clair",
@@ -4288,7 +4289,7 @@
       "sfStudioSymbols": {
         "name": "SFStudio symbol data",
         "license": "Apache-2.0 and Apple SF Symbols terms",
-        "description": "SFStudio interface glyphs. SF Symbols are Apple's property and are not used in Ovren's logo or app icon.",
+        "description": "SFStudio interface glyphs. SF Symbols are Apple's property and are not used in Ovren's logo or app icon",
         "appleTerms": "Apple SF Symbols guidance"
       }
     },

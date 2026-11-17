@@ -2466,7 +2466,8 @@
     "colorThemeTitle": "Цветовая тема",
     "colorThemeDescription": "Выберите палитру независимо от светлого или тёмного режима",
     "colorThemeBlue": "Синий",
-    "colorThemeWarmGray": "Тёплый серый",
+    "colorThemePurple": "Фиолетовый",
+    "colorThemeBloodRed": "Кроваво-красный",
     "themeTitle": "Тема",
     "themeDescription": "Используйте светлую, темную или системную тему",
     "themeLight": "Светлая",
@@ -4288,7 +4289,7 @@
       "sfStudioSymbols": {
         "name": "SFStudio symbol data",
         "license": "Apache-2.0 and Apple SF Symbols terms",
-        "description": "SFStudio interface glyphs. SF Symbols are Apple's property and are not used in Ovren's logo or app icon.",
+        "description": "SFStudio interface glyphs. SF Symbols are Apple's property and are not used in Ovren's logo or app icon",
         "appleTerms": "Apple SF Symbols guidance"
       }
     },
