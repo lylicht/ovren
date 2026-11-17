@@ -165,7 +165,7 @@ mod tests {
         let error = CommandError::operation(
             "scan_application_uninstall_catalog",
             CoreError::operation_busy(
-                "another Wyre operation is already running: cleanup_scan (1)",
+                "another Ovren operation is already running: cleanup_scan (1)",
             ),
         );
         let json = serde_json::to_value(error).expect("command errors must serialize");

@@ -96,7 +96,7 @@
   "fullDiskAccessGuidance": {
     "summary": "檢查磁碟存取權",
     "title": "檢查完整磁碟存取權",
-    "instructions": "在系統設定中檢查 Wyre 的「完整磁碟存取權」，然後重新掃描。若已開啟，可查看掃描日誌排查其他存取限制",
+    "instructions": "在系統設定中檢查 Ovren 的「完整磁碟存取權」，然後重新掃描。若已開啟，可查看掃描日誌排查其他存取限制",
     "skip": "暫時略過",
     "openSettings": "開啟完整磁碟存取設定"
   },
@@ -281,7 +281,7 @@
     "scanningDescription": "只會檢查系統元件狀態，檢查期間不會修改系統",
     "scanFailedTitle": "未能完成維護檢查",
     "scanFailedDescription": "沒有修改任何系統內容。請重試檢查；如果問題持續發生，可以在設定中查看記錄",
-    "authorizationPrompt": "Wyre 需要管理員權限才能執行此項系統維護",
+    "authorizationPrompt": "Ovren 需要管理員權限才能執行此項系統維護",
     "rescan": "重新檢查",
     "filterCategory": "篩選維護類別",
     "executeOne": "執行",
@@ -1555,7 +1555,7 @@
       "disableNamedGroup": "停用 {name}",
       "futureOnly": "關閉自動啟動不會停止目前正在執行的程式或服務",
       "requiresElevation": "需要管理員權限",
-      "authorizationPromptMacos": "Wyre 需要管理員權限來變更啟動項目設定",
+      "authorizationPromptMacos": "Ovren 需要管理員權限來變更啟動項目設定",
       "confirm": "確定",
       "applying": "正在套用…",
       "refreshFailedResult": "操作已完成，清單暫未更新，請重新掃描",
@@ -1606,7 +1606,7 @@
         "find": "在登入項目設定中，依 App 或開發者名稱尋找",
         "loginItem": "登入時開啟：選取 App，按「−」移除",
         "backgroundItem": "背景活動：關閉開關；舊記錄可能仍會保留",
-        "rescan": "處理後返回 Wyre，重新掃描",
+        "rescan": "處理後返回 Ovren，重新掃描",
         "settingsPath": "macOS 12：在「使用者與群組」中點選「登入項目」；較新系統可搜尋「登入項目」"
       }
     },
@@ -1615,7 +1615,7 @@
       "description": "說明",
       "version": "版本",
       "systemManaged": "此項目由系統管理，可在系統登入項目中更改",
-      "viewOnly": "此項目僅供檢視，無法在 Wyre 中直接變更",
+      "viewOnly": "此項目僅供檢視，無法在 Ovren 中直接變更",
       "protectedService": "此服務受 Windows 保護，無法在此變更",
       "openLoginItemsSettings": "開啟登入項目設定",
       "source": "啟動類型",
@@ -1668,7 +1668,7 @@
     "invalidInput": "請求無效，請檢查所選項目後重試",
     "operationCancelled": "操作已取消",
     "operationFailed": "操作未完成，請重試",
-    "permissionDenied": "Wyre 缺少完成此操作所需的權限",
+    "permissionDenied": "Ovren 缺少完成此操作所需的權限",
     "persistenceFailed": "無法儲存操作資料，請重試",
     "taskJoinFailed": "背景任務意外停止，請重試"
   },
@@ -1800,7 +1800,7 @@
       "sizePending": "需要系統管理員權限",
       "action": "系統管理員檢查",
       "checking": "檢查中…",
-      "restartHint": "以系統管理員身分重新啟動 Wyre 後再次掃描"
+      "restartHint": "以系統管理員身分重新啟動 Ovren 後再次掃描"
     },
     "categoryItemCount": "{count} 個項目",
     "categoryTitles": {
@@ -2136,7 +2136,7 @@
     "categoryTitle": "應用程式殘留",
     "scanning": "正在尋找已解除安裝應用程式留下的資料…",
     "scanHint": "只顯示能夠明確關聯到已解除安裝應用程式的資料，掃描不會修改檔案",
-    "accessLimitedDescription": "請在「系統設定 → 隱私權與安全性」中允許 Wyre 存取其他 App 的資料，然後重新掃描",
+    "accessLimitedDescription": "請在「系統設定 → 隱私權與安全性」中允許 Ovren 存取其他 App 的資料，然後重新掃描",
     "incompleteDescription": "為避免誤刪，本次不顯示殘留內容，請稍後重試",
     "emptyTitle": "沒有發現可確認的應用程式殘留",
     "emptyDescription": "沒有發現能夠安全確認的應用程式殘留",
@@ -2206,13 +2206,13 @@
     "incompleteTitle": "無法完整讀取已安裝應用程式",
     "incompleteDescription": "為避免誤刪，本次無法解除安裝，請稍後重試",
     "viewOnlyTitle": "目前系統無法解除安裝應用程式",
-    "viewOnlyDescription": "你可以查看已安裝應用程式，但 Wyre 暫時無法解除安裝",
+    "viewOnlyDescription": "你可以查看已安裝應用程式，但 Ovren 暫時無法解除安裝",
     "applicationRunning": "需關閉應用程式",
     "closeBeforeUninstallTitle": "關閉應用程式後解除安裝",
     "closeBeforeUninstallDescription": "選取解除安裝前需要關閉的執行中應用程式",
     "requiresElevation": "需管理員權限",
     "requiresElevationDescriptionMacos": "解除安裝此應用程式時，macOS 將要求管理員授權。取消授權不會刪除應用程式",
-    "authorizationPromptMacos": "Wyre 需要管理員權限來解除安裝此應用程式",
+    "authorizationPromptMacos": "Ovren 需要管理員權限來解除安裝此應用程式",
     "readyForReview": "可解除安裝",
     "viewOnly": "解除安裝入口不可用",
     "orphanedRegistration": "失效記錄",
@@ -2435,7 +2435,7 @@
       "recoveryRequired": "解除安裝未完整結束，請檢查或還原應用程式後再重試",
       "nativeInstallerFailed": "解除安裝程式未能完成解除安裝",
       "nativeInstallerFailedAfterRemoval": "安裝記錄已移除，但解除安裝程式回報了錯誤",
-      "verificationFailed": "Wyre 無法確認解除安裝結果",
+      "verificationFailed": "Ovren 無法確認解除安裝結果",
       "removalUnconfirmed": "解除安裝程式已結束，但尚未確認完成。請重新整理應用程式清單確認"
     }
   },
@@ -2449,7 +2449,7 @@
     "supportSection": "支援",
     "aboutSection": "關於",
     "languageTitle": "介面語言",
-    "languageDescription": "選擇 Wyre 使用的介面語言",
+    "languageDescription": "選擇 Ovren 使用的介面語言",
     "languageNames": {
       "zhCN": "简体中文",
       "enUS": "English",
@@ -2473,7 +2473,7 @@
     "themeDark": "暗色",
     "themeSystem": "跟隨系統",
     "fullDiskAccessTitle": "完整磁碟存取權",
-    "fullDiskAccessDescription": "允許 Wyre 掃描受保護的系統與應用程式資料，以取得更完整的清理結果",
+    "fullDiskAccessDescription": "允許 Ovren 掃描受保護的系統與應用程式資料，以取得更完整的清理結果",
     "openPrivacySettings": "系統設定",
     "permissionStatus": {
       "notChecked": "尚未檢查",
@@ -2481,7 +2481,7 @@
       "limited": "存取受限"
     },
     "feedbackTitle": "意見回饋",
-    "feedbackDescription": "期待您的回饋，讓 Wyre 變得更好",
+    "feedbackDescription": "期待您的回饋，讓 Ovren 變得更好",
     "feedbackAction": "提供意見回饋",
     "feedbackDialog": {
       "title": "提供意見回饋",
@@ -2515,7 +2515,7 @@
       }
     },
     "diagnosticLogsTitle": "診斷記錄檔",
-    "diagnosticLogsDescription": "查看 Wyre 執行記錄檔，用於進行疑難排解",
+    "diagnosticLogsDescription": "查看 Ovren 執行記錄檔，用於進行疑難排解",
     "openLogFolderAction": "開啟資料夾",
     "softwareUpdateTitle": "軟體更新",
     "updateCheckAction": "檢查更新",
@@ -2533,7 +2533,7 @@
     "updateCheckFailedTitle": "無法檢查更新",
     "updateCheckUnknownError": "更新服務發生未知錯誤",
     "versionUnknown": "正在讀取…",
-    "aboutTitle": "關於 Wyre",
+    "aboutTitle": "關於 Ovren",
     "aboutDescription": "輕量、安全、開放原始碼的跨平台磁碟清理與空間分析工具",
     "projectLinksLabel": "專案連結",
     "websiteAction": "官方網站",
@@ -2544,24 +2544,24 @@
   "updates": {
     "noticeAvailable": "有新版本",
     "noticeRetry": "重試開啟更新",
-    "availableTitle": "Wyre {version} 可用",
+    "availableTitle": "Ovren {version} 可用",
     "currentVersionDescription": "目前版本 {version}",
     "checkDescription": "檢查是否有可用的新版本",
     "checkingDescription": "正在連接更新服務…",
-    "upToDateDescription": "Wyre {version} 已是最新版本",
+    "upToDateDescription": "Ovren {version} 已是最新版本",
     "releaseNotes": "本次更新",
     "noReleaseNotes": "此版本包含體驗最佳化和問題修復",
     "downloadUpdate": "下載更新",
     "downloadPortable": "下載單檔版",
-    "portableDescription": "單檔版需要手動更新。請下載新檔案，結束 Wyre 後取代目前的程式",
+    "portableDescription": "單檔版需要手動更新。請下載新檔案，結束 Ovren 後取代目前的程式",
     "continueInBackground": "在背景繼續下載",
-    "downloadedTitle": "Wyre {version} 已下載",
-    "installedTitle": "Wyre {version} 已安裝",
-    "downloadComplete": "更新已下載 · 安裝後 Wyre 將重新啟動",
+    "downloadedTitle": "Ovren {version} 已下載",
+    "installedTitle": "Ovren {version} 已安裝",
+    "downloadComplete": "更新已下載 · 安裝後 Ovren 將重新啟動",
     "installAndRestart": "安裝並重新啟動",
-    "restartRequired": "安裝已完成 · 重新啟動 Wyre 即可完成更新",
+    "restartRequired": "安裝已完成 · 重新啟動 Ovren 即可完成更新",
     "restartNow": "立即重新啟動",
-    "restarting": "正在重新啟動 Wyre…",
+    "restarting": "正在重新啟動 Ovren…",
     "notNow": "暫不更新",
     "later": "稍後安裝",
     "retry": "重試",
@@ -2571,7 +2571,7 @@
     "downloadFailed": "下載失敗",
     "manualDownloadFailed": "無法開啟下載位址",
     "installFailed": "安裝失敗",
-    "restartFailed": "無法重新啟動 Wyre",
+    "restartFailed": "無法重新啟動 Ovren",
     "navigationNotice": "有新版本可用"
   },
   "loading": {
@@ -2605,7 +2605,7 @@
     "validating": "正在再次確認所選項目…",
     "finalizing": "正在彙整清理結果…",
     "cleaningSafetyHint": "正在清理選取項目；內容如有變更或正在使用，會自動跳過以避免誤刪",
-    "windowsPreviousInstallationsCleanupHint": "請在 Windows 系統視窗中確認，並保持 Wyre 執行直到系統完成清理",
+    "windowsPreviousInstallationsCleanupHint": "請在 Windows 系統視窗中確認，並保持 Ovren 執行直到系統完成清理",
     "previewingSafetyHint": "正在核對所選項目，不會刪除或修改任何內容",
     "elapsedSeconds": "{count} 秒",
     "cleanupItemList": "清理項目進度",
@@ -3922,7 +3922,7 @@
       "requiredToolUnavailable": "未找到清理所需的應用程式或工具，未做任何更改",
       "preflightFailed": "無法安全檢查所選檔案，未做任何更改",
       "executionFailed": "清理未能完成，沒有刪除其他檔案",
-      "verificationFailed": "清理已執行，但 Wyre 無法確認結果，請重新掃描",
+      "verificationFailed": "清理已執行，但 Ovren 無法確認結果，請重新掃描",
       "cleanerUnavailable": "此清理功能暫時不可用，未做任何更改",
       "nameExclusionsUnsupported": "此清理項目無法安全套用名稱排除，已略過"
     }
@@ -3943,9 +3943,9 @@
     "processExited": "此程序已結束",
     "locationUnavailable": "無法取得檔案位置",
     "revealFailed": "無法顯示此項目，檔案可能已移動或刪除",
-    "autostartHint": "登入電腦時自動啟動 Wyre",
+    "autostartHint": "登入電腦時自動啟動 Ovren",
     "autostart": "登入時自動啟動",
-    "openMain": "開啟 Wyre",
+    "openMain": "開啟 Ovren",
     "title": "系統監測",
     "memory": "記憶體",
     "memoryUsage": "記憶體用量",
@@ -4039,7 +4039,7 @@
     "unsupported": "暫不支援",
     "failed": "暫時無法取得",
     "details": "系統狀態",
-    "openMain": "開啟 Wyre",
+    "openMain": "開啟 Ovren",
     "settings": "設定",
     "quit": "結束",
     "upload": "上傳",
@@ -4119,11 +4119,11 @@
     "batteryUnsupportedHint": "此 Mac 無法讀取電池資料"
   },
   "webviewRuntime": {
-    "updateRequired": "目前的介面執行元件版本較舊。請更新 Microsoft Edge WebView2 Runtime，然後重新開啟 Wyre",
+    "updateRequired": "目前的介面執行元件版本較舊。請更新 Microsoft Edge WebView2 Runtime，然後重新開啟 Ovren",
     "update": "前往更新",
     "exit": "結束",
     "openFailed": "無法開啟瀏覽器。請手動前往以下網址，更新 Microsoft Edge WebView2 Runtime：\n{url}",
-    "recoveryFailed": "應用程式介面無法恢復，背景工作可能仍在執行。請先確認工作狀態，避免重複執行，再結束並重新開啟 Wyre"
+    "recoveryFailed": "應用程式介面無法恢復，背景工作可能仍在執行。請先確認工作狀態，避免重複執行，再結束並重新開啟 Ovren"
   },
   "memoryRelease": {
     "title": "記憶體釋放設定",
@@ -4219,7 +4219,7 @@
     "coreMaximumHint": "{count} 個 CPU 核心感測器的最高溫度",
     "diodeHint": "CPU 二極體溫度",
     "proximityHint": "CPU 鄰近感測器測得的溫度，與核心和封裝溫度不同",
-    "unsupportedHint": "Wyre 無法在此裝置讀取已確認的 CPU 溫度感測器",
+    "unsupportedHint": "Ovren 無法在此裝置讀取已確認的 CPU 溫度感測器",
     "trend": "最近一分鐘 CPU 溫度，單位攝氏度"
   },
   "windowsMonitoring": {
@@ -4252,10 +4252,10 @@
     "collectionOff": "溫度採集尚未啟用",
     "goToSettings": "前往設定",
     "supportHint": "支援相容 x64 電腦的 Intel CPU 封裝溫度和 AMD CPU 晶片溫度",
-    "collectionHint": "Wyre 執行時持續記錄溫度曲線",
+    "collectionHint": "Ovren 執行時持續記錄溫度曲線",
     "displayHint": "隱藏溫度顯示後，仍會繼續記錄溫度曲線",
     "more": "更多",
-    "installBody": "安裝 Wyre 採集服務，即可查看 CPU 溫度和溫度曲線",
+    "installBody": "安裝 Ovren 採集服務，即可查看 CPU 溫度和溫度曲線",
     "enableHint": "啟用後，即可查看 CPU 溫度和溫度曲線",
     "supportSummary": "支援部分 Intel 和 AMD 電腦",
     "repairHint": "溫度採集暫時無法使用，請嘗試修復採集服務",
@@ -4284,6 +4284,12 @@
         "name": "PawnIO 安裝程式",
         "license": "專有軟體",
         "description": "安裝溫度擷取所需的 PawnIO 驅動程式"
+      },
+      "sfStudioSymbols": {
+        "name": "SFStudio symbol data",
+        "license": "Apache-2.0 and Apple SF Symbols terms",
+        "description": "SFStudio interface glyphs. SF Symbols are Apple's property and are not used in Ovren's logo or app icon.",
+        "appleTerms": "Apple SF Symbols guidance"
       }
     },
     "author": "作者：{author}"
@@ -4337,7 +4343,7 @@
     "activity": "磁碟活動",
     "systemRead": "系統累計讀取",
     "systemWritten": "系統累計寫入",
-    "systemHint": "系統提供的所有磁碟累計讀寫量\n重新啟動 Wyre 不會歸零，起點由系統與驅動程式決定\n與 SMART 使用壽命累計量不同"
+    "systemHint": "系統提供的所有磁碟累計讀寫量\n重新啟動 Ovren 不會歸零，起點由系統與驅動程式決定\n與 SMART 使用壽命累計量不同"
   },
   "wyre": {
     "networkTitle": "網路",

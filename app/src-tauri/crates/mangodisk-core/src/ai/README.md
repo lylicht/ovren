@@ -135,7 +135,7 @@ enters the request, not TOML syntax, field names or maintenance comments.
 
 ## Provider contract
 
-Wyre has no hosted AI service. Explanations use the provider you configure.
+Ovren has no hosted AI service. Explanations use the provider you configure.
 
 Configure a base URL ending at the API prefix (commonly `/v1`), a model, and a key.
 Requests use `POST /chat/completions` with `stream: true`. Both HTTP and HTTPS

@@ -9,7 +9,7 @@ use super::{configuration_file, AiError};
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum AiServiceMode {
-    // Wyre has no hosted AI service. Files saved in MangoDisk's former "free" mode load as custom.
+    // Ovren has no hosted AI service. Files saved in MangoDisk's former "free" mode load as custom.
     #[default]
     #[serde(alias = "free")]
     Custom,

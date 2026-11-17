@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 
+## 1.0.0 — 2026-11-17
+
+Ovren is the new desktop identity for the project, made and maintained by Licht.
+
+- Added the original Ovren logo and regenerated the platform icons from its vector mark.
+- Updated the application identity, metadata, interface names, updater links, and release workflow to Ovren.
+- Switched the interface symbol source to SFStudio while keeping SF Symbols out of the brand mark and app icon.
+- Kept existing Wyre installations and data separate; Ovren does not import them automatically.
+
 ## 2.0.0 — 2026-11-10
 
 Wyre 2.0 gets an Apple-style look and drops every service it inherited from MangoDisk. Wyre now talks only to servers you choose.
@@ -13,7 +22,7 @@ Wyre 2.0 gets an Apple-style look and drops every service it inherited from Mang
 - Generate resident tray icons from the vector Wyre mark and document the correct vector source for packaged icons.
 - Validate release tags against all app versions and the matching changelog before starting platform builds.
 
-## 1.0.0 — 2026-10-20
+## Wyre 1.0.0 — 2026-10-20
 
 - Replaced the standalone Electron shell with the full Wyre Vue/Tauri application as Wyre's base.
 - Added on-demand network latency, jitter, download, and upload measurement.

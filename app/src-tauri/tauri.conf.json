@@ -1,9 +1,9 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Wyre",
-  "version": "2.0.0",
-  "identifier": "dev.bxane.wyre",
-  "mainBinaryName": "Wyre",
+  "productName": "Ovren",
+  "version": "1.0.0",
+  "identifier": "dev.licht.ovren",
+  "mainBinaryName": "Ovren",
   "build": {
     "beforeDevCommand": "pnpm dev",
     "devUrl": "http://127.0.0.1:1420",
@@ -20,7 +20,7 @@
       {
         "label": "main",
         "create": false,
-        "title": "Wyre",
+        "title": "Ovren",
         "width": 1280,
         "height": 800,
         "minWidth": 1000,
@@ -39,11 +39,11 @@
   "bundle": {
     "active": true,
     "android": {
-      "versionCode": 2
+      "versionCode": 1
     },
-    "publisher": "bxane",
-    "homepage": "https://github.com/bxanedot/wyre",
-    "copyright": "Copyright © 2026 bxane and MangoDisk contributors",
+    "publisher": "Licht",
+    "homepage": "https://github.com/lylicht/ovren",
+    "copyright": "Copyright © 2026 Licht, bxane, and MangoDisk contributors",
     "license": "GPL-3.0-only",
     "createUpdaterArtifacts": true,
     "targets": ["nsis", "appimage", "deb"],
@@ -86,7 +86,7 @@
     "updater": {
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEY4MTRFQzNFOTM3ODkwQjAKUldTd2tIaVRQdXdVK0NRbW1lUlQvTTFtTEEvMzNhZ004Q2NCMWJlek9PSWJOOGl4S0UzaUtqVU8K",
       "endpoints": [
-        "https://github.com/bxanedot/wyre/releases/latest/download/latest.json"
+        "https://github.com/lylicht/ovren/releases/latest/download/latest.json"
       ],
       "windows": {
         "installMode": "passive"

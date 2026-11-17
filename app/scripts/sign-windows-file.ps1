@@ -3,10 +3,10 @@ param([Parameter(Mandatory = $true)][string]$Path)
 $ErrorActionPreference = 'Stop'
 Import-Module Microsoft.PowerShell.Security
 $thumbprint = $env:WYRE_WINDOWS_CERTIFICATE_THUMBPRINT
-if (-not $thumbprint) { throw 'Wyre signing certificate thumbprint is missing.' }
+if (-not $thumbprint) { throw 'Ovren signing certificate thumbprint is missing.' }
 $certificate = Get-Item "Cert:\CurrentUser\My\$thumbprint"
 if (-not $certificate.HasPrivateKey -or $certificate.Subject -notmatch 'CN=bxane') {
-  throw 'The Wyre signing certificate must have a private key and identify bxane.'
+  throw 'The Ovren signing certificate must have a private key and identify bxane.'
 }
 $signingParameters = @{
   LiteralPath = $Path
@@ -23,8 +23,8 @@ if ($env:WYRE_CI_EPHEMERAL_SIGNING -eq 'true') {
   Write-Output "CI Authenticode status: $($signature.Status) ($($signature.StatusMessage)); signer: $($signature.SignerCertificate.Thumbprint)"
   # The ephemeral CI certificate is not installed in a trust store.
   if (($signature.Status.ToString() -notin @('Valid', 'NotTrusted', 'UnknownError')) -or -not $signerMatches) {
-    throw "Wyre CI file signature failed: $($signature.Status)"
+    throw "Ovren CI file signature failed: $($signature.Status)"
   }
 } elseif ($signature.Status -ne 'Valid' -or -not $signerMatches) {
-  throw "Wyre file signing failed: $($signature.Status)"
+  throw "Ovren file signing failed: $($signature.Status)"
 }

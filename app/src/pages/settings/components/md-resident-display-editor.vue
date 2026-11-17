@@ -6,7 +6,7 @@ import { computed, onBeforeUnmount, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import MdCheckbox from '@/components/custom/md-checkbox.vue';
 import MdIcon from '@/components/icons/md-icon.vue';
-import MdIconMangodisk from '@/components/icons/md-icon-mangodisk.vue';
+import MdIconOvren from '@/components/icons/md-icon-ovren.vue';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTitle } from '@/components/ui/dialog';
 import MdDialogContent from '@/components/custom/md-dialog-content.vue';
@@ -361,7 +361,7 @@ defineExpose({
               <template #logo>
                 <div key="logo" class="status-item">
                   <span class="logo-marker" aria-hidden="true">
-                    <MdIconMangodisk :size="18" />
+                    <MdIconOvren :size="18" />
                   </span>
                   <label class="logo-label" for="status-app-icon">
                     <MdCheckbox

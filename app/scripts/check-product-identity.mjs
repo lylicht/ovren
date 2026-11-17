@@ -44,34 +44,40 @@ const tauriManifest = readText('src-tauri/Cargo.toml');
 const cliManifest = readText('src-tauri/crates/mangodisk-cli/Cargo.toml');
 const readme = readText('README.md');
 const indexHtml = readText('index.html');
+const applicationShell = readText('src/lib/models/shell/application-shell.ts');
 const tauriLibrary = readText('src-tauri/src/lib.rs');
 const coreLibrary = readText('src-tauri/crates/mangodisk-core/src/lib.rs');
 const tauriMain = readText('src-tauri/src/main.rs');
 const macosChangeTracking = readText('src-tauri/crates/mangodisk-platform/src/macos/change_tracking.rs');
 
-assertEqual(packageJson.name, 'wyre', 'npm package name');
-assertEqual(tauriConfig.productName, 'Wyre', 'Tauri product name');
-assertEqual(tauriConfig.identifier, 'dev.bxane.wyre', 'Tauri bundle identifier');
+assertEqual(packageJson.name, 'ovren', 'npm package name');
+assertEqual(tauriConfig.productName, 'Ovren', 'Tauri product name');
+assertEqual(tauriConfig.identifier, 'dev.licht.ovren', 'Tauri bundle identifier');
+assertEqual(tauriConfig.bundle?.publisher, 'Licht', 'Tauri publisher');
 assertContains(
   coreLibrary,
-  'pub const APPLICATION_IDENTIFIER: &str = "dev.bxane.wyre";',
+  'pub const APPLICATION_IDENTIFIER: &str = "dev.licht.ovren";',
   'Core application identifier'
 );
-assertEqual(tauriConfig.mainBinaryName, 'Wyre', 'Tauri binary name');
-assertEqual(tauriConfig.app?.windows?.[0]?.title, 'Wyre', 'main window title');
-assertEqual(linuxTauriConfig.app?.windows?.[0]?.title, 'Wyre', 'Linux main window title');
+assertEqual(tauriConfig.mainBinaryName, 'Ovren', 'Tauri binary name');
+assertEqual(tauriConfig.app?.windows?.[0]?.title, 'Ovren', 'main window title');
+assertEqual(linuxTauriConfig.app?.windows?.[0]?.title, 'Ovren', 'Linux main window title');
+assertContains(applicationShell, "APP_NAME = 'Ovren'", 'frontend product name');
+assertContains(applicationShell, "APP_PUBLISHER = 'Licht'", 'frontend publisher');
+assertContains(applicationShell, "APP_ICON_PATH = '/ovren-icon.svg'", 'frontend icon path');
 
 assertContains(tauriManifest, 'name = "mangodisk"', 'Tauri package manifest');
 assertContains(tauriManifest, 'name = "mangodisk_lib"', 'Tauri library manifest');
 assertContains(cliManifest, 'name = "mangodisk-cli"', 'CLI package manifest');
 assertContains(cliManifest, 'name = "mangodisk"', 'CLI binary manifest');
 
-assertExists('public/wyre-icon.svg');
-assertExists('src/components/icons/md-icon-mangodisk.vue');
+assertExists('public/ovren-icon.svg');
+assertExists('public/ovren-logo.svg');
+assertExists('src/components/icons/md-icon-ovren.vue');
 
-assertContains(readme, '# Wyre desktop application', 'README product name');
-assertContains(indexHtml, 'Wyre', 'HTML application shell');
-assertContains(tauriLibrary, 'Wyre', 'Tauri library');
+assertContains(readme, '# Ovren desktop application', 'README product name');
+assertContains(indexHtml, 'Ovren', 'HTML application shell');
+assertContains(tauriLibrary, 'Ovren', 'Tauri library');
 assertContains(tauriMain, 'mangodisk_lib', 'Tauri entry point');
 assertContains(macosChangeTracking, 'app.mangodisk.cache-dirty-monitor', 'macOS cache monitor identity');
 

@@ -15,7 +15,7 @@ mod system_maintenance;
 pub mod system_resources;
 mod system_settings;
 
-pub const APPLICATION_IDENTIFIER: &str = "dev.bxane.wyre";
+pub const APPLICATION_IDENTIFIER: &str = "dev.licht.ovren";
 
 pub use applications::leftovers::{
     ApplicationLeftoverActionReason, ApplicationLeftoverActionResult,

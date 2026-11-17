@@ -1,16 +1,16 @@
 {
-  "name": "wyre",
+  "name": "ovren",
   "private": true,
-  "version": "2.0.0",
-  "author": "bxane",
+  "version": "1.0.0",
+  "author": "Licht",
   "license": "GPL-3.0-only",
-  "homepage": "https://github.com/bxanedot/wyre",
+  "homepage": "https://github.com/lylicht/ovren",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bxanedot/wyre.git"
+    "url": "git+https://github.com/lylicht/ovren.git"
   },
   "bugs": {
-    "url": "https://github.com/bxanedot/wyre/issues"
+    "url": "https://github.com/lylicht/ovren/issues"
   },
   "type": "module",
   "scripts": {

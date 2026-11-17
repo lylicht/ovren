@@ -1,4 +1,4 @@
-name: Build and publish Wyre
+name: Build and publish Ovren
 
 on:
   push:
@@ -38,7 +38,7 @@ jobs:
           rust-src-dir: app
           cache-workspaces: app -> target
           cache-key: windows-latest
-      - name: Install bxane's signing certificate
+      - name: Install the existing Windows signing certificate
         id: windows-signing
         timeout-minutes: 5
         env:
@@ -47,7 +47,7 @@ jobs:
         shell: pwsh
         run: |
           if (-not $env:WYRE_WINDOWS_PFX -or -not $env:WYRE_WINDOWS_PFX_PASSWORD) { throw 'Set WYRE_WINDOWS_PFX and WYRE_WINDOWS_PFX_PASSWORD in repository Actions secrets.' }
-          $pfxPath = Join-Path $env:RUNNER_TEMP 'wyre-signing.pfx'
+          $pfxPath = Join-Path $env:RUNNER_TEMP 'ovren-signing.pfx'
           Write-Output 'Decoding Windows signing certificate.'
           [IO.File]::WriteAllBytes($pfxPath, [Convert]::FromBase64String($env:WYRE_WINDOWS_PFX))
           $password = ConvertTo-SecureString $env:WYRE_WINDOWS_PFX_PASSWORD -AsPlainText -Force
@@ -55,7 +55,7 @@ jobs:
           $certificate = Import-PfxCertificate -FilePath $pfxPath -CertStoreLocation Cert:\CurrentUser\My -Password $password -Confirm:$false -ErrorAction Stop
           Remove-Item $pfxPath
           if (-not $certificate -or $certificate.Subject -notmatch 'CN=bxane') { throw 'The configured Windows certificate must identify bxane.' }
-          $certificatePath = Join-Path $env:RUNNER_TEMP 'wyre-signing.cer'
+          $certificatePath = Join-Path $env:RUNNER_TEMP 'ovren-signing.cer'
           Export-Certificate -Cert $certificate -FilePath $certificatePath -Force | Out-Null
           Write-Output 'Trusting Windows signing certificate for signature verification.'
           certutil.exe -f -addstore Root $certificatePath | Out-Null
@@ -65,7 +65,7 @@ jobs:
       - name: Install frontend dependencies
         working-directory: app
         run: pnpm install --frozen-lockfile
-      - name: Build Wyre installer
+      - name: Build Ovren installer
         working-directory: app
         env:
           WINDOWS_CERTIFICATE_THUMBPRINT: ${{ steps.windows-signing.outputs.thumbprint }}
@@ -88,9 +88,9 @@ jobs:
           $installers = Get-ChildItem target\release\bundle\nsis -Filter '*.exe'
           if (-not $installers) { throw 'Tauri did not produce a Windows NSIS installer.' }
           Copy-Item $installers.FullName ..\release\windows\
-          $certificatePath = Join-Path $env:RUNNER_TEMP 'wyre-signing.cer'
+          $certificatePath = Join-Path $env:RUNNER_TEMP 'ovren-signing.cer'
           Export-Certificate -Cert (Get-Item "Cert:\CurrentUser\My\$env:WINDOWS_CERTIFICATE_THUMBPRINT") -FilePath $certificatePath -Force | Out-Null
-          Copy-Item $certificatePath ..\release\windows\Wyre-signing.cer
+          Copy-Item $certificatePath ..\release\windows\Ovren-signing.cer
           foreach ($file in Get-ChildItem ..\release\windows -Filter '*.exe') {
             & pwsh.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File scripts/sign-windows-file.ps1 $file.FullName
             if ($LASTEXITCODE -ne 0) { throw "Windows signing failed: $($file.Name)" }
@@ -103,7 +103,7 @@ jobs:
           Get-ChildItem ..\release\windows -File | Get-FileHash -Algorithm SHA256 | ForEach-Object { "$($_.Hash.ToLower())  $([IO.Path]::GetFileName($_.Path))" } | Set-Content ..\release\windows\SHA256SUMS-Windows.txt
       - uses: actions/upload-artifact@v4
         with:
-          name: wyre-windows
+          name: ovren-windows
           path: release/
 
   linux:
@@ -145,7 +145,7 @@ jobs:
           cp target/release/bundle/deb/*.deb ../release/linux/
           cd ../release/linux
           sha256sum *.AppImage *.deb > SHA256SUMS-Linux.txt
-      - name: Sign Linux installers with bxane's GPG key
+      - name: Sign Linux installers with the existing GPG key
         env:
           WYRE_GPG_PRIVATE_KEY: ${{ secrets.WYRE_GPG_PRIVATE_KEY }}
           WYRE_GPG_PASSPHRASE: ${{ secrets.WYRE_GPG_PASSPHRASE }}
@@ -154,14 +154,14 @@ jobs:
           test -n "$WYRE_GPG_PRIVATE_KEY" && test -n "$WYRE_GPG_PASSPHRASE" && test -n "$WYRE_GPG_KEY_ID" || { echo 'Set WYRE_GPG_PRIVATE_KEY, WYRE_GPG_PASSPHRASE, and WYRE_GPG_KEY_ID in repository Actions secrets.' >&2; exit 1; }
           printf '%s' "$WYRE_GPG_PRIVATE_KEY" | gpg --batch --import
           gpg --batch --list-keys "$WYRE_GPG_KEY_ID" | grep -qi bxane || { echo 'The configured GPG signing key must identify bxane.' >&2; exit 1; }
-          gpg --armor --export "$WYRE_GPG_KEY_ID" > release/linux/Wyre-signing-key.asc
+          gpg --armor --export "$WYRE_GPG_KEY_ID" > release/linux/Ovren-signing-key.asc
           cd release/linux
           for file in *.AppImage *.deb SHA256SUMS-Linux.txt; do
             gpg --batch --yes --pinentry-mode loopback --passphrase "$WYRE_GPG_PASSPHRASE" --armor --detach-sign "$file"
           done
       - uses: actions/upload-artifact@v4
         with:
-          name: wyre-linux
+          name: ovren-linux
           path: release/
 
   macos:
@@ -201,7 +201,7 @@ jobs:
           shasum -a 256 *.dmg *.app.tar.gz > SHA256SUMS-macOS.txt
       - uses: actions/upload-artifact@v4
         with:
-          name: wyre-macos
+          name: ovren-macos
           path: release/
 
   publish:
@@ -227,7 +227,7 @@ jobs:
           cd release && find . -type f ! -name SHA256SUMS -print0 | xargs -0 sha256sum | sed -E 's#^([0-9a-f]+ [ *])\./(.*/)?#\1#' > SHA256SUMS
       - uses: softprops/action-gh-release@v2
         with:
-          name: Wyre ${{ github.ref_name }}
+          name: Ovren ${{ github.ref_name }}
           files: |
             release/**
           body_path: CHANGELOG.md

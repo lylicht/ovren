@@ -983,7 +983,7 @@ describe('status display interactions', () => {
     wrappers.push(wrapper);
     await flushPromises();
     await openConfiguration(wrapper);
-    expect(wrapper.get('.logo-marker img').attributes('src')).toBe('/wyre-icon.svg');
+    expect(wrapper.get('.logo-marker img').attributes('src')).toBe('/ovren-icon.svg');
     await wrapper.get('#status-app-icon').trigger('click');
     await flushPromises();
     expect(ResidentService.savePreferences).toHaveBeenLastCalledWith(

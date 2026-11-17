@@ -113,7 +113,7 @@ describe('AppUpdateService', () => {
   it('sends portable builds to the GitHub release page without retaining an install resource', async () => {
     await expect(AppUpdateService.check(APP_DISTRIBUTION_IDS.portable, false)).resolves.toMatchObject({
       action: 'manualDownload',
-      manualDownloadUrl: 'https://github.com/bxanedot/wyre/releases/tag/v1.1.0',
+      manualDownloadUrl: 'https://github.com/lylicht/ovren/releases/tag/v1.1.0',
     });
     expect(native.close).toHaveBeenCalledOnce();
     await expect(AppUpdateService.download(() => undefined)).rejects.toThrow('No checked update');

@@ -1,7 +1,8 @@
 import { ICON_NAMES } from '@/lib/models/presentation/ui';
 
-export const APP_NAME = 'Wyre' as const;
-export const APP_ICON_PATH = '/wyre-icon.svg' as const;
+export const APP_NAME = 'Ovren' as const;
+export const APP_PUBLISHER = 'Licht' as const;
+export const APP_ICON_PATH = '/ovren-icon.svg' as const;
 export const APP_SHELL_EXPANDED_MIN_WIDTH_PX = 1100;
 
 export function isAppShellExpanded(viewportWidth: number): boolean {
@@ -49,10 +50,10 @@ export function toggleSidebarLayout(state: SidebarLayoutState): SidebarLayoutSta
 }
 
 export const PROJECT_LINKS = {
-  website: 'https://github.com/bxanedot/wyre',
-  repository: 'https://github.com/bxanedot/wyre',
-  issues: 'https://github.com/bxanedot/wyre/issues',
-  license: 'https://github.com/bxanedot/wyre/blob/main/LICENSE',
+  website: 'https://github.com/lylicht/ovren',
+  repository: 'https://github.com/lylicht/ovren',
+  issues: 'https://github.com/lylicht/ovren/issues',
+  license: 'https://github.com/lylicht/ovren/blob/main/LICENSE',
 } as const;
 
 export const PAGE_IDS = {

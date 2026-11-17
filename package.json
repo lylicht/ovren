@@ -1,8 +1,8 @@
 {
-  "name": "wyre",
-  "version": "2.0.0",
+  "name": "ovren",
+  "version": "1.0.0",
   "private": true,
-  "description": "Wyre desktop application for Windows, macOS and Linux, based on MangoDisk.",
+  "description": "Ovren desktop application by Licht for Windows, macOS and Linux, based on MangoDisk.",
   "license": "GPL-3.0-only",
   "scripts": {
     "start": "pnpm --dir app tauri:dev",

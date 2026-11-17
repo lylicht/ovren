@@ -304,7 +304,7 @@ describe('app update store', () => {
       version: '1.1.0',
       notes: 'Improvements',
       action: APP_UPDATE_ACTION_IDS.manualDownload,
-      manualDownloadUrl: 'https://github.com/bxanedot/wyre/releases/tag/v1.1.0',
+      manualDownloadUrl: 'https://github.com/lylicht/ovren/releases/tag/v1.1.0',
     });
     const automaticDownload = vi.spyOn(AppUpdateService, 'download');
     const open = vi.spyOn(LinkService, 'open').mockResolvedValue();
@@ -316,7 +316,7 @@ describe('app update store', () => {
 
     expect(store.distribution).toBe(APP_DISTRIBUTION_IDS.portable);
     expect(automaticDownload).not.toHaveBeenCalled();
-    expect(open).toHaveBeenCalledWith('https://github.com/bxanedot/wyre/releases/tag/v1.1.0');
+    expect(open).toHaveBeenCalledWith('https://github.com/lylicht/ovren/releases/tag/v1.1.0');
     expect(store.status).toBe(APP_UPDATE_STATUS_IDS.available);
   });
 });

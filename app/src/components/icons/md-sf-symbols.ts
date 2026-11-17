@@ -1,5 +1,5 @@
 /*
- * Wyre's interface icons are SF Symbols from GlyphStudio. glyphs.ts is generated from glyph-names.json by
+ * Ovren's interface icons are SF Symbols from SFStudio. glyphs.ts is generated from glyph-names.json by
  * scripts/sync-glyphs.mjs; each export keeps the icon name the interface used before, so call sites only
  * change their import. Brand marks for third-party applications stay in md-icon.vue.
  */

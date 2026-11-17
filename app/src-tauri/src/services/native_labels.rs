@@ -124,9 +124,9 @@ mod tests {
     #[test]
     fn new_locales_render_native_menu_actions_without_fallback() {
         for (locale, open, settings, quit) in [
-            ("fr-FR", "Ouvrir Wyre", "Réglages", "Quitter"),
-            ("de-DE", "Wyre öffnen", "Einstellungen", "Beenden"),
-            ("es-ES", "Abrir Wyre", "Ajustes", "Salir"),
+            ("fr-FR", "Ouvrir Ovren", "Réglages", "Quitter"),
+            ("de-DE", "Ovren öffnen", "Einstellungen", "Beenden"),
+            ("es-ES", "Abrir Ovren", "Ajustes", "Salir"),
         ] {
             let labels = NativeLabels::for_locale(locale);
             assert_eq!(labels.text("/systemStatus/openMain"), open);

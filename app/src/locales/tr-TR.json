@@ -96,7 +96,7 @@
   "fullDiskAccessGuidance": {
     "summary": "Disk erişimini kontrol edin",
     "title": "Tam Disk Erişimini kontrol edin",
-    "instructions": "Sistem Ayarları’nda Wyre için Tam Disk Erişimini kontrol edin ve yeniden tarayın. Zaten etkinse diğer erişim kısıtlamaları için tarama günlüklerini inceleyin",
+    "instructions": "Sistem Ayarları’nda Ovren için Tam Disk Erişimini kontrol edin ve yeniden tarayın. Zaten etkinse diğer erişim kısıtlamaları için tarama günlüklerini inceleyin",
     "skip": "Şimdi değil",
     "openSettings": "Tam Disk Erişimi ayarlarını aç"
   },
@@ -281,7 +281,7 @@
     "scanningDescription": "Kontrol, sistemi değiştirmeden bileşenlerin durumunu okur",
     "scanFailedTitle": "Bakım kontrolü tamamlanamadı",
     "scanFailedDescription": "Sistem içeriği değiştirilmedi. Yeniden kontrol edin; sorun sürerse Ayarlar'daki günlükleri inceleyin",
-    "authorizationPrompt": "Wyre bu bakım görevini çalıştırmak için yönetici iznine ihtiyaç duyuyor",
+    "authorizationPrompt": "Ovren bu bakım görevini çalıştırmak için yönetici iznine ihtiyaç duyuyor",
     "rescan": "Yeniden kontrol et",
     "filterCategory": "Bakım kategorilerini filtrele",
     "executeOne": "Çalıştır",
@@ -1555,7 +1555,7 @@
       "disableNamedGroup": "{name} öğesini devre dışı bırak",
       "futureOnly": "Otomatik başlatmayı kapatmak, çalışmakta olan programları veya hizmetleri durdurmaz",
       "requiresElevation": "Yönetici izni gerekli",
-      "authorizationPromptMacos": "Wyre başlangıç ayarlarını değiştirmek için yönetici iznine ihtiyaç duyuyor",
+      "authorizationPromptMacos": "Ovren başlangıç ayarlarını değiştirmek için yönetici iznine ihtiyaç duyuyor",
       "confirm": "Onayla",
       "applying": "Uygulanıyor…",
       "refreshFailedResult": "İşlem tamamlandı ancak liste güncellenemedi. Yeniden tarayın",
@@ -1606,7 +1606,7 @@
         "find": "Oturum Açma Öğeleri ayarlarında uygulama veya geliştirici adını bulun",
         "loginItem": "Oturum Açıldığında Aç: uygulamayı seçin ve kaldırmak için “−” düğmesine tıklayın",
         "backgroundItem": "Arka plan etkinliği: anahtarı kapatın; eski kayıt listede kalabilir",
-        "rescan": "Ardından Wyre'e dönüp yeniden tarayın",
+        "rescan": "Ardından Ovren'e dönüp yeniden tarayın",
         "settingsPath": "macOS 12: Kullanıcılar ve Gruplar'da Oturum Açma Öğeleri'ne tıklayın. Yeni sistemlerde Oturum Açma Öğeleri'ni arayın"
       }
     },
@@ -1615,7 +1615,7 @@
       "description": "Açıklama",
       "version": "Sürüm",
       "systemManaged": "Bu öğeyi macOS yönetir; Oturum Açma Öğeleri'nden değiştirebilirsiniz",
-      "viewOnly": "Bu öğe görüntülenebilir ancak Wyre'te doğrudan değiştirilemez",
+      "viewOnly": "Bu öğe görüntülenebilir ancak Ovren'te doğrudan değiştirilemez",
       "protectedService": "Bu hizmet Windows tarafından korunur ve buradan değiştirilemez",
       "openLoginItemsSettings": "Oturum Açma Öğeleri ayarlarını aç",
       "source": "Başlangıç türü",
@@ -1668,8 +1668,8 @@
     "invalidInput": "Geçersiz istek. Seçili öğeleri gözden geçirip tekrar deneyin",
     "operationCancelled": "İşlem iptal edildi",
     "operationFailed": "İşlem tamamlanamadı. Tekrar deneyin",
-    "permissionDenied": "Wyre bu işlemi tamamlamak için gerekli izne sahip değil",
-    "persistenceFailed": "Wyre işlem verilerini kaydedemedi. Tekrar deneyin",
+    "permissionDenied": "Ovren bu işlemi tamamlamak için gerekli izne sahip değil",
+    "persistenceFailed": "Ovren işlem verilerini kaydedemedi. Tekrar deneyin",
     "taskJoinFailed": "Bir arka plan görevi beklenmedik şekilde durdu. Tekrar deneyin"
   },
   "errorTitles": {
@@ -1704,7 +1704,7 @@
     },
     "itemChanged": {
       "title": "Öğe kısa süre önce değişti",
-      "message": "Silme işlemi hazırlanırken bu öğe değişti. Wyre yanlış içeriği silmemek için işlemi durdurdu; öğeyi yeniden analiz edin"
+      "message": "Silme işlemi hazırlanırken bu öğe değişti. Ovren yanlış içeriği silmemek için işlemi durdurdu; öğeyi yeniden analiz edin"
     },
     "scanResourcesReleasing": {
       "title": "Önceki tarama tamamlanıyor",
@@ -1800,7 +1800,7 @@
       "sizePending": "Yönetici erişimi gerekli",
       "action": "Yönetici kontrolü",
       "checking": "Kontrol ediliyor…",
-      "restartHint": "Wyre’i yönetici olarak yeniden başlatıp tekrar tarayın"
+      "restartHint": "Ovren’i yönetici olarak yeniden başlatıp tekrar tarayın"
     },
     "categoryItemCount": "{count} öğe | {count} öğe",
     "categoryTitles": {
@@ -2136,7 +2136,7 @@
     "categoryTitle": "Uygulama kalıntıları",
     "scanning": "Kaldırılmış uygulamalardan kalan veriler kontrol ediliyor…",
     "scanHint": "Yalnızca artık yüklü olmayan bir uygulamayla açıkça ilişkilendirilebilen veriler gösterilir. Tarama hiçbir şeyi değiştirmez",
-    "accessLimitedDescription": "Wyre'in diğer uygulama verilerine erişmesine Sistem Ayarları → Gizlilik ve Güvenlik bölümünden izin verin, ardından tekrar tarayın",
+    "accessLimitedDescription": "Ovren'in diğer uygulama verilerine erişmesine Sistem Ayarları → Gizlilik ve Güvenlik bölümünden izin verin, ardından tekrar tarayın",
     "incompleteDescription": "Hatalı işlem riskini önlemek için hiçbir kalıntı gösterilmiyor. Daha sonra tekrar deneyin",
     "emptyTitle": "Doğrulanmış uygulama kalıntısı bulunamadı",
     "emptyDescription": "Güvenli şekilde uygulama kalıntısı olduğu doğrulanabilen veri bulunamadı",
@@ -2206,13 +2206,13 @@
     "incompleteTitle": "Yüklü uygulamalar tamamen okunamadı",
     "incompleteDescription": "Hatalı işlem riskini önlemek için kaldırma işlemi kullanılamıyor. Daha sonra tekrar deneyin",
     "viewOnlyTitle": "Bu sistemde uygulama kaldırma kullanılamıyor",
-    "viewOnlyDescription": "Yüklü uygulamaları inceleyebilirsiniz ancak Wyre burada uygulamaları kaldıramaz",
+    "viewOnlyDescription": "Yüklü uygulamaları inceleyebilirsiniz ancak Ovren burada uygulamaları kaldıramaz",
     "applicationRunning": "Uygulamayı kapat",
     "closeBeforeUninstallTitle": "Kaldırmadan önce uygulamaları kapat",
     "closeBeforeUninstallDescription": "Kaldırmadan önce kapatılacak çalışan uygulamaları seçin",
     "requiresElevation": "Yönetici gerekli",
     "requiresElevationDescriptionMacos": "Bu uygulama kaldırılırken macOS yönetici onayı ister. Onay iptal edilirse uygulama yüklü kalır",
-    "authorizationPromptMacos": "Wyre bu uygulamayı kaldırmak için yönetici iznine ihtiyaç duyuyor",
+    "authorizationPromptMacos": "Ovren bu uygulamayı kaldırmak için yönetici iznine ihtiyaç duyuyor",
     "readyForReview": "Hazır",
     "viewOnly": "Kaldırma kullanılamıyor",
     "orphanedRegistration": "Eski kayıt",
@@ -2435,7 +2435,7 @@
       "recoveryRequired": "Kaldırma düzgün tamamlanamadı; tekrar denemeden önce uygulamayı kontrol edin veya geri yükleyin",
       "nativeInstallerFailed": "Kaldırma programı kaldırmayı tamamlayamadı",
       "nativeInstallerFailedAfterRemoval": "Kurulum kaydı kaldırıldı ancak kaldırma programı hata bildirdi",
-      "verificationFailed": "Wyre sonucu doğrulayamadı",
+      "verificationFailed": "Ovren sonucu doğrulayamadı",
       "removalUnconfirmed": "Kaldırma programı tamamlandı ancak uygulamanın kaldırıldığı doğrulanamadı. Kontrol etmek için uygulama listesini yenileyin"
     }
   },
@@ -2449,7 +2449,7 @@
     "supportSection": "Destek",
     "aboutSection": "Hakkında",
     "languageTitle": "Dil",
-    "languageDescription": "Wyre'in kullanacağı dili seçin",
+    "languageDescription": "Ovren'in kullanacağı dili seçin",
     "languageNames": {
       "zhCN": "简体中文",
       "zhTW": "繁體中文",
@@ -2473,7 +2473,7 @@
     "themeDark": "Koyu",
     "themeSystem": "Sistemi takip et",
     "fullDiskAccessTitle": "Tam Disk Erişimi",
-    "fullDiskAccessDescription": "Daha kapsamlı temizlik sonuçları için Wyre'in korumalı sistem ve uygulama verilerini taramasına izin verir",
+    "fullDiskAccessDescription": "Daha kapsamlı temizlik sonuçları için Ovren'in korumalı sistem ve uygulama verilerini taramasına izin verir",
     "openPrivacySettings": "Sistem Ayarları",
     "permissionStatus": {
       "notChecked": "Kontrol edilmedi",
@@ -2481,7 +2481,7 @@
       "limited": "Erişim sınırlı"
     },
     "feedbackTitle": "Geri Bildirim",
-    "feedbackDescription": "Wyre'i nasıl daha iyi hale getirebileceğimizi sizden duymak isteriz",
+    "feedbackDescription": "Ovren'i nasıl daha iyi hale getirebileceğimizi sizden duymak isteriz",
     "feedbackAction": "Geri Bildirim Gönder",
     "feedbackDialog": {
       "title": "Geri bildirim gönder",
@@ -2515,7 +2515,7 @@
       }
     },
     "diagnosticLogsTitle": "Tanılama Günlükleri",
-    "diagnosticLogsDescription": "Sorun giderme için Wyre çalışma zamanı günlüklerini görüntüleyin",
+    "diagnosticLogsDescription": "Sorun giderme için Ovren çalışma zamanı günlüklerini görüntüleyin",
     "openLogFolderAction": "Klasörü Aç",
     "softwareUpdateTitle": "Yazılım Güncellemeleri",
     "updateCheckAction": "Güncellemeleri Denetle",
@@ -2533,7 +2533,7 @@
     "updateCheckFailedTitle": "Güncellemeler denetlenemedi",
     "updateCheckUnknownError": "Güncelleme hizmeti bilinmeyen bir hata döndürdü",
     "versionUnknown": "Yükleniyor…",
-    "aboutTitle": "Wyre Hakkında",
+    "aboutTitle": "Ovren Hakkında",
     "aboutDescription": "Disk temizleme ve depolama analizi için açık kaynaklı, hafif ve güvenli bir platformlar arası araç",
     "projectLinksLabel": "Proje bağlantıları",
     "websiteAction": "Resmî Web Sitesi",
@@ -2544,24 +2544,24 @@
   "updates": {
     "noticeAvailable": "Güncelleme mevcut",
     "noticeRetry": "Güncelleme penceresini açmayı tekrar dene",
-    "availableTitle": "Wyre {version} kullanılabilir",
+    "availableTitle": "Ovren {version} kullanılabilir",
     "currentVersionDescription": "Mevcut sürüm {version}",
     "checkDescription": "Daha yeni bir sürüm olup olmadığını kontrol et",
     "checkingDescription": "Güncelleme hizmetine bağlanılıyor…",
-    "upToDateDescription": "Wyre {version} güncel",
+    "upToDateDescription": "Ovren {version} güncel",
     "releaseNotes": "Yenilikler",
     "noReleaseNotes": "Bu güncelleme iyileştirmeler ve hata düzeltmeleri içeriyor",
     "downloadUpdate": "Güncellemeyi İndir",
     "downloadPortable": "Taşınabilir sürümü indir",
-    "portableDescription": "Bu taşınabilir sürüm elle güncellenir. Yeni dosyayı indirin, Wyre'i kapatın, ardından geçerli çalıştırılabilir dosyayı yenisiyle değiştirin",
+    "portableDescription": "Bu taşınabilir sürüm elle güncellenir. Yeni dosyayı indirin, Ovren'i kapatın, ardından geçerli çalıştırılabilir dosyayı yenisiyle değiştirin",
     "continueInBackground": "Arka Planda Devam Et",
-    "downloadedTitle": "Wyre {version} hazır",
-    "installedTitle": "Wyre {version} yüklendi",
-    "downloadComplete": "İndirme tamamlandı · Wyre yüklemeden sonra yeniden başlatılacak",
+    "downloadedTitle": "Ovren {version} hazır",
+    "installedTitle": "Ovren {version} yüklendi",
+    "downloadComplete": "İndirme tamamlandı · Ovren yüklemeden sonra yeniden başlatılacak",
     "installAndRestart": "Yükle ve Yeniden Başlat",
-    "restartRequired": "Yükleme tamamlandı · Güncellemeyi tamamlamak için Wyre'i yeniden başlatın",
+    "restartRequired": "Yükleme tamamlandı · Güncellemeyi tamamlamak için Ovren'i yeniden başlatın",
     "restartNow": "Şimdi Yeniden Başlat",
-    "restarting": "Wyre yeniden başlatılıyor…",
+    "restarting": "Ovren yeniden başlatılıyor…",
     "notNow": "Şimdi Değil",
     "later": "Daha Sonra",
     "retry": "Tekrar Dene",
@@ -2571,7 +2571,7 @@
     "downloadFailed": "İndirme başarısız oldu",
     "manualDownloadFailed": "İndirme açılamadı",
     "installFailed": "Yükleme başarısız oldu",
-    "restartFailed": "Wyre yeniden başlatılamadı",
+    "restartFailed": "Ovren yeniden başlatılamadı",
     "navigationNotice": "Yeni bir sürüm kullanılabilir"
   },
   "loading": {
@@ -2605,7 +2605,7 @@
     "validating": "Seçili öğeler doğrulanıyor…",
     "finalizing": "Temizlik sonuçları tamamlanıyor…",
     "cleaningSafetyHint": "Seçiminiz temizleniyor; yanlışlıkla silmeyi önlemek için değişmiş veya kullanımda olan içerikler atlanır",
-    "windowsPreviousInstallationsCleanupHint": "Windows sistem istemini onaylayın; Windows temizliği bitirene kadar Wyre'i açık tutun",
+    "windowsPreviousInstallationsCleanupHint": "Windows sistem istemini onaylayın; Windows temizliği bitirene kadar Ovren'i açık tutun",
     "previewingSafetyHint": "Seçili öğeler hiçbir şey silinmeden veya değiştirilmeden inceleniyor",
     "elapsedSeconds": "{count} sn | {count} sn",
     "cleanupItemList": "Temizlik öğesi ilerlemesi",
@@ -3922,7 +3922,7 @@
       "requiredToolUnavailable": "Bu temizlik için gerekli uygulama veya araç kullanılamıyor. Hiçbir şey değiştirilmedi",
       "preflightFailed": "Seçili dosyalar güvenli şekilde kontrol edilemedi. Hiçbir şey değiştirilmedi",
       "executionFailed": "Temizlik tamamlanamadı. Başka hiçbir dosya kaldırılmadı",
-      "verificationFailed": "Temizlik tamamlandı ancak Wyre sonucu doğrulayamadı. Tekrar tarayın",
+      "verificationFailed": "Temizlik tamamlandı ancak Ovren sonucu doğrulayamadı. Tekrar tarayın",
       "cleanerUnavailable": "Bu temizlik seçeneği şu anda kullanılamıyor. Hiçbir şey değiştirilmedi",
       "nameExclusionsUnsupported": "Bu temizlik öğesinde ad kuralları güvenle uygulanamadığı için atlandı"
     }
@@ -3943,9 +3943,9 @@
     "processExited": "Bu işlem sonlandı",
     "locationUnavailable": "Konum kullanılamıyor",
     "revealFailed": "Bu öğe gösterilemedi. Taşınmış veya silinmiş olabilir",
-    "autostartHint": "Oturum açtığınızda Wyre'i otomatik başlatın",
+    "autostartHint": "Oturum açtığınızda Ovren'i otomatik başlatın",
     "autostart": "Oturum açıldığında başlat",
-    "openMain": "Wyre'i aç",
+    "openMain": "Ovren'i aç",
     "title": "Sistem izleyicisi",
     "memory": "Bellek",
     "memoryUsage": "Bellek kullanımı",
@@ -4039,7 +4039,7 @@
     "unsupported": "Desteklenmiyor",
     "failed": "Veriler okunamadı",
     "details": "Sistem durumu",
-    "openMain": "Wyre'i aç",
+    "openMain": "Ovren'i aç",
     "settings": "Ayarlar",
     "quit": "Çık",
     "upload": "Gönderme",
@@ -4119,11 +4119,11 @@
     "batteryUnsupportedHint": "Bu Mac üzerinde pil verileri okunamıyor"
   },
   "webviewRuntime": {
-    "updateRequired": "Wyre'i görüntüleyen bileşen güncel değil. Microsoft Edge WebView2 Runtime'ı güncelleyin, ardından Wyre'i yeniden açın",
+    "updateRequired": "Ovren'i görüntüleyen bileşen güncel değil. Microsoft Edge WebView2 Runtime'ı güncelleyin, ardından Ovren'i yeniden açın",
     "update": "Güncellemeyi indir",
     "exit": "Çık",
     "openFailed": "Tarayıcı açılamadı. Microsoft Edge WebView2 Runtime'ı güncellemek için şu adresi ziyaret edin:\n{url}",
-    "recoveryFailed": "Uygulama arayüzü geri yüklenemedi. Arka plan görevleri hâlâ çalışıyor olabilir. Bir işlemi tekrarlamadan önce durumunu kontrol edin, ardından Wyre’i kapatıp yeniden açın"
+    "recoveryFailed": "Uygulama arayüzü geri yüklenemedi. Arka plan görevleri hâlâ çalışıyor olabilir. Bir işlemi tekrarlamadan önce durumunu kontrol edin, ardından Ovren’i kapatıp yeniden açın"
   },
   "memoryRelease": {
     "title": "Bellek boşaltma ayarları",
@@ -4219,7 +4219,7 @@
     "coreMaximumHint": "{count} CPU çekirdek sensörünün en yüksek sıcaklığı",
     "diodeHint": "CPU diyot sıcaklığı",
     "proximityHint": "CPU yakınındaki sensörün ölçtüğü sıcaklık; çekirdek ve paket sıcaklıklarından farklıdır",
-    "unsupportedHint": "Wyre bu cihazda doğrulanmış bir CPU sıcaklık sensörünü okuyamıyor",
+    "unsupportedHint": "Ovren bu cihazda doğrulanmış bir CPU sıcaklık sensörünü okuyamıyor",
     "trend": "Son bir dakikadaki CPU sıcaklığı, Santigrat derece"
   },
   "windowsMonitoring": {
@@ -4252,10 +4252,10 @@
     "collectionOff": "Sıcaklık ölçümü kapalı",
     "goToSettings": "Ayarlara git",
     "supportHint": "Uyumlu x64 bilgisayarlarda Intel paket ve AMD yonga sıcaklıklarını destekler",
-    "collectionHint": "Wyre çalışırken sıcaklık kaydedilir",
+    "collectionHint": "Ovren çalışırken sıcaklık kaydedilir",
     "displayHint": "Sıcaklık göstergesini gizlemek kaydı durdurmaz",
     "more": "Diğer",
-    "installBody": "CPU sıcaklığını ve grafiğini görmek için Wyre toplama hizmetini yükleyin",
+    "installBody": "CPU sıcaklığını ve grafiğini görmek için Ovren toplama hizmetini yükleyin",
     "enableHint": "CPU sıcaklığını ve grafiğini görmek için etkinleştirin",
     "supportSummary": "Bazı Intel ve AMD bilgisayarları destekler",
     "repairHint": "Sıcaklık toplama kullanılamıyor. Toplama hizmetini onarmayı deneyin",
@@ -4284,6 +4284,12 @@
         "name": "PawnIO yükleyicisi",
         "license": "Özel mülk yazılım",
         "description": "Sıcaklık ölçümü için gereken PawnIO sürücüsünü yükler"
+      },
+      "sfStudioSymbols": {
+        "name": "SFStudio symbol data",
+        "license": "Apache-2.0 and Apple SF Symbols terms",
+        "description": "SFStudio interface glyphs. SF Symbols are Apple's property and are not used in Ovren's logo or app icon.",
+        "appleTerms": "Apple SF Symbols guidance"
       }
     },
     "author": "Yazar: {author}"
@@ -4337,7 +4343,7 @@
     "activity": "Disk etkinliği",
     "systemRead": "Sistem okuması",
     "systemWritten": "Sistem yazması",
-    "systemHint": "Sistemin bildirdiği tüm disklerin birikimli G/Ç miktarı\nWyre’i yeniden başlatmak sayaçları sıfırlamaz\nBaşlangıç OS ve sürücüye bağlıdır; SMART ömür boyu toplamından farklıdır"
+    "systemHint": "Sistemin bildirdiği tüm disklerin birikimli G/Ç miktarı\nOvren’i yeniden başlatmak sayaçları sıfırlamaz\nBaşlangıç OS ve sürücüye bağlıdır; SMART ömür boyu toplamından farklıdır"
   },
   "wyre": {
     "networkTitle": "Ağ",

@@ -15,7 +15,7 @@ withDefaults(
 
 <template>
   <img
-    class="wyre-icon"
+    class="ovren-icon"
     :src="APP_ICON_PATH"
     :width="size"
     :height="size"
@@ -25,7 +25,7 @@ withDefaults(
 </template>
 
 <style scoped>
-.wyre-icon {
+.ovren-icon {
   display: block;
   flex: none;
   object-fit: contain;

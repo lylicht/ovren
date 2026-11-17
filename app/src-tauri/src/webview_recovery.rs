@@ -380,7 +380,7 @@ mod native {
         let notice_app = app.clone();
         app.dialog()
             .message(labels.text("/webviewRuntime/recoveryFailed"))
-            .title("Wyre")
+            .title("Ovren")
             .kind(MessageDialogKind::Warning)
             .buttons(MessageDialogButtons::Ok)
             .show(move |_| {

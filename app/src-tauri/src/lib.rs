@@ -385,7 +385,7 @@ pub fn run() {
             Ok(())
         })
         .build(tauri::generate_context!())
-        .expect("Wyre failed to start");
+        .expect("Ovren failed to start");
     app.run(move |_app, _event| {
         if let tauri::RunEvent::ExitRequested { code, .. } = &_event {
             log::info!(

@@ -231,7 +231,7 @@ const props = withDefaults(defineProps<{ name: IconName; size?: number; strokeWi
   strokeWidth: 1.9,
 });
 
-// SF Symbols from GlyphStudio draw every interface icon; brand marks keep their own artwork.
+// SF Symbols from SFStudio draw every interface icon; brand marks keep their own artwork.
 const sf = (icon: Component | GlyphName): IconDefinition => ({
   component: typeof icon === 'string' ? glyph(icon) : icon,
   family: 'glyph',

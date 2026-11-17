@@ -42,7 +42,7 @@ function main() {
   if (process.env.GITHUB_OUTPUT) {
     appendFileSync(process.env.GITHUB_OUTPUT, `version=${version}\nrelease_tag=${releaseTag}\n`);
   }
-  console.log(`Wyre release metadata is consistent for ${releaseTag}.`);
+  console.log(`Ovren release metadata is consistent for ${releaseTag}.`);
 }
 
 if (process.argv[1]?.endsWith('release-preflight.mjs')) {

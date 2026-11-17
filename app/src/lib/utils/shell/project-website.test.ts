@@ -13,9 +13,9 @@ describe('project website links', () => {
     ['pt-BR', ''],
     ['unknown', ''],
   ])('maps %s to Wyre pages without query parameters', locale => {
-    expect(projectWebsiteUrl(locale)).toBe('https://github.com/bxanedot/wyre');
+    expect(projectWebsiteUrl(locale)).toBe('https://github.com/lylicht/ovren');
     expect(projectWebsiteUrl(locale, '/docs/ai#custom-service')).toBe(
-      'https://github.com/bxanedot/wyre/blob/main/app/README.md#ai-providers'
+      'https://github.com/lylicht/ovren/blob/main/app/README.md#ai-providers'
     );
   });
 });

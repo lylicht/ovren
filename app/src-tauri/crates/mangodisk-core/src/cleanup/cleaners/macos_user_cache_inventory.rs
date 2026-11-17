@@ -842,7 +842,7 @@ mod tests {
     fn own_operational_caches_are_never_candidates() {
         assert!(OWN_CACHE_DIRECTORIES
             .iter()
-            .any(|name| name.eq_ignore_ascii_case("dev.bxane.wyre")));
+            .any(|name| name.eq_ignore_ascii_case(crate::APPLICATION_IDENTIFIER)));
     }
 
     #[test]

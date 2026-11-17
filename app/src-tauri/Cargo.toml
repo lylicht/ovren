@@ -1,8 +1,8 @@
 [package]
 name = "mangodisk"
 version.workspace = true
-description = "Wyre desktop toolkit for Windows, macOS and Linux, based on MangoDisk"
-authors = ["bxane", "harry0703 and MangoDisk contributors"]
+description = "Ovren desktop toolkit by Licht for Windows, macOS and Linux, based on MangoDisk"
+authors = ["Licht", "bxane", "harry0703 and MangoDisk contributors"]
 edition.workspace = true
 rust-version.workspace = true
 

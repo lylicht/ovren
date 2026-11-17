@@ -149,7 +149,7 @@ pub(super) fn start(service: Arc<Service>) {
             let hwnd = CreateWindowExW(
                 WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE | WS_EX_LAYERED,
                 w!("MangoDiskTaskbarStatus"),
-                w!("Wyre Status"),
+                w!("Ovren Status"),
                 WS_CHILD | WS_CLIPSIBLINGS,
                 0,
                 0,

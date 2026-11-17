@@ -96,7 +96,7 @@
   "fullDiskAccessGuidance": {
     "summary": "Überprüfen Sie den Festplattenzugriff",
     "title": "Überprüfen Sie den vollständigen Festplattenzugriff",
-    "instructions": "Überprüfen Sie in den Systemeinstellungen den vollständigen Festplattenzugriff für Wyre und scannen Sie dann erneut. Wenn es bereits aktiviert ist, überprüfen Sie die Scanprotokolle auf andere Zugriffsbeschränkungen",
+    "instructions": "Überprüfen Sie in den Systemeinstellungen den vollständigen Festplattenzugriff für Ovren und scannen Sie dann erneut. Wenn es bereits aktiviert ist, überprüfen Sie die Scanprotokolle auf andere Zugriffsbeschränkungen",
     "skip": "Nicht jetzt",
     "openSettings": "Öffnen Sie die Einstellungen für den vollständigen Festplattenzugriff"
   },
@@ -281,7 +281,7 @@
     "scanningDescription": "Die Prüfung liest den Komponentenstatus, ohne das System zu ändern",
     "scanFailedTitle": "Die Wartungsprüfung konnte nicht abgeschlossen werden",
     "scanFailedDescription": "Es wurde kein Systeminhalt geändert. Versuchen Sie es erneut. Wenn das Problem weiterhin besteht, überprüfen Sie die Protokolle in den Einstellungen",
-    "authorizationPrompt": "Wyre benötigt Administratorrechte, um diese Wartungsaufgabe auszuführen",
+    "authorizationPrompt": "Ovren benötigt Administratorrechte, um diese Wartungsaufgabe auszuführen",
     "rescan": "Überprüfen Sie es erneut",
     "filterCategory": "Wartungskategorien filtern",
     "executeOne": "Ausführen",
@@ -1555,7 +1555,7 @@
       "disableNamedGroup": "Deaktivieren Sie {name}",
       "futureOnly": "Durch das Deaktivieren des automatischen Starts werden Programme oder Dienste, die bereits ausgeführt werden, nicht gestoppt",
       "requiresElevation": "Administratorberechtigung erforderlich",
-      "authorizationPromptMacos": "Wyre benötigt Administratorrechte, um die Starteinstellungen zu ändern",
+      "authorizationPromptMacos": "Ovren benötigt Administratorrechte, um die Starteinstellungen zu ändern",
       "confirm": "Bestätigen",
       "applying": "Änderungen werden angewendet…",
       "refreshFailedResult": "Der Vorgang wurde abgeschlossen, aber die Liste konnte nicht aktualisiert werden. Noch einmal scannen",
@@ -1606,7 +1606,7 @@
         "find": "Suchen Sie unter „Anmeldeobjekte“ nach dem Namen der App oder des Entwicklers",
         "loginItem": "Beim Anmelden öffnen: Wählen Sie die App aus und klicken Sie auf „−“, um sie zu entfernen",
         "backgroundItem": "Hintergrundaktivität: Schalten Sie den Schalter aus; Der alte Datensatz kann bestehen bleiben",
-        "rescan": "Kehren Sie zu Wyre zurück und scannen Sie anschließend erneut",
+        "rescan": "Kehren Sie zu Ovren zurück und scannen Sie anschließend erneut",
         "settingsPath": "macOS 12: Unter „Benutzer & Gruppen“ auf „Anmeldeobjekte“ klicken. Auf neueren Systemen nach „Anmeldeobjekte“ suchen"
       }
     },
@@ -1615,7 +1615,7 @@
       "description": "Beschreibung",
       "version": "Version",
       "systemManaged": "macOS verwaltet dieses Element; Änderungen sind unter „Anmeldeobjekte“ möglich",
-      "viewOnly": "Dieses Element kann angezeigt, aber nicht direkt in Wyre geändert werden",
+      "viewOnly": "Dieses Element kann angezeigt, aber nicht direkt in Ovren geändert werden",
       "protectedService": "Dieser Dienst ist durch Windows geschützt und kann hier nicht geändert werden",
       "openLoginItemsSettings": "Einstellungen für Anmeldeobjekte öffnen",
       "source": "Starttyp",
@@ -1668,8 +1668,8 @@
     "invalidInput": "Ungültige Anfrage. Überprüfen Sie die ausgewählten Elemente und versuchen Sie es erneut",
     "operationCancelled": "Vorgang abgebrochen",
     "operationFailed": "Der Vorgang konnte nicht abgeschlossen werden. Versuchen Sie es erneut",
-    "permissionDenied": "Wyre hat keine Berechtigung, diesen Vorgang abzuschließen",
-    "persistenceFailed": "Wyre konnte die Betriebsdaten nicht speichern. Versuchen Sie es erneut",
+    "permissionDenied": "Ovren hat keine Berechtigung, diesen Vorgang abzuschließen",
+    "persistenceFailed": "Ovren konnte die Betriebsdaten nicht speichern. Versuchen Sie es erneut",
     "taskJoinFailed": "Eine Hintergrundaufgabe wurde unerwartet gestoppt. Versuchen Sie es erneut"
   },
   "errorTitles": {
@@ -1704,7 +1704,7 @@
     },
     "itemChanged": {
       "title": "Element wurde gerade geändert",
-      "message": "Dieses Element wurde während der Löschvorbereitung geändert. Wyre hat angehalten, um das Löschen falscher Inhalte zu vermeiden; Analysiere es noch einmal"
+      "message": "Dieses Element wurde während der Löschvorbereitung geändert. Ovren hat angehalten, um das Löschen falscher Inhalte zu vermeiden; Analysiere es noch einmal"
     },
     "scanResourcesReleasing": {
       "title": "Der vorherige Scan wird abgeschlossen",
@@ -1800,7 +1800,7 @@
       "sizePending": "Administratorzugriff erforderlich",
       "action": "Als Administrator prüfen",
       "checking": "Überprüfen…",
-      "restartHint": "Starten Sie Wyre als Administrator neu und scannen Sie erneut"
+      "restartHint": "Starten Sie Ovren als Administrator neu und scannen Sie erneut"
     },
     "categoryItemCount": "{count} Element | {count} Elemente",
     "categoryTitles": {
@@ -2136,7 +2136,7 @@
     "categoryTitle": "App-Rückstände",
     "scanning": "Suche nach Daten, die von entfernten Apps hinterlassen wurden…",
     "scanHint": "Es werden nur Daten angezeigt, die eindeutig mit einer App verknüpft sind, die nicht mehr installiert ist. Das Scannen ändert nichts",
-    "accessLimitedDescription": "Erlauben Sie Wyre unter Systemeinstellungen → Datenschutz und Sicherheit den Zugriff auf andere App-Daten und scannen Sie dann erneut",
+    "accessLimitedDescription": "Erlauben Sie Ovren unter Systemeinstellungen → Datenschutz und Sicherheit den Zugriff auf andere App-Daten und scannen Sie dann erneut",
     "incompleteDescription": "Um Fehler zu vermeiden, werden keine Reste angezeigt. Versuchen Sie es später noch einmal",
     "emptyTitle": "Keine verifizierten Anwendungsreste gefunden",
     "emptyDescription": "Es wurden keine App-Daten gefunden, die sicher als Überbleibsel identifiziert werden konnten",
@@ -2206,13 +2206,13 @@
     "incompleteTitle": "Installierte Apps konnten nicht vollständig gelesen werden",
     "incompleteDescription": "Um Fehler zu vermeiden, ist die Deinstallation nicht verfügbar. Versuchen Sie es später noch einmal",
     "viewOnlyTitle": "Die Deinstallation ist auf diesem System nicht verfügbar",
-    "viewOnlyDescription": "Sie können installierte Apps überprüfen, Wyre kann sie hier jedoch nicht deinstallieren",
+    "viewOnlyDescription": "Sie können installierte Apps überprüfen, Ovren kann sie hier jedoch nicht deinstallieren",
     "applicationRunning": "App schließen",
     "closeBeforeUninstallTitle": "Schließen Sie Apps vor der Deinstallation",
     "closeBeforeUninstallDescription": "Wählen Sie die laufenden Apps aus, die vor der Deinstallation geschlossen werden sollen",
     "requiresElevation": "Administrator erforderlich",
     "requiresElevationDescriptionMacos": "macOS fordert die Genehmigung des Administrators an, wenn diese App deinstalliert wird. Wenn Sie die Genehmigung abbrechen, bleibt die App installiert",
-    "authorizationPromptMacos": "Wyre benötigt Administratorrechte, um diese App zu deinstallieren",
+    "authorizationPromptMacos": "Ovren benötigt Administratorrechte, um diese App zu deinstallieren",
     "readyForReview": "Fertig",
     "viewOnly": "Deinstallation nicht verfügbar",
     "orphanedRegistration": "Veralteter Eintrag",
@@ -2435,7 +2435,7 @@
       "recoveryRequired": "Die Deinstallation wurde nicht sauber abgeschlossen; Überprüfen Sie die Anwendung oder stellen Sie sie wieder her, bevor Sie es erneut versuchen",
       "nativeInstallerFailed": "Das Deinstallationsprogramm konnte die Deinstallation nicht abschließen",
       "nativeInstallerFailedAfterRemoval": "Der Installationsdatensatz wurde entfernt, aber das Deinstallationsprogramm hat einen Fehler gemeldet",
-      "verificationFailed": "Wyre konnte das Ergebnis nicht bestätigen",
+      "verificationFailed": "Ovren konnte das Ergebnis nicht bestätigen",
       "removalUnconfirmed": "Das Deinstallationsprogramm ist abgeschlossen, die Entfernung konnte jedoch nicht bestätigt werden. Aktualisieren Sie zur Überprüfung die App-Liste"
     }
   },
@@ -2447,9 +2447,9 @@
     "scanExclusionsDescription": "Pfade oder Namen in ausgewählten Funktionen überspringen",
     "scanExclusionsCount": "{count} Regel | {count} Regeln",
     "supportSection": "Support",
-    "aboutSection": "Über Wyre",
+    "aboutSection": "Über Ovren",
     "languageTitle": "Sprache",
-    "languageDescription": "Sprache für Wyre auswählen",
+    "languageDescription": "Sprache für Ovren auswählen",
     "languageNames": {
       "zhCN": "简体中文",
       "zhTW": "繁體中文",
@@ -2473,7 +2473,7 @@
     "themeDark": "Dunkel",
     "themeSystem": "Systemeinstellung",
     "fullDiskAccessTitle": "Festplattenvollzugriff",
-    "fullDiskAccessDescription": "Erlaubt Wyre, geschützte System- und App-Daten für eine umfassendere Bereinigung zu scannen",
+    "fullDiskAccessDescription": "Erlaubt Ovren, geschützte System- und App-Daten für eine umfassendere Bereinigung zu scannen",
     "openPrivacySettings": "Systemeinstellungen",
     "permissionStatus": {
       "notChecked": "Nicht geprüft",
@@ -2481,7 +2481,7 @@
       "limited": "Zugriff eingeschränkt"
     },
     "feedbackTitle": "Feedback",
-    "feedbackDescription": "Helfen Sie uns, Wyre zu verbessern",
+    "feedbackDescription": "Helfen Sie uns, Ovren zu verbessern",
     "feedbackAction": "Feedback senden",
     "feedbackDialog": {
       "title": "Feedback senden",
@@ -2515,7 +2515,7 @@
       }
     },
     "diagnosticLogsTitle": "Diagnoseprotokolle",
-    "diagnosticLogsDescription": "Wyre-Protokolle zur Fehleranalyse anzeigen",
+    "diagnosticLogsDescription": "Ovren-Protokolle zur Fehleranalyse anzeigen",
     "openLogFolderAction": "Ordner öffnen",
     "softwareUpdateTitle": "Software-Updates",
     "updateCheckAction": "Nach Updates suchen",
@@ -2533,7 +2533,7 @@
     "updateCheckFailedTitle": "Konnte nicht nach Updates suchen",
     "updateCheckUnknownError": "Der Update-Dienst hat einen unbekannten Fehler zurückgegeben",
     "versionUnknown": "Laden…",
-    "aboutTitle": "Über Wyre",
+    "aboutTitle": "Über Ovren",
     "aboutDescription": "Eine schlanke, sichere Open-Source-App zur Datenträgerbereinigung und Speicheranalyse für mehrere Plattformen",
     "projectLinksLabel": "Projektlinks",
     "websiteAction": "Offizielle Website",
@@ -2544,24 +2544,24 @@
   "updates": {
     "noticeAvailable": "Update verfügbar",
     "noticeRetry": "Versuchen Sie erneut, das Update zu öffnen",
-    "availableTitle": "Wyre {version} ist verfügbar",
+    "availableTitle": "Ovren {version} ist verfügbar",
     "currentVersionDescription": "Aktuelle Version {version}",
     "checkDescription": "Suchen Sie nach einer neueren Version",
     "checkingDescription": "Verbindung zum Update-Dienst herstellen…",
-    "upToDateDescription": "Wyre {version} ist auf dem neuesten Stand",
+    "upToDateDescription": "Ovren {version} ist auf dem neuesten Stand",
     "releaseNotes": "Neuerungen",
     "noReleaseNotes": "Dieses Update enthält Verbesserungen und Korrekturen",
     "downloadUpdate": "Update herunterladen",
     "downloadPortable": "Laden Sie die tragbare Version herunter",
-    "portableDescription": "Diese portable Version muss manuell aktualisiert werden. Laden Sie das neue Archiv herunter, schließen Sie Wyre und ersetzen Sie die ausführbare Datei",
+    "portableDescription": "Diese portable Version muss manuell aktualisiert werden. Laden Sie das neue Archiv herunter, schließen Sie Ovren und ersetzen Sie die ausführbare Datei",
     "continueInBackground": "Im Hintergrund fortfahren",
-    "downloadedTitle": "Wyre {version} ist bereit",
-    "installedTitle": "Wyre {version} ist installiert",
-    "downloadComplete": "Download abgeschlossen · Wyre wird nach der Installation neu gestartet",
+    "downloadedTitle": "Ovren {version} ist bereit",
+    "installedTitle": "Ovren {version} ist installiert",
+    "downloadComplete": "Download abgeschlossen · Ovren wird nach der Installation neu gestartet",
     "installAndRestart": "Installieren und neu starten",
-    "restartRequired": "Installation abgeschlossen · Wyre neu starten, um das Update abzuschließen",
+    "restartRequired": "Installation abgeschlossen · Ovren neu starten, um das Update abzuschließen",
     "restartNow": "Jetzt neu starten",
-    "restarting": "Wyre wird neu gestartet…",
+    "restarting": "Ovren wird neu gestartet…",
     "notNow": "Nicht jetzt",
     "later": "Später",
     "retry": "Erneut versuchen",
@@ -2571,7 +2571,7 @@
     "downloadFailed": "Download fehlgeschlagen",
     "manualDownloadFailed": "Der Download kann nicht geöffnet werden",
     "installFailed": "Installation fehlgeschlagen",
-    "restartFailed": "Wyre kann nicht neu gestartet werden",
+    "restartFailed": "Ovren kann nicht neu gestartet werden",
     "navigationNotice": "Eine neue Version ist verfügbar"
   },
   "loading": {
@@ -2605,7 +2605,7 @@
     "validating": "Ausgewählte Elemente werden validiert…",
     "finalizing": "Endgültige Bereinigungsergebnisse…",
     "cleaningSafetyHint": "Auswahl wird bereinigt; geänderte oder verwendete Inhalte werden zum Schutz vor versehentlichem Löschen übersprungen",
-    "windowsPreviousInstallationsCleanupHint": "Bestätigen Sie die Windows-Systemaufforderung und lassen Sie Wyre geöffnet, während Windows die Bereinigung abschließt",
+    "windowsPreviousInstallationsCleanupHint": "Bestätigen Sie die Windows-Systemaufforderung und lassen Sie Ovren geöffnet, während Windows die Bereinigung abschließt",
     "previewingSafetyHint": "Auswahl wird geprüft, ohne Daten zu löschen oder zu ändern",
     "elapsedSeconds": "{count} s | {count} s",
     "cleanupItemList": "Fortschritt des Bereinigungselements",
@@ -3922,7 +3922,7 @@
       "requiredToolUnavailable": "Die für diese Bereinigung benötigte App oder das benötigte Tool ist nicht verfügbar. Es hat sich nichts geändert",
       "preflightFailed": "Die ausgewählten Dateien konnten nicht sicher überprüft werden. Es hat sich nichts geändert",
       "executionFailed": "Die Bereinigung wurde nicht abgeschlossen. Es wurden keine anderen Dateien entfernt",
-      "verificationFailed": "Die Bereinigung ist abgeschlossen, aber Wyre konnte das Ergebnis nicht bestätigen. Noch einmal scannen",
+      "verificationFailed": "Die Bereinigung ist abgeschlossen, aber Ovren konnte das Ergebnis nicht bestätigen. Noch einmal scannen",
       "cleanerUnavailable": "Diese Bereinigungsoption ist derzeit nicht verfügbar. Es hat sich nichts geändert",
       "nameExclusionsUnsupported": "Übersprungen, da dieses Bereinigungselement Namensausschlüsse nicht sicher anwenden kann"
     }
@@ -3943,9 +3943,9 @@
     "processExited": "Dieser Prozess wurde beendet",
     "locationUnavailable": "Standort nicht verfügbar",
     "revealFailed": "Dieses Element konnte nicht angezeigt werden. Möglicherweise wurde es verschoben oder entfernt",
-    "autostartHint": "Wyre bei der Anmeldung automatisch starten",
+    "autostartHint": "Ovren bei der Anmeldung automatisch starten",
     "autostart": "Bei Anmeldung starten",
-    "openMain": "Wyre öffnen",
+    "openMain": "Ovren öffnen",
     "title": "Systemmonitor",
     "memory": "Speicher",
     "memoryUsage": "Speichernutzung",
@@ -4039,7 +4039,7 @@
     "unsupported": "Nicht unterstützt",
     "failed": "Daten können nicht gelesen werden",
     "details": "Systemstatus",
-    "openMain": "Wyre öffnen",
+    "openMain": "Ovren öffnen",
     "settings": "Einstellungen",
     "quit": "Beenden",
     "upload": "Hochladen",
@@ -4119,11 +4119,11 @@
     "batteryUnsupportedHint": "Batterietelemetrie ist auf diesem Mac nicht verfügbar"
   },
   "webviewRuntime": {
-    "updateRequired": "Die Anzeigekomponente von Wyre ist veraltet. Aktualisieren Sie Microsoft Edge WebView2 Runtime und öffnen Sie Wyre erneut",
+    "updateRequired": "Die Anzeigekomponente von Ovren ist veraltet. Aktualisieren Sie Microsoft Edge WebView2 Runtime und öffnen Sie Ovren erneut",
     "update": "Update herunterladen",
     "exit": "Beenden",
     "openFailed": "Der Browser konnte nicht geöffnet werden. Aktualisieren Sie Microsoft Edge WebView2 Runtime über diese Adresse:\n{url}",
-    "recoveryFailed": "Die Oberfläche konnte nicht wiederhergestellt werden. Möglicherweise laufen noch Hintergrundaufgaben. Prüfen Sie deren Status, bevor Sie einen Vorgang erneut starten. Beenden Sie Wyre und öffnen Sie es erneut"
+    "recoveryFailed": "Die Oberfläche konnte nicht wiederhergestellt werden. Möglicherweise laufen noch Hintergrundaufgaben. Prüfen Sie deren Status, bevor Sie einen Vorgang erneut starten. Beenden Sie Ovren und öffnen Sie es erneut"
   },
   "memoryRelease": {
     "title": "Arbeitsspeicher freigeben",
@@ -4219,7 +4219,7 @@
     "coreMaximumHint": "Höchste CPU-Kerntemperatur · Sensoren: {count}",
     "diodeHint": "CPU-Diodentemperatur",
     "proximityHint": "Temperatur gemessen in der Nähe der CPU; unterscheidet sich von Kern- und Verpackungstemperaturen",
-    "unsupportedHint": "Wyre kann einen identifizierten CPU-Temperatursensor auf diesem Gerät nicht lesen",
+    "unsupportedHint": "Ovren kann einen identifizierten CPU-Temperatursensor auf diesem Gerät nicht lesen",
     "trend": "CPU-Temperatur in der letzten Minute, in Grad Celsius"
   },
   "windowsMonitoring": {
@@ -4252,10 +4252,10 @@
     "collectionOff": "Die Temperaturerfassung ist ausgeschaltet",
     "goToSettings": "Einstellungen öffnen",
     "supportHint": "Unterstützt Intel-Paket- und AMD-Chiptemperaturen auf kompatiblen x64-PCs",
-    "collectionHint": "Die Temperatur wird aufgezeichnet, während Wyre läuft",
+    "collectionHint": "Die Temperatur wird aufgezeichnet, während Ovren läuft",
     "displayHint": "Das Ausblenden der Temperaturanzeige stoppt die Aufzeichnung nicht",
     "more": "Mehr",
-    "installBody": "Installieren Sie den Wyre-Erfassungsdienst, um die CPU-Temperatur und ihren Trend anzuzeigen",
+    "installBody": "Installieren Sie den Ovren-Erfassungsdienst, um die CPU-Temperatur und ihren Trend anzuzeigen",
     "enableHint": "Aktivieren Sie diese Option, um die CPU-Temperatur und ihren Trend anzuzeigen",
     "supportSummary": "Unterstützt einige Intel- und AMD-PCs",
     "repairHint": "Die Temperaturerfassung ist nicht verfügbar. Reparieren Sie den Sammeldienst, um ihn wiederherzustellen",
@@ -4284,6 +4284,12 @@
         "name": "PawnIO-Installationsprogramm",
         "license": "Proprietäre Software",
         "description": "Installiert den PawnIO-Treiber, der für Temperaturmessungen benötigt wird"
+      },
+      "sfStudioSymbols": {
+        "name": "SFStudio symbol data",
+        "license": "Apache-2.0 and Apple SF Symbols terms",
+        "description": "SFStudio interface glyphs. SF Symbols are Apple's property and are not used in Ovren's logo or app icon.",
+        "appleTerms": "Apple SF Symbols guidance"
       }
     },
     "author": "Autor: {author}"
@@ -4337,7 +4343,7 @@
     "activity": "Festplattenaktivität",
     "systemRead": "System gelesen",
     "systemWritten": "System geschrieben",
-    "systemHint": "Vom System gemeldete kumulative E/A für alle Festplatten\nDurch einen Neustart von Wyre werden diese Zähler nicht zurückgesetzt\nDer Startpunkt hängt vom Betriebssystem und Treiber ab\nGetrennt von den SMART-Lebensdauersummen"
+    "systemHint": "Vom System gemeldete kumulative E/A für alle Festplatten\nDurch einen Neustart von Ovren werden diese Zähler nicht zurückgesetzt\nDer Startpunkt hängt vom Betriebssystem und Treiber ab\nGetrennt von den SMART-Lebensdauersummen"
   },
   "wyre": {
     "networkTitle": "Netzwerk",

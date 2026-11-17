@@ -96,7 +96,7 @@
   "fullDiskAccessGuidance": {
     "summary": "Check disk access",
     "title": "Check Full Disk Access",
-    "instructions": "Check Full Disk Access for Wyre in System Settings, then scan again. If it is already enabled, check the scan logs for other access restrictions",
+    "instructions": "Check Full Disk Access for Ovren in System Settings, then scan again. If it is already enabled, check the scan logs for other access restrictions",
     "skip": "Not now",
     "openSettings": "Open Full Disk Access settings"
   },
@@ -281,7 +281,7 @@
     "scanningDescription": "The check reads component status without changing the system",
     "scanFailedTitle": "Maintenance check could not finish",
     "scanFailedDescription": "No system content was changed. Try the check again; if the issue continues, review the logs in Settings",
-    "authorizationPrompt": "Wyre needs administrator permission to run this maintenance task",
+    "authorizationPrompt": "Ovren needs administrator permission to run this maintenance task",
     "rescan": "Check Again",
     "filterCategory": "Filter maintenance categories",
     "executeOne": "Run",
@@ -1555,7 +1555,7 @@
       "disableNamedGroup": "Disable {name}",
       "futureOnly": "Turning off automatic startup does not stop programs or services that are already running",
       "requiresElevation": "Administrator permission required",
-      "authorizationPromptMacos": "Wyre needs administrator permission to change startup settings",
+      "authorizationPromptMacos": "Ovren needs administrator permission to change startup settings",
       "confirm": "Confirm",
       "applying": "Applying…",
       "refreshFailedResult": "The operation finished, but the list could not be updated. Scan again",
@@ -1606,7 +1606,7 @@
         "find": "In Login Items settings, look for the app or developer name",
         "loginItem": "Open at Login: select the app and click “−” to remove it",
         "backgroundItem": "Background activity: turn off the switch; the old record may remain",
-        "rescan": "Return to Wyre and rescan afterward",
+        "rescan": "Return to Ovren and rescan afterward",
         "settingsPath": "macOS 12: click Login Items in Users & Groups. On newer systems, search for Login Items"
       }
     },
@@ -1615,7 +1615,7 @@
       "description": "Description",
       "version": "Version",
       "systemManaged": "macOS manages this item; you can change it in Login Items",
-      "viewOnly": "This item can be viewed but cannot be changed directly in Wyre",
+      "viewOnly": "This item can be viewed but cannot be changed directly in Ovren",
       "protectedService": "This service is protected by Windows and cannot be changed here",
       "openLoginItemsSettings": "Open Login Items Settings",
       "source": "Startup type",
@@ -1668,8 +1668,8 @@
     "invalidInput": "Invalid request. Review the selected items and try again",
     "operationCancelled": "Operation cancelled",
     "operationFailed": "The operation could not be completed. Try again",
-    "permissionDenied": "Wyre does not have permission to complete this operation",
-    "persistenceFailed": "Wyre could not save the operation data. Try again",
+    "permissionDenied": "Ovren does not have permission to complete this operation",
+    "persistenceFailed": "Ovren could not save the operation data. Try again",
     "taskJoinFailed": "A background task stopped unexpectedly. Try again"
   },
   "errorTitles": {
@@ -1704,7 +1704,7 @@
     },
     "itemChanged": {
       "title": "Item just changed",
-      "message": "This item changed while deletion was being prepared. Wyre stopped to avoid deleting the wrong contents; analyze it again"
+      "message": "This item changed while deletion was being prepared. Ovren stopped to avoid deleting the wrong contents; analyze it again"
     },
     "scanResourcesReleasing": {
       "title": "Previous scan is finishing",
@@ -1800,7 +1800,7 @@
       "sizePending": "Administrator access required",
       "action": "Admin check",
       "checking": "Checking…",
-      "restartHint": "Restart Wyre as administrator and scan again"
+      "restartHint": "Restart Ovren as administrator and scan again"
     },
     "categoryItemCount": "{count} item | {count} items",
     "categoryTitles": {
@@ -2136,7 +2136,7 @@
     "categoryTitle": "App leftovers",
     "scanning": "Checking for data left by removed apps…",
     "scanHint": "Only data clearly linked to an app that is no longer installed is shown. Scanning changes nothing",
-    "accessLimitedDescription": "Allow Wyre to access other app data in System Settings → Privacy & Security, then scan again",
+    "accessLimitedDescription": "Allow Ovren to access other app data in System Settings → Privacy & Security, then scan again",
     "incompleteDescription": "To avoid mistakes, no leftovers are shown. Try again later",
     "emptyTitle": "No verified application leftovers found",
     "emptyDescription": "No app data that could be safely identified as leftover was found",
@@ -2206,13 +2206,13 @@
     "incompleteTitle": "Installed apps could not be read completely",
     "incompleteDescription": "To avoid mistakes, uninstall is unavailable. Try again later",
     "viewOnlyTitle": "Uninstall is unavailable on this system",
-    "viewOnlyDescription": "You can review installed apps, but Wyre cannot uninstall them here",
+    "viewOnlyDescription": "You can review installed apps, but Ovren cannot uninstall them here",
     "applicationRunning": "Close app",
     "closeBeforeUninstallTitle": "Close apps before uninstalling",
     "closeBeforeUninstallDescription": "Select the running apps to close before uninstalling",
     "requiresElevation": "Admin required",
     "requiresElevationDescriptionMacos": "macOS will request administrator approval when this app is uninstalled. Cancelling approval will leave the app installed",
-    "authorizationPromptMacos": "Wyre needs administrator permission to uninstall this app",
+    "authorizationPromptMacos": "Ovren needs administrator permission to uninstall this app",
     "readyForReview": "Ready",
     "viewOnly": "Uninstall unavailable",
     "orphanedRegistration": "Stale entry",
@@ -2435,7 +2435,7 @@
       "recoveryRequired": "Uninstall did not finish cleanly; inspect or restore the application before retrying",
       "nativeInstallerFailed": "The uninstaller could not complete the uninstall",
       "nativeInstallerFailedAfterRemoval": "The installation record was removed, but the uninstaller reported an error",
-      "verificationFailed": "Wyre could not confirm the result",
+      "verificationFailed": "Ovren could not confirm the result",
       "removalUnconfirmed": "The uninstaller has finished, but removal could not be confirmed. Refresh the app list to check"
     }
   },
@@ -2449,7 +2449,7 @@
     "supportSection": "Support",
     "aboutSection": "About",
     "languageTitle": "Language",
-    "languageDescription": "Choose the language used by Wyre",
+    "languageDescription": "Choose the language used by Ovren",
     "languageNames": {
       "zhCN": "简体中文",
       "zhTW": "繁體中文",
@@ -2473,7 +2473,7 @@
     "themeDark": "Dark",
     "themeSystem": "Follow system",
     "fullDiskAccessTitle": "Full Disk Access",
-    "fullDiskAccessDescription": "Lets Wyre scan protected system and app data for more complete cleanup results",
+    "fullDiskAccessDescription": "Lets Ovren scan protected system and app data for more complete cleanup results",
     "openPrivacySettings": "System Settings",
     "permissionStatus": {
       "notChecked": "Not checked",
@@ -2481,7 +2481,7 @@
       "limited": "Access limited"
     },
     "feedbackTitle": "Feedback",
-    "feedbackDescription": "We’d love to hear how we can make Wyre better",
+    "feedbackDescription": "We’d love to hear how we can make Ovren better",
     "feedbackAction": "Submit Feedback",
     "feedbackDialog": {
       "title": "Send Feedback",
@@ -2515,7 +2515,7 @@
       }
     },
     "diagnosticLogsTitle": "Diagnostic Logs",
-    "diagnosticLogsDescription": "View Wyre runtime logs for troubleshooting",
+    "diagnosticLogsDescription": "View Ovren runtime logs for troubleshooting",
     "openLogFolderAction": "Open Folder",
     "softwareUpdateTitle": "Software Updates",
     "updateCheckAction": "Check for Updates",
@@ -2533,7 +2533,7 @@
     "updateCheckFailedTitle": "Couldn't check for updates",
     "updateCheckUnknownError": "The update service returned an unknown error",
     "versionUnknown": "Loading…",
-    "aboutTitle": "About Wyre",
+    "aboutTitle": "About Ovren",
     "aboutDescription": "An open-source, lightweight, and safe cross-platform tool for disk cleanup and storage analysis",
     "projectLinksLabel": "Project links",
     "websiteAction": "Official Website",
@@ -2544,24 +2544,24 @@
   "updates": {
     "noticeAvailable": "Update available",
     "noticeRetry": "Retry opening update",
-    "availableTitle": "Wyre {version} is available",
+    "availableTitle": "Ovren {version} is available",
     "currentVersionDescription": "Current version {version}",
     "checkDescription": "Check for a newer version",
     "checkingDescription": "Connecting to the update service…",
-    "upToDateDescription": "Wyre {version} is up to date",
+    "upToDateDescription": "Ovren {version} is up to date",
     "releaseNotes": "What's new",
     "noReleaseNotes": "This update includes improvements and fixes",
     "downloadUpdate": "Download Update",
     "downloadPortable": "Download Portable Version",
-    "portableDescription": "This portable edition must be updated manually. Download the new file, close Wyre, then replace the current executable",
+    "portableDescription": "This portable edition must be updated manually. Download the new file, close Ovren, then replace the current executable",
     "continueInBackground": "Continue in Background",
-    "downloadedTitle": "Wyre {version} is ready",
-    "installedTitle": "Wyre {version} is installed",
-    "downloadComplete": "Download complete · Wyre will restart after installation",
+    "downloadedTitle": "Ovren {version} is ready",
+    "installedTitle": "Ovren {version} is installed",
+    "downloadComplete": "Download complete · Ovren will restart after installation",
     "installAndRestart": "Install and Restart",
-    "restartRequired": "Installation complete · Restart Wyre to finish updating",
+    "restartRequired": "Installation complete · Restart Ovren to finish updating",
     "restartNow": "Restart Now",
-    "restarting": "Restarting Wyre…",
+    "restarting": "Restarting Ovren…",
     "notNow": "Not Now",
     "later": "Later",
     "retry": "Try Again",
@@ -2571,7 +2571,7 @@
     "downloadFailed": "Download failed",
     "manualDownloadFailed": "Unable to open the download",
     "installFailed": "Installation failed",
-    "restartFailed": "Unable to restart Wyre",
+    "restartFailed": "Unable to restart Ovren",
     "navigationNotice": "A new version is available"
   },
   "loading": {
@@ -2605,7 +2605,7 @@
     "validating": "Validating selected items…",
     "finalizing": "Finalizing cleanup results…",
     "cleaningSafetyHint": "Cleaning your selection; changed or in-use content is skipped to prevent accidental deletion",
-    "windowsPreviousInstallationsCleanupHint": "Confirm the Windows system prompt, then keep Wyre open while Windows finishes cleanup",
+    "windowsPreviousInstallationsCleanupHint": "Confirm the Windows system prompt, then keep Ovren open while Windows finishes cleanup",
     "previewingSafetyHint": "Reviewing the selected items without deleting or changing anything",
     "elapsedSeconds": "{count} sec | {count} sec",
     "cleanupItemList": "Cleanup item progress",
@@ -3922,7 +3922,7 @@
       "requiredToolUnavailable": "The app or tool needed for this cleanup is unavailable. Nothing changed",
       "preflightFailed": "The selected files could not be checked safely. Nothing changed",
       "executionFailed": "Cleanup did not finish. No other files were removed",
-      "verificationFailed": "Cleanup finished, but Wyre could not confirm the result. Scan again",
+      "verificationFailed": "Cleanup finished, but Ovren could not confirm the result. Scan again",
       "cleanerUnavailable": "This cleanup option is currently unavailable. Nothing changed",
       "nameExclusionsUnsupported": "Skipped because this cleanup item cannot safely apply name exclusions"
     }
@@ -3943,9 +3943,9 @@
     "processExited": "This process has exited",
     "locationUnavailable": "Location unavailable",
     "revealFailed": "Could not show this item. It may have moved or been removed",
-    "autostartHint": "Start Wyre automatically when you sign in",
+    "autostartHint": "Start Ovren automatically when you sign in",
     "autostart": "Launch at login",
-    "openMain": "Open Wyre",
+    "openMain": "Open Ovren",
     "title": "System monitor",
     "memory": "Memory",
     "memoryUsage": "Memory usage",
@@ -4039,7 +4039,7 @@
     "unsupported": "Not supported",
     "failed": "Unable to read data",
     "details": "System status",
-    "openMain": "Open Wyre",
+    "openMain": "Open Ovren",
     "settings": "Settings",
     "quit": "Quit",
     "upload": "Upload",
@@ -4119,11 +4119,11 @@
     "batteryUnsupportedHint": "Battery telemetry is unavailable on this Mac"
   },
   "webviewRuntime": {
-    "updateRequired": "The component used to display Wyre is out of date. Update Microsoft Edge WebView2 Runtime, then reopen Wyre",
+    "updateRequired": "The component used to display Ovren is out of date. Update Microsoft Edge WebView2 Runtime, then reopen Ovren",
     "update": "Get update",
     "exit": "Exit",
     "openFailed": "The browser could not be opened. Please visit this address to update Microsoft Edge WebView2 Runtime:\n{url}",
-    "recoveryFailed": "The app interface could not be restored. Background tasks may still be running. Check their status before retrying an operation, then exit and reopen Wyre"
+    "recoveryFailed": "The app interface could not be restored. Background tasks may still be running. Check their status before retrying an operation, then exit and reopen Ovren"
   },
   "memoryRelease": {
     "title": "Memory release settings",
@@ -4219,7 +4219,7 @@
     "coreMaximumHint": "Highest temperature across {count} CPU core sensors",
     "diodeHint": "CPU diode temperature",
     "proximityHint": "Temperature measured near the CPU; differs from core and package temperatures",
-    "unsupportedHint": "Wyre cannot read an identified CPU temperature sensor on this device",
+    "unsupportedHint": "Ovren cannot read an identified CPU temperature sensor on this device",
     "trend": "CPU temperature over the last minute, in degrees Celsius"
   },
   "windowsMonitoring": {
@@ -4252,10 +4252,10 @@
     "collectionOff": "Temperature collection is off",
     "goToSettings": "Go to settings",
     "supportHint": "Supports Intel package and AMD die temperatures on compatible x64 PCs",
-    "collectionHint": "Temperature is recorded while Wyre is running",
+    "collectionHint": "Temperature is recorded while Ovren is running",
     "displayHint": "Hiding the temperature display does not stop recording",
     "more": "More",
-    "installBody": "Install the Wyre collection service to view CPU temperature and its trend",
+    "installBody": "Install the Ovren collection service to view CPU temperature and its trend",
     "enableHint": "Enable to view CPU temperature and its trend",
     "supportSummary": "Supports some Intel and AMD PCs",
     "repairHint": "Temperature collection is unavailable. Repair the collection service to restore it",
@@ -4284,6 +4284,12 @@
         "name": "PawnIO installer",
         "license": "Proprietary software",
         "description": "Installs the PawnIO driver needed for temperature readings"
+      },
+      "sfStudioSymbols": {
+        "name": "SFStudio symbol data",
+        "license": "Apache-2.0 and Apple SF Symbols terms",
+        "description": "SFStudio interface glyphs. SF Symbols are Apple's property and are not used in Ovren's logo or app icon.",
+        "appleTerms": "Apple SF Symbols guidance"
       }
     },
     "author": "Author: {author}"
@@ -4337,7 +4343,7 @@
     "activity": "Disk activity",
     "systemRead": "System read",
     "systemWritten": "System written",
-    "systemHint": "System-reported cumulative I/O for all disks\nRestarting Wyre does not reset these counters\nThe start point depends on the OS and driver\nSeparate from SMART lifetime totals"
+    "systemHint": "System-reported cumulative I/O for all disks\nRestarting Ovren does not reset these counters\nThe start point depends on the OS and driver\nSeparate from SMART lifetime totals"
   },
   "wyre": {
     "networkTitle": "Network",

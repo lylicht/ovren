@@ -7,7 +7,7 @@ import MdDialogFooter from '@/components/custom/md-dialog-footer.vue';
 import MdDialogHeader from '@/components/custom/md-dialog-header.vue';
 import MdSafeRichText from '@/components/custom/md-safe-rich-text.vue';
 import MdIcon from '@/components/icons/md-icon.vue';
-import MdIconMangodisk from '@/components/icons/md-icon-mangodisk.vue';
+import MdIconOvren from '@/components/icons/md-icon-ovren.vue';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import {
@@ -18,7 +18,7 @@ import {
   type AppUpdateFailureStage,
   type AppUpdateStatus,
 } from '@/lib/models/updates/app-update';
-import { PROJECT_LINKS } from '@/lib/models/shell/application-shell';
+import { APP_PUBLISHER, PROJECT_LINKS } from '@/lib/models/shell/application-shell';
 import { projectWebsiteUrl } from '@/lib/utils/shell/project-website';
 import { ICON_NAMES } from '@/lib/models/presentation/ui';
 import * as AppUpdateProgressUtils from '@/lib/utils/updates/app-update-progress';
@@ -128,11 +128,12 @@ function downloadUpdate() {
     <MdDialogContent :class="{ 'is-update-focused': updateFocused }" :show-close="!closeLocked" size="standard">
       <MdDialogHeader class="about-dialog-header" :class="{ focused: updateFocused }" variant="brand">
         <span class="about-dialog-mark" aria-hidden="true">
-          <MdIconMangodisk :size="updateFocused ? 46 : 58" />
+          <MdIconOvren :size="updateFocused ? 46 : 58" />
         </span>
         <div class="about-dialog-identity">
           <DialogTitle>{{ dialogTitle }}</DialogTitle>
           <DialogDescription>{{ dialogDescription }}</DialogDescription>
+          <span v-if="!updateFocused" class="about-dialog-byline">by {{ APP_PUBLISHER }}</span>
         </div>
       </MdDialogHeader>
 
@@ -341,6 +342,11 @@ function downloadUpdate() {
 
 .about-dialog-identity :deep([data-slot='dialog-description']) {
   font-size: var(--font-content-secondary);
+}
+
+.about-dialog-byline {
+  color: var(--muted-foreground);
+  font-size: 12px;
 }
 
 .about-dialog-body {

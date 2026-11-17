@@ -8,7 +8,7 @@ import MdPageShell from '@/components/custom/md-page-shell.vue';
 import MdStatusBadge from '@/components/custom/md-status-badge.vue';
 import MdIcon from '@/components/icons/md-icon.vue';
 import MdFeedbackDialog from '@/pages/settings/components/md-feedback-dialog.vue';
-import MdIconMangodisk from '@/components/icons/md-icon-mangodisk.vue';
+import MdIconOvren from '@/components/icons/md-icon-ovren.vue';
 import MdSettingsGroup from '@/components/custom/md-settings-group.vue';
 import MdSettingsRow from '@/components/custom/md-settings-row.vue';
 import MdSwitch from '@/components/custom/md-switch.vue';
@@ -334,7 +334,7 @@ function updateTheme(value: unknown) {
           :description="t('settings.aboutDescription')"
           @click="appUpdateStore.showAbout()"
         >
-          <template #icon><MdIconMangodisk :size="34" /></template>
+          <template #icon><MdIconOvren :size="34" /></template>
           <template #title
             ><span class="update-title">
               {{ t('settings.aboutTitle') }}

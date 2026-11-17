@@ -229,7 +229,7 @@ async function submit() {
       content.value.trim(),
       email.value.trim() ? `\n\n**Contact email:** ${email.value.trim()}` : '',
       attachments.value.length > 0
-        ? `\n\n**Files selected in Wyre:** ${attachments.value.map(item => item.displayName).join(', ')} (not attached; add them manually on GitHub)`
+        ? `\n\n**Files selected in Ovren:** ${attachments.value.map(item => item.displayName).join(', ')} (not attached; add them manually on GitHub)`
         : '',
     ].join('\n');
     const draft = new URL(`${PROJECT_LINKS.issues}/new`);

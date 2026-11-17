@@ -63,7 +63,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          $keyPath = Join-Path $env:RUNNER_TEMP 'wyre-ci-updater.key'
+          $keyPath = Join-Path $env:RUNNER_TEMP 'ovren-ci-updater.key'
           pnpm --dir app exec tauri signer generate --ci --write-keys $keyPath
           if ($LASTEXITCODE -ne 0) { throw 'Could not generate the CI-only updater key.' }
           "TAURI_SIGNING_PRIVATE_KEY=$keyPath" >> $env:GITHUB_ENV
@@ -71,9 +71,9 @@ jobs:
       - name: Generate temporary updater key for Linux and macOS CI validation
         if: runner.os != 'Windows'
         run: |
-          pnpm --dir app exec tauri signer generate --ci --write-keys "$RUNNER_TEMP/wyre-ci-updater.key"
+          pnpm --dir app exec tauri signer generate --ci --write-keys "$RUNNER_TEMP/ovren-ci-updater.key"
           # Tauri reads this variable as the key itself on Linux and macOS, not as a path to it.
-          printf 'TAURI_SIGNING_PRIVATE_KEY=%s\n' "$(cat "$RUNNER_TEMP/wyre-ci-updater.key")" >> "$GITHUB_ENV"
+          printf 'TAURI_SIGNING_PRIVATE_KEY=%s\n' "$(cat "$RUNNER_TEMP/ovren-ci-updater.key")" >> "$GITHUB_ENV"
           printf 'TAURI_SIGNING_PRIVATE_KEY_PASSWORD=\n' >> "$GITHUB_ENV"
       - name: Build Windows installer
         if: runner.os == 'Windows'
@@ -88,7 +88,7 @@ jobs:
         if: github.event_name == 'workflow_dispatch' && runner.os == 'Windows'
         uses: actions/upload-artifact@v4
         with:
-          name: wyre-ci-test-installers-${{ runner.os }}-${{ runner.arch }}
+          name: ovren-ci-test-installers-${{ runner.os }}-${{ runner.arch }}
           path: app/target/release/bundle/nsis/*.exe
           retention-days: 7
           if-no-files-found: error
@@ -96,7 +96,7 @@ jobs:
         if: github.event_name == 'workflow_dispatch' && runner.os == 'Linux'
         uses: actions/upload-artifact@v4
         with:
-          name: wyre-ci-test-installers-${{ runner.os }}-${{ runner.arch }}
+          name: ovren-ci-test-installers-${{ runner.os }}-${{ runner.arch }}
           path: |
             app/target/release/bundle/appimage/*.AppImage
             app/target/release/bundle/deb/*.deb

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Ovren</title>
+  <desc id="desc">A rounded O loop with a V-shaped core, on a midnight teal field.</desc>
+  <defs>
+    <linearGradient id="surface" x1="48" y1="24" x2="464" y2="492" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#203643"/>
+      <stop offset="1" stop-color="#101B26"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="122" y1="88" x2="382" y2="418" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A5F2E2"/>
+      <stop offset="1" stop-color="#48CBB8"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="496" height="496" rx="116" fill="url(#surface)"/>
+  <rect x="9" y="9" width="494" height="494" rx="115" fill="none" stroke="#3A5662" stroke-opacity=".6" stroke-width="2"/>
+  <g id="ovren-mark" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M344 147a146 146 0 1 0 47 57" fill="none" stroke="url(#mark)" stroke-width="38"/>
+    <path d="m166 218 78 91c7 8 17 8 24 0l88-112" fill="none" stroke="#F4FBF8" stroke-width="36"/>
+  </g>
+</svg>

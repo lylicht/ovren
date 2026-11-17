@@ -1,4 +1,5 @@
 import pawnIoLicense from '../../../../src-tauri/crates/mangodisk-privileged/vendors/pawnio/modules/0.2.11/COPYING?raw';
+import sfStudioLicense from './licenses/sfstudio-apache-2.0.txt?raw';
 
 export interface ThirdPartyDocument {
   readonly id: string;
@@ -49,5 +50,31 @@ export const THIRD_PARTY_COMPONENTS: readonly ThirdPartyComponent[] = [
     descriptionKey: 'thirdPartyLicenses.components.pawnioInstaller.description',
     projectUrl: 'https://github.com/namazso/PawnIO.Setup',
     documents: [],
+  },
+  {
+    id: 'sfstudio-symbols',
+    nameKey: 'thirdPartyLicenses.components.sfStudioSymbols.name',
+    version: 'main@cdd06d88',
+    author: 'bxane and SFStudio contributors; Apple Inc. (SF Symbols)',
+    licenseKey: 'thirdPartyLicenses.components.sfStudioSymbols.license',
+    descriptionKey: 'thirdPartyLicenses.components.sfStudioSymbols.description',
+    projectUrl: 'https://github.com/lylicht/SFStudio',
+    documents: [
+      {
+        id: 'license',
+        titleKey: 'thirdPartyLicenses.components.sfStudioSymbols.license',
+        actionKey: 'thirdPartyLicenses.readLicense',
+        format: 'text',
+        content: sfStudioLicense,
+      },
+      {
+        id: 'apple-terms',
+        titleKey: 'thirdPartyLicenses.components.sfStudioSymbols.appleTerms',
+        actionKey: 'thirdPartyLicenses.readLicense',
+        format: 'markdown',
+        content:
+          'SF Symbols are Apple’s property. Ovren uses them only as interface icons, not as its logo, app icon, or trademark. Read [Apple’s SF Symbols guidance](https://developer.apple.com/design/human-interface-guidelines/sf-symbols/).',
+      },
+    ],
   },
 ];

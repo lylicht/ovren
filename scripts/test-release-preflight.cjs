@@ -65,7 +65,7 @@ test('rejects a release tag without a matching changelog section', async () => {
   );
 });
 
-test('rejects malformed Wyre tags', async () => {
+test('rejects malformed Ovren tags', async () => {
   const { validateReleaseVersion } = await import('./release-preflight.mjs');
 
   assert.throws(

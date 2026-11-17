@@ -10,12 +10,12 @@ import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
-const source = readFileSync(join(root, 'public/wyre-icon.svg'), 'utf8');
-if (!source.includes('id="wyre-mark"')) {
-  throw new Error('The Wyre mark changed; review the tray icon source before regenerating.');
+const source = readFileSync(join(root, 'public/ovren-icon.svg'), 'utf8');
+if (!source.includes('id="ovren-mark"')) {
+  throw new Error('The Ovren mark changed; review the tray icon source before regenerating.');
 }
-const template = `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="58 50 140 132"><path d="M128 108V82M111 138 85 153M145 138l26 15" fill="none" stroke="black" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><circle cx="128" cy="69" r="10" fill="black"/><circle cx="77" cy="158" r="10" fill="black"/><circle cx="179" cy="158" r="10" fill="black"/><circle cx="128" cy="128" r="20" fill="none" stroke="black" stroke-width="8"/><circle cx="128" cy="128" r="5" fill="black"/></svg>`;
-const temporary = mkdtempSync(join(tmpdir(), 'wyre-icons-'));
+const template = `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="76 76 360 360"><g fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round"><path d="M344 147a146 146 0 1 0 47 57" stroke-width="38"/><path d="m166 218 78 91c7 8 17 8 24 0l88-112" stroke-width="36"/></g></svg>`;
+const temporary = mkdtempSync(join(tmpdir(), 'ovren-icons-'));
 const output = join(root, 'src-tauri/icons');
 const cli = join(root, 'node_modules/@tauri-apps/cli/tauri.js');
 function generate(input, directory, sizes = []) {
@@ -50,7 +50,7 @@ try {
     join(output, 'windows/icon.ico'),
     Buffer.concat([ico.subarray(0, 6), ...entries, ico.subarray(6 + count * 16)])
   );
-  console.log('Generated Wyre tray and Windows application icons.');
+  console.log('Generated Ovren tray and Windows application icons.');
 } finally {
   rmSync(temporary, { recursive: true, force: true });
 }

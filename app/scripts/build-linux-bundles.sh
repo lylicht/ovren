@@ -45,7 +45,7 @@ python3 scripts/test-linux-bundle.py
 pnpm tauri build --bundles deb,appimage --no-sign
 
 image_dir="$PWD/target/release/bundle/appimage"
-appdir="$image_dir/Wyre.AppDir"
+appdir="$image_dir/Ovren.AppDir"
 gio_modules="$appdir/usr/lib/gio/modules"
 plugin="$XDG_CACHE_HOME/tauri/linuxdeploy-plugin-appimage.AppImage"
 bundle=("$image_dir"/*.AppImage)
@@ -66,7 +66,7 @@ install -m 0755 scripts/appimage-apprun.sh "$appdir/AppRun"
   cd "$image_dir"
   ARCH="$arch" "$plugin" --appimage-extract-and-run --appdir="$appdir"
 )
-mv "$image_dir/Wyre-$arch.AppImage" "${bundle[0]}"
+mv "$image_dir/Ovren-$arch.AppImage" "${bundle[0]}"
 restore_apprun
 trap - EXIT
 
