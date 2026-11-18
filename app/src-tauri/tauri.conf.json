@@ -1,13 +1,13 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "Ovren",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "identifier": "dev.licht.ovren",
   "mainBinaryName": "Ovren",
   "build": {
     "beforeDevCommand": "pnpm dev",
     "devUrl": "http://127.0.0.1:1420",
-    "beforeBuildCommand": "pnpm build:frontend && node scripts/build-privileged.mjs --release && node scripts/build-ovrennet.mjs",
+    "beforeBuildCommand": "node scripts/generate-resident-icons.mjs && pnpm build:frontend && node scripts/build-privileged.mjs --release && node scripts/build-ovrennet.mjs",
     "frontendDist": "../dist"
   },
   "app": {

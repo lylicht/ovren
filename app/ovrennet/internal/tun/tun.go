@@ -2,6 +2,7 @@ package tun
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net"
 	"net/netip"
@@ -88,9 +89,16 @@ func cmdError(name string, args []string, err error, out []byte) error {
 	return fmt.Errorf("%s: %v", cmdline, err)
 }
 
+func missingRoute(err error) bool {
+	message := strings.ToLower(err.Error())
+	return strings.Contains(message, "not in table") || strings.Contains(message, "not found") ||
+		strings.Contains(message, "cannot find") || strings.Contains(message, "no such process") ||
+		strings.Contains(message, "element not found")
+}
+
 var openName = tunName
 
-var staleHook func()
+var staleHook func() error
 
 var (
 	routes4 = []string{"0.0.0.0/1", "128.0.0.0/1"}
@@ -141,7 +149,9 @@ func (t *Tun) open() error {
 		tlog.SetLogger(tlog.Must(tlog.NewLeveled(lvl)))
 	}
 	tunnel.T().SetUDPTimeout(udpSessionTimeout)
-	CleanupStale()
+	if err := CleanupStale(); err != nil {
+		return err
+	}
 
 	dev, err := tun.Open(openName, uint32(t.MTU))
 	if err != nil {
@@ -204,7 +214,9 @@ func (t *Tun) Off() {
 	defer t.mu.Unlock()
 	if keepDevice && t.dev != nil {
 		if t.idx != 0 {
-			delRoutes(t.idx)
+			if err := delRoutes(t.idx); err != nil {
+				logx.Printf("warning: could not restore network routes: %v\n", err)
+			}
 		}
 		tunnel.T().SetProxy(&reject.Reject{})
 		t.on = false
@@ -221,7 +233,9 @@ func (t *Tun) Close() {
 
 func (t *Tun) teardown() {
 	if t.idx != 0 {
-		delRoutes(t.idx)
+		if err := delRoutes(t.idx); err != nil {
+			logx.Printf("warning: could not restore network routes: %v\n", err)
+		}
 	}
 	tunnel.T().SetProxy(&reject.Reject{})
 	if t.dev != nil {
@@ -238,11 +252,17 @@ func (t *Tun) teardown() {
 	t.dev, t.stk, t.idx, t.on = nil, nil, 0, false
 }
 
-func CleanupStale() {
+func CleanupStale() error {
+	var errs []error
 	if staleHook != nil {
-		staleHook()
+		if err := staleHook(); err != nil {
+			errs = append(errs, err)
+		}
 	}
 	if ifc, err := net.InterfaceByName(tunName); err == nil {
-		delRoutes(ifc.Index)
+		if err := delRoutes(ifc.Index); err != nil {
+			errs = append(errs, err)
+		}
 	}
+	return errors.Join(errs...)
 }

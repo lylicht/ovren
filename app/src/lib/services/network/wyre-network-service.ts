@@ -7,6 +7,8 @@ export interface NetworkMeasurement {
   uploadMbps: number;
   failedProbesPercent: number;
   dataMb: number;
+  serverHost: string;
+  serverLocation: string;
 }
 
 export class WyreNetworkService {

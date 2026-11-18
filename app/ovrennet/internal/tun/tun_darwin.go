@@ -1,6 +1,7 @@
 package tun
 
 import (
+	"errors"
 	"fmt"
 	"net"
 	"net/netip"
@@ -53,18 +54,24 @@ func configure(name string, _ int, ip4 netip.Prefix) (int, error) {
 	return ifc.Index, nil
 }
 
-func delRoutes(idx int) {
+func delRoutes(idx int) error {
 	defer stopScopedSync()
 	ifc, err := net.InterfaceByIndex(idx)
 	if err != nil {
-		return
+		return err
 	}
+	var errs []error
 	for _, dst := range routes4 {
-		run("/sbin/route", "-q", "-n", "delete", "-inet", dst, "-interface", ifc.Name)
+		if err := run("/sbin/route", "-q", "-n", "delete", "-inet", dst, "-interface", ifc.Name); err != nil && !missingRoute(err) {
+			errs = append(errs, fmt.Errorf("remove route %s: %w", dst, err))
+		}
 	}
 	for _, dst := range routes6 {
-		run("/sbin/route", "-q", "-n", "delete", "-inet6", dst, "-interface", ifc.Name)
+		if err := run("/sbin/route", "-q", "-n", "delete", "-inet6", dst, "-interface", ifc.Name); err != nil && !missingRoute(err) {
+			errs = append(errs, fmt.Errorf("remove route %s: %w", dst, err))
+		}
 	}
+	return errors.Join(errs...)
 }
 
 func run(name string, args ...string) error {
@@ -200,10 +207,10 @@ func syncScoped(stop chan struct{}) error {
 	return first
 }
 
-func cleanupScoped() {
+func cleanupScoped() error {
 	routes, err := nics.DefaultRoutes()
 	if err != nil {
-		return
+		return err
 	}
 	unscoped := map[scopedKey]string{}
 	for _, r := range routes {
@@ -211,10 +218,14 @@ func cleanupScoped() {
 			unscoped[scopedKey{r.Name, r.V6}] = r.GW.String()
 		}
 	}
+	var errs []error
 	for _, r := range routes {
 		k := scopedKey{r.Name, r.V6}
 		if gw, ok := unscoped[k]; ok && r.Scoped && r.GW != nil && r.GW.String() == gw {
-			run("/sbin/route", scopedArgs("delete", k, gw)...)
+			if err := run("/sbin/route", scopedArgs("delete", k, gw)...); err != nil && !missingRoute(err) {
+				errs = append(errs, fmt.Errorf("remove scoped route on %s: %w", r.Name, err))
+			}
 		}
 	}
+	return errors.Join(errs...)
 }

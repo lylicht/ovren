@@ -83,6 +83,22 @@ func RelaunchElevated(args []string, hidden bool) error {
 	return nil
 }
 
+func RelaunchElevatedAndWait(args []string) error {
+	exe, err := os.Executable()
+	if err != nil {
+		return err
+	}
+	cmd := shQuote(exe)
+	for _, arg := range args {
+		cmd += " " + shQuote(arg)
+	}
+	script := `do shell script "` + strings.NewReplacer(`\`, `\\`, `"`, `\"`).Replace(cmd) + `" with administrator privileges`
+	if out, err := exec.Command("/usr/bin/osascript", "-e", script).CombinedOutput(); err != nil {
+		return fmt.Errorf("administrator recovery failed: %s", strings.TrimSpace(string(out)))
+	}
+	return nil
+}
+
 func RelaunchTray(args []string, hidden bool) error {
 	if len(args) == 1 && args[0] == "tray" {
 		if exe := InstalledExe(); exec.Command("/usr/bin/sudo", "-n", "-l", exe, "tray").Run() == nil {

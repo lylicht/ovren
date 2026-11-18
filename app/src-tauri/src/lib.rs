@@ -221,7 +221,13 @@ pub fn run() {
             commands::resident::resident_set_autostart,
             commands::ovren_net::ovren_net_snapshot,
             commands::ovren_net::ovren_net_start,
+            commands::ovren_net::ovren_net_configure,
+            commands::ovren_net::ovren_net_pause,
+            commands::ovren_net::ovren_net_resume,
             commands::ovren_net::ovren_net_stop,
+            commands::ovren_net::ovren_net_recover,
+            commands::ovren_net::ovren_net_socks_start,
+            commands::ovren_net::ovren_net_socks_stop,
             commands::ai::ai_get_preferences,
             commands::ai::ai_set_enabled,
             commands::ai::ai_get_settings,
@@ -398,6 +404,7 @@ pub fn run() {
                 code
             );
         } else if matches!(&_event, tauri::RunEvent::Exit) {
+            tauri::async_runtime::block_on(services::ovren_net::shutdown(_app));
             resident::network_traffic::close(_app);
             log::info!("application_exited process_id={}", std::process::id());
         }

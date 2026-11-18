@@ -7,11 +7,13 @@ withDefaults(
     subtitle?: string;
     contentMode?: 'document' | 'workspace';
     contentWidth?: 'fluid' | 'readable' | 'wide';
+    hideScrollbar?: boolean;
   }>(),
   {
     subtitle: undefined,
     contentMode: 'document',
     contentWidth: 'fluid',
+    hideScrollbar: false,
   }
 );
 
@@ -62,7 +64,8 @@ const windowDragRegion = isMacOs || hasDesktopWindowControls ? '' : undefined;
         :class="[
           `md-page-content--${contentMode}`,
           {
-            'scrollbar-stable-end': contentMode === 'document',
+            'scrollbar-stable-end': contentMode === 'document' && !hideScrollbar,
+            'overflow-y-auto scrollbar-hidden': contentMode === 'document' && hideScrollbar,
           },
         ]"
       >

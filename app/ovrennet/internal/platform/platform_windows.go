@@ -1,12 +1,14 @@
 package platform
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
 	"syscall"
+	"unsafe"
 
 	"golang.org/x/sys/windows"
 )
@@ -54,6 +56,73 @@ func RelaunchElevated(args []string, hidden bool) error {
 		show = windows.SW_HIDE
 	}
 	return windows.ShellExecute(0, verb, file, params, dir, show)
+}
+
+func RelaunchElevatedAndWait(args []string) error {
+	exe, err := os.Executable()
+	if err != nil {
+		return err
+	}
+	quoted := make([]string, len(args))
+	for i, arg := range args {
+		quoted[i] = windows.EscapeArg(arg)
+	}
+	verb, _ := windows.UTF16PtrFromString("runas")
+	file, _ := windows.UTF16PtrFromString(exe)
+	params, _ := windows.UTF16PtrFromString(strings.Join(quoted, " "))
+	dir, _ := windows.UTF16PtrFromString(filepath.Dir(exe))
+	info := struct {
+		cbSize       uint32
+		fMask        uint32
+		hwnd         windows.Handle
+		lpVerb       *uint16
+		lpFile       *uint16
+		lpParameters *uint16
+		lpDirectory  *uint16
+		nShow        int32
+		hInstApp     windows.Handle
+		lpIDList     uintptr
+		lpClass      *uint16
+		hkeyClass    windows.Handle
+		dwHotKey     uint32
+		hIcon        windows.Handle
+		hProcess     windows.Handle
+	}{
+		fMask:        0x00000040,
+		lpVerb:       verb,
+		lpFile:       file,
+		lpParameters: params,
+		lpDirectory:  dir,
+		nShow:        windows.SW_SHOWNORMAL,
+	}
+	info.cbSize = uint32(unsafe.Sizeof(info))
+	procedure := windows.NewLazySystemDLL("shell32.dll").NewProc("ShellExecuteExW")
+	if err := procedure.Find(); err != nil {
+		return err
+	}
+	result, _, callErr := procedure.Call(uintptr(unsafe.Pointer(&info)))
+	if result == 0 {
+		if code, ok := callErr.(syscall.Errno); ok && code != 0 {
+			return callErr
+		}
+		return fmt.Errorf("could not launch administrator recovery")
+	}
+	defer windows.CloseHandle(info.hProcess)
+	wait, err := windows.WaitForSingleObject(info.hProcess, windows.INFINITE)
+	if err != nil {
+		return err
+	}
+	if wait != windows.WAIT_OBJECT_0 {
+		return fmt.Errorf("waiting for administrator recovery failed: %d", wait)
+	}
+	var exitCode uint32
+	if err := windows.GetExitCodeProcess(info.hProcess, &exitCode); err != nil {
+		return err
+	}
+	if exitCode != 0 {
+		return fmt.Errorf("administrator recovery failed with exit code %d", exitCode)
+	}
+	return nil
 }
 
 func OpenURL(url string) error {

@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## 1.2.1 — 2026-11-18
+
+- Added OvrenNET connection selection, weighting, speed limits, IPv6 and MTU controls, automatic pause, route recovery, a loopback SOCKS5 proxy, and tray quick actions.
+- Added per-adapter total and routed traffic rates, and show the speed test server and Cloudflare edge location.
+- Regenerate Windows, macOS, and Linux package icons from the approved Ovren mark during builds; hide the Network page scrollbar while keeping scrolling available.
+- Added localized OvrenNET controls across all supported languages.
+
 ## 1.2.0 — 2026-11-18
 
 - Added Persian (fa-IR) localization and right-to-left layout support.

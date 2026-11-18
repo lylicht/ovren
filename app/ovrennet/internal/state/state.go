@@ -15,12 +15,17 @@ const macStateDir = "/var/run/OvrenNET"
 const macLimitsDir = "/Library/Application Support/OvrenNET"
 
 type Status struct {
-	PID     int
-	Mode    string
-	V6      string
-	Since   time.Time
-	Updated time.Time
-	NICs    []engine.SlotStats
+	PID             int
+	Mode            string
+	Enabled         bool
+	V6              string
+	PausedReason    string
+	Config          Config
+	AppliedConfigID string
+	ConfigError     string
+	Since           time.Time
+	Updated         time.Time
+	NICs            []engine.SlotStats
 }
 
 func DefaultDir() string {
@@ -38,12 +43,26 @@ func DefaultDir() string {
 	return filepath.Join(base, "OvrenNET")
 }
 
+func DefaultUserDir() string {
+	base, err := os.UserCacheDir()
+	if err != nil {
+		base = os.TempDir()
+	}
+	return filepath.Join(base, "OvrenNET")
+}
+
 func Prepare(dir string) error {
-	ctl := filepath.Join(dir, "ctl")
-	if err := os.MkdirAll(ctl, 0o755); err != nil {
+	if err := os.MkdirAll(dir, 0o700); err != nil {
 		return err
 	}
-	return os.Chmod(ctl, os.ModeSticky|0o777)
+	if err := os.Chmod(dir, 0o700); err != nil {
+		return err
+	}
+	ctl := filepath.Join(dir, "ctl")
+	if err := os.MkdirAll(ctl, 0o700); err != nil {
+		return err
+	}
+	return os.Chmod(ctl, 0o700)
 }
 
 func Write(dir string, st Status) {
@@ -51,9 +70,22 @@ func Write(dir string, st Status) {
 	if err != nil {
 		return
 	}
-	tmp := filepath.Join(dir, "status.json.tmp")
-	if os.WriteFile(tmp, b, 0o644) == nil {
-		os.Rename(tmp, filepath.Join(dir, "status.json"))
+	tmp, err := os.CreateTemp(dir, "status-*.tmp")
+	if err != nil {
+		return
+	}
+	tmpName := tmp.Name()
+	defer os.Remove(tmpName)
+	if _, err = tmp.Write(b); err != nil {
+		tmp.Close()
+		return
+	}
+	if err = tmp.Chmod(0o644); err != nil {
+		tmp.Close()
+		return
+	}
+	if err = tmp.Close(); err == nil {
+		os.Rename(tmpName, filepath.Join(dir, "status.json"))
 	}
 }
 
@@ -72,10 +104,10 @@ func Read(dir string) (*Status, bool) {
 }
 
 func SendMarker(dir, name string) error {
-	if err := os.MkdirAll(filepath.Join(dir, "ctl"), 0o755); err != nil {
+	if err := Prepare(dir); err != nil {
 		return err
 	}
-	return os.WriteFile(filepath.Join(dir, "ctl", name), nil, 0o666)
+	return os.WriteFile(filepath.Join(dir, "ctl", name), nil, 0o600)
 }
 
 func TakeMarker(dir, name string) bool { return os.Remove(filepath.Join(dir, "ctl", name)) == nil }

@@ -1,6 +1,7 @@
 package tun
 
 import (
+	"errors"
 	"fmt"
 	"net"
 	"net/netip"
@@ -43,10 +44,14 @@ func configure(name string, _ int, ip4 netip.Prefix) (int, error) {
 	return idx, nil
 }
 
-func delRoutes(idx int) {
+func delRoutes(idx int) error {
+	var errs []error
 	for _, dst := range append(append([]string{}, routes4...), routes6...) {
-		netlink.RouteDel(tunRoute(idx, dst))
+		if err := netlink.RouteDel(tunRoute(idx, dst)); err != nil && !errors.Is(err, unix.ESRCH) && !errors.Is(err, unix.ENOENT) {
+			errs = append(errs, fmt.Errorf("remove route %s: %w", dst, err))
+		}
 	}
+	return errors.Join(errs...)
 }
 
 func tunRoute(idx int, dst string) *netlink.Route {

@@ -35,22 +35,25 @@ try {
   writeFileSync(templateSource, template);
   generate(templateSource, join(temporary, 'template'), [36]);
   generate(colorSource, join(temporary, 'color'), [64]);
-  generate(colorSource, join(temporary, 'application'));
+  const application = join(temporary, 'application');
+  generate(colorSource, application);
+  for (const name of ['32x32.png', '64x64.png', '128x128.png', '128x128@2x.png', 'icon.png', 'icon.icns']) {
+    copyFileSync(join(application, name), join(output, name));
+  }
   copyFileSync(join(temporary, 'template/36x36.png'), join(output, 'tray-template.png'));
   copyFileSync(join(temporary, 'color/64x64.png'), join(output, 'tray-color.png'));
   mkdirSync(join(output, 'windows'), { recursive: true });
   // Tauri embeds the first ICO entry as the live window icon. Put the largest
   // raster first to avoid enlarging 32 px pixels on high-DPI taskbars. Windows
   // still selects the appropriate size from the full executable icon directory.
-  const ico = readFileSync(join(temporary, 'application/icon.ico'));
+  const ico = readFileSync(join(application, 'icon.ico'));
   const count = ico.readUInt16LE(4);
   const entries = Array.from({ length: count }, (_, index) => ico.subarray(6 + index * 16, 22 + index * 16));
   entries.sort((left, right) => (right[0] || 256) - (left[0] || 256));
-  writeFileSync(
-    join(output, 'windows/icon.ico'),
-    Buffer.concat([ico.subarray(0, 6), ...entries, ico.subarray(6 + count * 16)])
-  );
-  console.log('Generated Ovren tray and Windows application icons.');
+  const orderedIco = Buffer.concat([ico.subarray(0, 6), ...entries, ico.subarray(6 + count * 16)]);
+  writeFileSync(join(output, 'icon.ico'), orderedIco);
+  writeFileSync(join(output, 'windows/icon.ico'), orderedIco);
+  console.log('Generated Ovren application and tray icons.');
 } finally {
   rmSync(temporary, { recursive: true, force: true });
 }

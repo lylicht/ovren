@@ -86,6 +86,24 @@ func RelaunchElevated(args []string, hidden bool) error {
 	return syscall.Exec(path, append([]string{tool, exe}, args...), os.Environ())
 }
 
+func RelaunchElevatedAndWait(args []string) error {
+	exe, err := os.Executable()
+	if err != nil {
+		return err
+	}
+	tool := "pkexec"
+	if HasConsole() {
+		tool = "sudo"
+	}
+	path, err := exec.LookPath(tool)
+	if err != nil {
+		return fmt.Errorf("%s not found; run OvrenNET as root or give it CAP_NET_ADMIN (see README)", tool)
+	}
+	command := exec.Command(path, append([]string{exe}, args...)...)
+	command.Stdin, command.Stdout, command.Stderr = os.Stdin, os.Stdout, os.Stderr
+	return command.Run()
+}
+
 func RelaunchTray(args []string, hidden bool) error {
 	exe, _ := os.Executable()
 	if strings.HasPrefix(exe, "/nix/store/") {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import MdConfirmDialog from '@/components/custom/md-confirm-dialog.vue';
 import { ResidentService } from '@/lib/services/resident/resident-service';
 import { LoggerService } from '@/lib/services/diagnostics/logger-service';
@@ -10,10 +10,27 @@ import { ByteSizeService } from '@/lib/services/settings/byte-size-service';
 import MdTooltip from '@/components/custom/md-tooltip.vue';
 import MdResourceOverview from './md-resource-overview.vue';
 import MdResourceFacts from './md-resource-facts.vue';
+import { OvrenNetService, type OvrenNetSnapshot } from '@/lib/services/network/ovren-net-service';
+import { OvrenNetPreferencesService } from '@/lib/services/network/ovren-net-preferences-service';
+import type { OvrenNetPreferences } from '@/lib/models/network/ovren-net-preferences';
 
 const props = defineProps<{ reading: ResourceReadings; active: boolean }>();
 const { t, n, locale } = useI18n({ useScope: 'global' });
 const network = computed(() => (props.reading.network.status === 'ready' ? props.reading.network.value : null));
+const ovrenNet = ref<OvrenNetSnapshot | null>(null);
+const ovrenNetPreferences = ref<OvrenNetPreferences>(OvrenNetPreferencesService.defaults());
+const ovrenNetBusy = ref(false);
+const ovrenNetError = ref(false);
+const ovrenNetLabel = computed(() => {
+  if (!ovrenNet.value?.running) return t('ovrenNet.statusStopped');
+  if (ovrenNet.value.pausedReason === 'manual' || ovrenNet.value.pausedReason === 'automatic') {
+    return t('ovrenNet.statusPaused');
+  }
+  return ovrenNet.value.enabled ? t('ovrenNet.statusActive') : t('ovrenNet.statusStarting');
+});
+const ovrenNetActionLabel = computed(() =>
+  !ovrenNet.value?.running ? t('ovrenNet.start') : ovrenNet.value.enabled ? t('ovrenNet.pause') : t('ovrenNet.resume')
+);
 function speed(bits: number | null | undefined): string {
   if (bits === null || bits === undefined || !Number.isFinite(bits) || bits <= 0) return '—';
   const scale = bits >= 1e9 ? 1e9 : bits >= 1e6 ? 1e6 : 1e3;
@@ -53,6 +70,32 @@ const trafficFacts = computed(() => [
 const resetTarget = ref<{ id: string; name: string; startedAtMs: number } | null>(null);
 const resetting = ref(false);
 const resetError = ref(false);
+let ovrenNetTimer: number | null = null;
+async function refreshOvrenNet() {
+  try {
+    ovrenNet.value = await OvrenNetService.snapshot(ovrenNetPreferences.value);
+    ovrenNetError.value = ovrenNet.value.configError !== '';
+  } catch (cause) {
+    ovrenNetError.value = true;
+    LoggerService.warn('monitoring', 'ovren_net_status_failed', { error: cause });
+  }
+}
+async function toggleOvrenNet() {
+  if (ovrenNetBusy.value) return;
+  ovrenNetBusy.value = true;
+  ovrenNetError.value = false;
+  try {
+    if (!ovrenNet.value?.running) await OvrenNetService.start(ovrenNetPreferences.value);
+    else if (ovrenNet.value.enabled) await OvrenNetService.pause();
+    else await OvrenNetService.resume();
+    await refreshOvrenNet();
+  } catch (cause) {
+    ovrenNetError.value = true;
+    LoggerService.warn('monitoring', 'ovren_net_action_failed', { error: cause });
+  } finally {
+    ovrenNetBusy.value = false;
+  }
+}
 function requestReset() {
   resetError.value = false;
   const value = network.value;
@@ -83,8 +126,26 @@ watch(
   () => props.active,
   active => {
     if (!active && !resetting.value) resetTarget.value = null;
+    if (active) void refreshOvrenNet();
   }
 );
+onMounted(() => {
+  void OvrenNetPreferencesService.load()
+    .then(preferences => {
+      ovrenNetPreferences.value = preferences;
+      if (props.active) void refreshOvrenNet();
+    })
+    .catch(cause => {
+      ovrenNetError.value = true;
+      LoggerService.warn('monitoring', 'ovren_net_preferences_load_failed', { error: cause });
+    });
+  ovrenNetTimer = window.setInterval(() => {
+    if (props.active) void refreshOvrenNet();
+  }, 3000);
+});
+onBeforeUnmount(() => {
+  if (ovrenNetTimer !== null) window.clearInterval(ovrenNetTimer);
+});
 const interfaceFacts = computed(() => {
   const value = network.value?.interface;
   const rows = [
@@ -139,6 +200,20 @@ const interfaceFacts = computed(() => {
 
 <template>
   <MdResourceOverview metric="network" :reading="reading" :active="active" class="detail-summary network-summary" />
+  <section class="network-details ovren-net-quick" :aria-label="t('ovrenNet.title')">
+    <span class="min-w-0 truncate text-xs font-medium text-foreground"
+      >{{ t('ovrenNet.title') }} · {{ ovrenNetLabel }}</span
+    >
+    <button
+      type="button"
+      class="traffic-reset"
+      :disabled="ovrenNetBusy || (!ovrenNet?.running && (ovrenNet?.adapters.length ?? 0) === 0)"
+      @click="toggleOvrenNet"
+    >
+      {{ ovrenNetBusy ? t('ovrenNet.statusStarting') : ovrenNetActionLabel }}
+    </button>
+    <p v-if="ovrenNetError" class="m-0 w-full text-xs text-destructive-text" role="alert">{{ t('ovrenNet.error') }}</p>
+  </section>
   <section class="network-details network-traffic" :aria-label="t('networkDetails.title')">
     <header>
       <MdTooltip :active="active" :text="trafficHint" multiline>
@@ -216,6 +291,13 @@ const interfaceFacts = computed(() => {
 .network-traffic {
   padding-block: 4px;
   gap: 8px;
+}
+.ovren-net-quick {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
 }
 .traffic-facts {
   display: grid;

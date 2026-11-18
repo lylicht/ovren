@@ -16,9 +16,49 @@ vi.mock('@/lib/services/resident/resident-service', () => ({
 vi.mock('@/lib/services/network/wyre-network-service', () => ({ WyreNetworkService: { measure: vi.fn() } }));
 vi.mock('@/lib/services/network/ovren-net-service', () => ({
   OvrenNetService: {
-    snapshot: vi.fn().mockResolvedValue({ running: false, enabled: false, adapters: [] }),
+    snapshot: vi.fn().mockResolvedValue({
+      running: false,
+      enabled: false,
+      pausedReason: 'none',
+      adapters: [],
+      config: {},
+      configError: '',
+      socksRunning: false,
+    }),
     start: vi.fn(),
+    configure: vi.fn(),
+    pause: vi.fn(),
+    resume: vi.fn(),
     stop: vi.fn(),
+    recover: vi.fn(),
+    socksStart: vi.fn(),
+    socksStop: vi.fn(),
+  },
+}));
+vi.mock('@/lib/services/network/ovren-net-preferences-service', () => ({
+  OvrenNetPreferencesService: {
+    defaults: () => ({
+      includedAdapters: [],
+      autoWeight: true,
+      weights: {},
+      limitsMbps: {},
+      ipv6Mode: 'auto',
+      autoPause: false,
+      mtu: 9000,
+      startWithOvren: false,
+    }),
+    load: vi.fn().mockResolvedValue({
+      includedAdapters: [],
+      autoWeight: true,
+      weights: {},
+      limitsMbps: {},
+      ipv6Mode: 'auto',
+      autoPause: false,
+      mtu: 9000,
+      startWithOvren: false,
+    }),
+    parse: vi.fn(value => value),
+    save: vi.fn(),
   },
 }));
 vi.mock('@/lib/services/settings/byte-size-service', () => ({
@@ -71,6 +111,8 @@ const result = {
   uploadMbps: 24.3,
   failedProbesPercent: 0,
   dataMb: 14,
+  serverHost: 'speed.cloudflare.com',
+  serverLocation: 'ZRH',
 };
 const wrappers: ReturnType<typeof mount>[] = [];
 

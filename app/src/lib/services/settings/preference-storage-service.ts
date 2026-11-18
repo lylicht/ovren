@@ -19,6 +19,7 @@ const SETTINGS_KEYS = {
   /** Read only during one-way migration to scanExclusionPreferences. */
   storageScanPreferences: 'storageScanPreferences',
   largeFilePreferences: 'largeFilePreferences',
+  ovrenNetPreferences: 'ovrenNetPreferences',
 } as const;
 
 type SettingsKey = (typeof SETTINGS_KEYS)[keyof typeof SETTINGS_KEYS];
@@ -128,6 +129,14 @@ export class PreferenceStorageService {
 
   static loadLegacyLargeFilePreferences(): Promise<unknown | null> {
     return this.read(SETTINGS_KEYS.largeFilePreferences);
+  }
+
+  static loadOvrenNetPreferences(): Promise<unknown | null> {
+    return this.read(SETTINGS_KEYS.ovrenNetPreferences);
+  }
+
+  static saveOvrenNetPreferences(preferences: unknown): Promise<void> {
+    return this.write(SETTINGS_KEYS.ovrenNetPreferences, preferences);
   }
 
   /** Publishes the scoped document and removes older keys in one serialized save. */

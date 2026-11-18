@@ -1,6 +1,7 @@
 package tun
 
 import (
+	"errors"
 	"fmt"
 	"net"
 	"net/netip"
@@ -87,14 +88,22 @@ func configure(name string, mtu int, ip4 netip.Prefix) (int, error) {
 	return ifc.Index, nil
 }
 
-func delRoutes(idx int) {
-	defer stopStrongHost()
+func delRoutes(idx int) error {
+	var errs []error
 	for _, dst := range routes4win {
-		run("route", "delete", dst[0], "mask", dst[1], "0.0.0.0", "if", strconv.Itoa(idx))
+		if err := run("route", "delete", dst[0], "mask", dst[1], "0.0.0.0", "if", strconv.Itoa(idx)); err != nil && !missingRoute(err) {
+			errs = append(errs, fmt.Errorf("remove route %s: %w", dst[0], err))
+		}
 	}
 	for _, p := range routes6 {
-		run("netsh", "interface", "ipv6", "delete", "route", "prefix="+p, "interface="+strconv.Itoa(idx), "store=active")
+		if err := run("netsh", "interface", "ipv6", "delete", "route", "prefix="+p, "interface="+strconv.Itoa(idx), "store=active"); err != nil && !missingRoute(err) {
+			errs = append(errs, fmt.Errorf("remove route %s: %w", p, err))
+		}
 	}
+	if err := stopStrongHost(); err != nil {
+		errs = append(errs, err)
+	}
+	return errors.Join(errs...)
 }
 
 func run(name string, args ...string) error {
@@ -197,45 +206,106 @@ func syncStrongHost(stop chan struct{}) {
 		if fam != "ipv4" && fam != "ipv6" {
 			continue
 		}
+		strongHost.restore = append(strongHost.restore, fmt.Sprintf("%s %s weakhostsend=%s forwarding=%s",
+			fam, f[1], strings.ToLower(f[2]), strings.ToLower(f[3])))
+		if err := writeStrongHostRecords(); err != nil {
+			strongHost.restore = strongHost.restore[:len(strongHost.restore)-1]
+			logx.Printf("warning: could not save adapter recovery settings: %v\n", err)
+			continue
+		}
 		if err := run("netsh", "interface", fam, "set", "interface", "interface="+f[1],
 			"weakhostsend=disabled", "forwarding=disabled", "store=active"); err != nil {
+			strongHost.restore = strongHost.restore[:len(strongHost.restore)-1]
+			if saveErr := writeStrongHostRecords(); saveErr != nil {
+				logx.Printf("warning: could not update adapter recovery settings: %v\n", saveErr)
+			}
 			logx.Printf("warning: %v\n", err)
 			continue
 		}
-		strongHost.restore = append(strongHost.restore, fmt.Sprintf("%s %s weakhostsend=%s forwarding=%s",
-			fam, f[1], strings.ToLower(f[2]), strings.ToLower(f[3])))
 		logx.Printf("note: turned off weak host send and forwarding on adapter %s (%s) while merging; "+
 			"Windows ignores pinned connections there. Sharing its connection (Mobile Hotspot) pauses until OvrenNET is off.\n", f[1], f[0])
 	}
-	os.WriteFile(strongHostFile, []byte(strings.Join(strongHost.restore, "\n")), 0o600)
 }
 
-func stopStrongHost() {
+func writeStrongHostRecords() error {
+	tmp, err := os.CreateTemp(filepath.Dir(strongHostFile), "OvrenNET-weakhost-*.tmp")
+	if err != nil {
+		return err
+	}
+	tmpName := tmp.Name()
+	defer os.Remove(tmpName)
+	if _, err := tmp.Write([]byte(strings.Join(strongHost.restore, "\n"))); err != nil {
+		tmp.Close()
+		return err
+	}
+	if err := tmp.Sync(); err != nil {
+		tmp.Close()
+		return err
+	}
+	if err := tmp.Close(); err != nil {
+		return err
+	}
+	from, err := windows.UTF16PtrFromString(tmpName)
+	if err != nil {
+		return err
+	}
+	to, err := windows.UTF16PtrFromString(strongHostFile)
+	if err != nil {
+		return err
+	}
+	return windows.MoveFileEx(from, to, windows.MOVEFILE_REPLACE_EXISTING|windows.MOVEFILE_WRITE_THROUGH)
+}
+
+func stopStrongHost() error {
 	strongHost.mu.Lock()
 	defer strongHost.mu.Unlock()
 	if strongHost.stop != nil {
 		close(strongHost.stop)
 		strongHost.stop = nil
 	}
-	putBack(strongHost.restore)
-	strongHost.restore = nil
-	os.Remove(strongHostFile)
-}
-
-func restoreStrongHost() {
-	b, err := os.ReadFile(strongHostFile)
-	if err != nil {
-		return
+	if err := putBack(strongHost.restore); err != nil {
+		return err
 	}
-	putBack(strings.Split(strings.TrimSpace(string(b)), "\n"))
-	os.Remove(strongHostFile)
+	strongHost.restore = nil
+	return removeStrongHostFile()
 }
 
-func putBack(lines []string) {
+func restoreStrongHost() error {
+	b, err := os.ReadFile(strongHostFile)
+	if errors.Is(err, os.ErrNotExist) {
+		return nil
+	}
+	if err != nil {
+		return err
+	}
+	if err := putBack(strings.Split(strings.TrimSpace(string(b)), "\n")); err != nil {
+		return err
+	}
+	return removeStrongHostFile()
+}
+
+func removeStrongHostFile() error {
+	err := os.Remove(strongHostFile)
+	if errors.Is(err, os.ErrNotExist) {
+		return nil
+	}
+	return err
+}
+
+func putBack(lines []string) error {
+	var errs []error
 	for _, l := range lines {
+		if strings.TrimSpace(l) == "" {
+			continue
+		}
 		f := strings.Fields(l)
-		if len(f) == 4 {
-			run("netsh", "interface", f[0], "set", "interface", "interface="+f[1], f[2], f[3], "store=active")
+		if len(f) != 4 {
+			errs = append(errs, fmt.Errorf("invalid OvrenNET adapter recovery record"))
+			continue
+		}
+		if err := run("netsh", "interface", f[0], "set", "interface", "interface="+f[1], f[2], f[3], "store=active"); err != nil {
+			errs = append(errs, fmt.Errorf("restore adapter %s settings: %w", f[1], err))
 		}
 	}
+	return errors.Join(errs...)
 }

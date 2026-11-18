@@ -50,12 +50,13 @@ const maximumLocaleGzipBytes = 60 * 1024;
 // raw and 63.2 / 63.8 / 61.7 kB gzip. Keep their measured allowances local;
 // application and existing locale budgets stay fixed.
 const localeChunkLimitOverrides = new Map([
-  ['fr-fr', { bytes: 314 * 1024, gzipBytes: 63 * 1024 }],
-  ['de-de', { bytes: maximumLocaleChunkBytes, gzipBytes: 64 * 1024 }],
-  ['es-es', { bytes: 305 * 1024, gzipBytes: 63 * 1024 }],
+  ['fr-fr', { bytes: 315 * 1024, gzipBytes: 63 * 1024 }],
+  ['de-de', { bytes: 305 * 1024, gzipBytes: 64 * 1024 }],
+  ['es-es', { bytes: 307 * 1024, gzipBytes: 63 * 1024 }],
   ['fa-ir', { bytes: 360 * 1024, gzipBytes: 67 * 1024 }],
-  ['ja-jp', { bytes: 326 * 1024, gzipBytes: 62 * 1024 }],
-  ['ru-ru', { bytes: 394 * 1024, gzipBytes: 70 * 1024 }],
+  ['ja-jp', { bytes: 328 * 1024, gzipBytes: 63 * 1024 }],
+  ['pt-br', { bytes: maximumLocaleChunkBytes, gzipBytes: 61 * 1024 }],
+  ['ru-ru', { bytes: 396 * 1024, gzipBytes: 71 * 1024 }],
 ]);
 
 function fail(message) {

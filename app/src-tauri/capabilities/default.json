@@ -33,46 +33,6 @@
     "os:allow-locale",
     "os:allow-platform",
     "process:allow-restart",
-    {
-      "identifier": "shell:allow-execute",
-      "allow": [
-        {
-          "name": "binaries/ovrennet/ovrenNET",
-          "sidecar": true,
-          "args": ["snapshot", "-state-dir", { "validator": ".+" }]
-        },
-        {
-          "name": "binaries/ovrennet/ovrenNET",
-          "sidecar": true,
-          "args": ["off", "-state-dir", { "validator": ".+" }]
-        },
-        {
-          "name": "binaries/ovrennet/ovrenNET",
-          "sidecar": true,
-          "args": ["snapshot"]
-        },
-        {
-          "name": "binaries/ovrennet/ovrenNET",
-          "sidecar": true,
-          "args": ["off"]
-        }
-      ]
-    },
-    {
-      "identifier": "shell:allow-spawn",
-      "allow": [
-        {
-          "name": "binaries/ovrennet/ovrenNET",
-          "sidecar": true,
-          "args": ["run", "-state-dir", { "validator": ".+" }, "-owner-pid", { "validator": "^[0-9]+$" }]
-        },
-        {
-          "name": "binaries/ovrennet/ovrenNET",
-          "sidecar": true,
-          "args": ["run", "-owner-pid", { "validator": "^[0-9]+$" }]
-        }
-      ]
-    },
     "store:default",
     "updater:default"
   ]

@@ -172,6 +172,29 @@ func (s *Scheduler) SetLimits(limits map[string]float64) {
 	}
 }
 
+func (s *Scheduler) UsableCount() int {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	count := 0
+	for _, sl := range s.slots {
+		if sl.present && (sl.ip(Fam4) != nil && sl.state[Fam4] != stateDown || sl.ip(Fam6) != nil && sl.state[Fam6] != stateDown) {
+			count++
+		}
+	}
+	return count
+}
+
+func (s *Scheduler) Busy() bool {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	for _, sl := range s.slots {
+		if sl.present && (sl.busy(Fam4) > 0 || sl.busy(Fam6) > 0) {
+			return true
+		}
+	}
+	return false
+}
+
 func (s *Scheduler) Limits() map[string]float64 {
 	s.mu.Lock()
 	defer s.mu.Unlock()

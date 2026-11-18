@@ -33,10 +33,7 @@ func DiscoverNicsDetailed(include []string, weights map[string]float64) ([]Nic, 
 		return nil, nil, err
 	}
 
-	var info map[int]adapterInfo
-	if len(include) == 0 {
-		info, _ = adapterInfos()
-	}
+	info, _ := adapterInfos()
 	var out []Nic
 	var skipped []Skip
 	for _, ifc := range ifaces {
@@ -45,22 +42,19 @@ func DiscoverNicsDetailed(include []string, weights map[string]float64) ([]Nic, 
 		}
 		skip := func(reason string) { skipped = append(skipped, Skip{ifc.Name, reason}) }
 		ai, haveInfo := info[ifc.Index]
-		if len(include) > 0 {
-			if !containsFold(include, ifc.Name) {
-				continue
-			}
-		} else {
-			switch {
-			case virtualName.MatchString(ifc.Name):
-				skip("looks like a virtual/VPN adapter (name)")
-				continue
-			case info != nil && haveInfo && ai.virtual != "":
-				skip(ai.virtual)
-				continue
-			case info != nil && haveInfo && virtualDesc.MatchString(ai.desc):
-				skip(fmt.Sprintf("virtual/VPN adapter (%s)", ai.desc))
-				continue
-			}
+		switch {
+		case virtualName.MatchString(ifc.Name):
+			skip("looks like a virtual/VPN adapter (name)")
+			continue
+		case info != nil && haveInfo && ai.virtual != "":
+			skip(ai.virtual)
+			continue
+		case info != nil && haveInfo && virtualDesc.MatchString(ai.desc):
+			skip(fmt.Sprintf("virtual/VPN adapter (%s)", ai.desc))
+			continue
+		}
+		if len(include) > 0 && !containsFold(include, ifc.Name) {
+			continue
 		}
 		addrs, err := ifc.Addrs()
 		if err != nil {

@@ -16,6 +16,8 @@ pub struct NetworkMeasurement {
     upload_mbps: f64,
     failed_probes_percent: u8,
     data_mb: u32,
+    server_host: String,
+    server_location: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -38,6 +40,8 @@ pub async fn network_test() -> Result<NetworkMeasurement, String> {
     let mut samples = Vec::new();
     let mut failed = 0u8;
     let mut last_probe_error = String::new();
+    let mut server_host = None;
+    let mut server_location = None;
     for _ in 0..4 {
         let started = Instant::now();
         match client
@@ -47,13 +51,21 @@ pub async fn network_test() -> Result<NetworkMeasurement, String> {
             .await
             .and_then(reqwest::Response::error_for_status)
         {
-            Ok(response) => match response.bytes().await {
-                Ok(_) => samples.push(started.elapsed().as_secs_f64() * 1000.0),
-                Err(error) => {
-                    failed += 1;
-                    last_probe_error = error.to_string();
+            Ok(response) => {
+                if server_host.is_none() {
+                    server_host = response.url().host_str().map(str::to_string);
                 }
-            },
+                if server_location.is_none() {
+                    server_location = cloudflare_location(&response);
+                }
+                match response.bytes().await {
+                    Ok(_) => samples.push(started.elapsed().as_secs_f64() * 1000.0),
+                    Err(error) => {
+                        failed += 1;
+                        last_probe_error = error.to_string();
+                    }
+                }
+            }
             Err(error) => {
                 failed += 1;
                 last_probe_error = error.to_string();
@@ -73,25 +85,33 @@ pub async fn network_test() -> Result<NetworkMeasurement, String> {
         / samples.len().saturating_sub(1).max(1) as f64;
 
     let download_started = Instant::now();
-    let download = client
+    let download_response = client
         .get(format!("{SPEED_TEST_BASE}/__down?bytes=10000000"))
         .send()
         .await
         .and_then(reqwest::Response::error_for_status)
-        .map_err(|error| format!("Download check failed: {error}"))?
+        .map_err(|error| format!("Download check failed: {error}"))?;
+    if server_location.is_none() {
+        server_location = cloudflare_location(&download_response);
+    }
+    let download = download_response
         .bytes()
         .await
         .map_err(|error| format!("Download check failed: {error}"))?;
     let download_mbps = mbps(download.len(), download_started.elapsed());
 
     let upload_started = Instant::now();
-    client
+    let upload_response = client
         .post(format!("{SPEED_TEST_BASE}/__up"))
         .body(vec![0u8; 4_000_000])
         .send()
         .await
         .and_then(reqwest::Response::error_for_status)
-        .map_err(|error| format!("Upload check failed: {error}"))?
+        .map_err(|error| format!("Upload check failed: {error}"))?;
+    if server_location.is_none() {
+        server_location = cloudflare_location(&upload_response);
+    }
+    upload_response
         .bytes()
         .await
         .map_err(|error| format!("Upload check failed: {error}"))?;
@@ -104,7 +124,19 @@ pub async fn network_test() -> Result<NetworkMeasurement, String> {
         upload_mbps,
         failed_probes_percent: failed * 25,
         data_mb: 14,
+        server_host: server_host.unwrap_or_else(|| "speed.cloudflare.com".into()),
+        server_location: server_location.unwrap_or_default(),
     })
+}
+
+fn cloudflare_location(response: &reqwest::Response) -> Option<String> {
+    let ray = response.headers().get("cf-ray")?.to_str().ok()?;
+    let location = ray.rsplit_once('-')?.1;
+    if (3..=5).contains(&location.len()) && location.bytes().all(|byte| byte.is_ascii_uppercase()) {
+        Some(location.to_string())
+    } else {
+        None
+    }
 }
 
 fn mbps(bytes: usize, elapsed: Duration) -> f64 {
