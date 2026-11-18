@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+#[cfg(target_os = "windows")]
 use tauri::Manager;
 use tauri_plugin_shell::{process::CommandEvent, ShellExt};
 
