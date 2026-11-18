@@ -124,6 +124,7 @@ describe('resource trend rendering', () => {
   });
 
   it('animates only the scale group when a new rate peak changes the range', async () => {
+    vi.useFakeTimers();
     let clock = 0;
     let animate: FrameRequestCallback = () => {};
     vi.spyOn(performance, 'now').mockImplementation(() => clock);
@@ -136,6 +137,7 @@ describe('resource trend rendering', () => {
     const wrapper = mount(Trend, {
       props: { metric: 'network', label: 'Network', observedAtMs: 60000, history: [old] },
     });
+    const initialTimerCount = vi.getTimerCount();
     clock = 1000;
     await wrapper.setProps({
       observedAtMs: 61000,
@@ -147,14 +149,18 @@ describe('resource trend rendering', () => {
     clock = 1300;
     animate(clock);
     await nextTick();
+    expect(vi.getTimerCount()).toBe(initialTimerCount + 1);
     expect(wrapper.get('svg > g').attributes('transform')).toContain('scale(1 32.5)');
     expect(path.attributes('d')).toBe(geometry);
+    vi.advanceTimersToNextTimer();
+    expect(vi.getTimerCount()).toBe(initialTimerCount);
     clock = 1600;
     animate(clock);
     await nextTick();
     expect(wrapper.get('svg > g').attributes('transform')).toContain('scale(1 1)');
     expect(path.attributes('d')).toBe(geometry);
     wrapper.unmount();
+    expect(vi.getTimerCount()).toBe(initialTimerCount);
   });
 
   it('leaves invalid or missing intervals blank and stops after the buffered tail exits', () => {
