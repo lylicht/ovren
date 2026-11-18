@@ -83,6 +83,7 @@
     "system-maintenance": "Sistem bakımı",
     "cleanup": "Derin Temizlik",
     "analysis": "Disk analizi",
+    "file-browser": "Dosya Tarayıcısı",
     "large-files": "Büyük dosyalar",
     "duplicate-files": "Yinelenen dosyalar",
     "application-uninstall": "Uygulama kaldırma",
@@ -274,6 +275,14 @@
     "system": "Sistem araçları",
     "network": "Ağ",
     "controls": "Denetimler"
+  },
+  "fileBrowser": {
+    "search": "Ara",
+    "goUp": "Üst klasöre çık",
+    "resultsLimited": "Sonuç sınırına ulaşıldı. Aramanızı daraltın",
+    "skippedItems": "{count} öğe okunamadı",
+    "emptyRootTitle": "Başlamak için bir klasör seçin",
+    "noMatchesTitle": "Eşleşme yok"
   },
   "systemMaintenance": {
     "title": "Sistem bakımı",

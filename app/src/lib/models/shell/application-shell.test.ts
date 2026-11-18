@@ -57,6 +57,7 @@ describe('application shell layout', () => {
       PAGE_IDS.largeFiles,
       PAGE_IDS.duplicateFiles,
       PAGE_IDS.analysis,
+      PAGE_IDS.fileBrowser,
     ]);
     expect(PRIMARY_NAV_GROUPS[1].items.map(item => item.id)).toEqual([PAGE_IDS.privacy]);
     expect(PRIMARY_NAV_GROUPS[2].items.map(item => item.id)).toEqual([PAGE_IDS.network]);
@@ -73,6 +74,13 @@ describe('application shell layout', () => {
     const systemItems = PRIMARY_NAV_GROUPS[3].items;
     expect(systemItems.find(item => item.id === PAGE_IDS.systemOptimization)?.icon).toBe(ICON_NAMES.systemOptimization);
     expect(systemItems.find(item => item.id === PAGE_IDS.systemMaintenance)?.icon).toBe(ICON_NAMES.systemMaintenance);
+  });
+
+  it('adds the file browser to storage navigation on every desktop platform', () => {
+    expect(PRIMARY_NAV_GROUPS[0].items.find(item => item.id === PAGE_IDS.fileBrowser)?.icon).toBe(
+      ICON_NAMES.fileBrowser
+    );
+    expect(isPageAvailableOnPlatform(PAGE_IDS.fileBrowser, 'linux')).toBe(true);
   });
 
   it('hides Linux workspaces whose platform operations are unavailable', () => {

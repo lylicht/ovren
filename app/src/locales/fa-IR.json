@@ -83,6 +83,7 @@
     "system-maintenance": "نگهداری سیستم",
     "cleanup": "پاکسازی عمیق",
     "analysis": "تجزیه و تحلیل فضای دیسک",
+    "file-browser": "مرورگر فایل",
     "large-files": "پاکسازی فایل‌های حجیم",
     "duplicate-files": "پاکسازی موارد تکراری",
     "application-uninstall": "حذف‌کننده برنامه",
@@ -274,6 +275,14 @@
     "system": "ابزار سیستم",
     "network": "شبکه شبکه Network",
     "controls": "کنترل ها"
+  },
+  "fileBrowser": {
+    "search": "جست‌وجو",
+    "goUp": "یک پوشه بالاتر",
+    "resultsLimited": "حد نتایج رسید. جست‌وجو را دقیق‌تر کنید",
+    "skippedItems": "{count} مورد خوانده نشد",
+    "emptyRootTitle": "برای شروع پوشه‌ای انتخاب کنید",
+    "noMatchesTitle": "نتیجه‌ای پیدا نشد"
   },
   "systemMaintenance": {
     "title": "سیستم تعمیر و نگهداری",

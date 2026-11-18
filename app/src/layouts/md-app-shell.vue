@@ -68,6 +68,7 @@ import MdWindowTitlebar from './components/md-window-titlebar.vue';
 const loadAnalysisPage = () => import('@/pages/analysis/index.vue');
 const loadApplicationUninstallPage = () => import('@/pages/application-uninstall/index.vue');
 const loadDuplicateFilesPage = () => import('@/pages/duplicate-files/index.vue');
+const loadFileBrowserPage = () => import('@/pages/file-browser/index.vue');
 const loadHistoryPage = () => import('@/pages/history/index.vue');
 const loadLargeFilesPage = () => import('@/pages/large-files/index.vue');
 const loadNetworkPage = () => import('@/pages/network/index.vue');
@@ -81,6 +82,7 @@ const pageLoaders: Partial<Record<PageId, () => Promise<unknown>>> = {
   [PAGE_IDS.analysis]: loadAnalysisPage,
   [PAGE_IDS.applicationUninstall]: loadApplicationUninstallPage,
   [PAGE_IDS.duplicateFiles]: loadDuplicateFilesPage,
+  [PAGE_IDS.fileBrowser]: loadFileBrowserPage,
   [PAGE_IDS.history]: loadHistoryPage,
   [PAGE_IDS.largeFiles]: loadLargeFilesPage,
   [PAGE_IDS.network]: loadNetworkPage,
@@ -94,6 +96,7 @@ const pageLoaders: Partial<Record<PageId, () => Promise<unknown>>> = {
 const AnalysisPage = defineAsyncComponent(loadAnalysisPage);
 const ApplicationUninstallPage = defineAsyncComponent(loadApplicationUninstallPage);
 const DuplicateFilesPage = defineAsyncComponent(loadDuplicateFilesPage);
+const FileBrowserPage = defineAsyncComponent(loadFileBrowserPage);
 const HistoryPage = defineAsyncComponent(loadHistoryPage);
 const LargeFilesPage = defineAsyncComponent(loadLargeFilesPage);
 const NetworkPage = defineAsyncComponent(loadNetworkPage);
@@ -770,6 +773,7 @@ async function cancelDeepCleanup() {
           @load-more="duplicateFilesStore.loadMore"
           @open-exclusions="openScanExclusions"
         />
+        <FileBrowserPage v-else-if="store.currentPage === PAGE_IDS.fileBrowser" />
         <ApplicationUninstallPage
           v-else-if="store.currentPage === PAGE_IDS.applicationUninstall"
           :catalog="applicationStore.uninstallCatalog"

@@ -83,6 +83,7 @@
     "system-maintenance": "系统维护",
     "cleanup": "深度清理",
     "analysis": "磁盘空间分析",
+    "file-browser": "文件浏览器",
     "large-files": "大文件清理",
     "duplicate-files": "重复文件清理",
     "application-uninstall": "应用卸载",
@@ -274,6 +275,14 @@
     "system": "系统工具",
     "network": "网络",
     "controls": "控制"
+  },
+  "fileBrowser": {
+    "search": "搜索",
+    "goUp": "上一级",
+    "resultsLimited": "结果已达上限，请缩小搜索范围",
+    "skippedItems": "有 {count} 项无法读取",
+    "emptyRootTitle": "选择文件夹以开始",
+    "noMatchesTitle": "没有匹配项"
   },
   "systemMaintenance": {
     "title": "系统维护",

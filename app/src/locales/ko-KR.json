@@ -83,6 +83,7 @@
     "system-maintenance": "시스템 유지 관리",
     "cleanup": "심층 정리",
     "analysis": "디스크 공간 분석",
+    "file-browser": "파일 브라우저",
     "large-files": "대용량 파일 정리",
     "duplicate-files": "중복 파일 정리",
     "application-uninstall": "앱 제거",
@@ -274,6 +275,14 @@
     "system": "시스템 도구",
     "network": "네트워크",
     "controls": "컨트롤"
+  },
+  "fileBrowser": {
+    "search": "검색",
+    "goUp": "상위 폴더",
+    "resultsLimited": "결과 한도에 도달했습니다. 검색어를 구체화하세요",
+    "skippedItems": "{count}개 항목을 읽을 수 없습니다",
+    "emptyRootTitle": "시작할 폴더를 선택하세요",
+    "noMatchesTitle": "검색 결과 없음"
   },
   "systemMaintenance": {
     "title": "시스템 유지 관리",

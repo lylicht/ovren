@@ -63,6 +63,7 @@ export const PAGE_IDS = {
   mouse: 'mouse',
   cleanup: 'cleanup',
   analysis: 'analysis',
+  fileBrowser: 'file-browser',
   largeFiles: 'large-files',
   duplicateFiles: 'duplicate-files',
   applicationUninstall: 'application-uninstall',
@@ -98,6 +99,7 @@ export const PRIMARY_NAV_GROUPS = [
       { id: PAGE_IDS.largeFiles, icon: ICON_NAMES.largeFiles },
       { id: PAGE_IDS.duplicateFiles, icon: ICON_NAMES.duplicateFiles },
       { id: PAGE_IDS.analysis, icon: ICON_NAMES.analysis },
+      { id: PAGE_IDS.fileBrowser, icon: ICON_NAMES.fileBrowser },
     ],
   },
   {

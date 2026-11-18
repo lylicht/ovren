@@ -1,6 +1,10 @@
 pub(crate) mod atomic_replace;
+mod browser;
 pub(crate) mod exclusion_paths;
 mod scan_exclusions;
+pub use browser::{
+    list_directory, search_directory, FileBrowserEntry, FileBrowserListing, FileBrowserSearchResult,
+};
 pub use scan_exclusions::ScanExclusionOptions;
 mod directory_selection;
 pub(crate) mod metadata;

@@ -1,10 +1,53 @@
 use std::{fmt::Display, path::Path};
 
-use mangodisk_core::{diagnostic_path, AnalysisService, DuplicateFileService, LargeFileService};
+use mangodisk_core::{
+    diagnostic_path, list_directory, search_directory, AnalysisService, DuplicateFileService,
+    FileBrowserListing, FileBrowserSearchResult, LargeFileService,
+};
 use tauri::{AppHandle, Manager};
 use tauri_plugin_opener::OpenerExt;
 
 use super::error::{into_command_result, run_blocking, CommandResult};
+
+#[tauri::command]
+pub async fn list_file_browser_directory(path: String) -> CommandResult<FileBrowserListing> {
+    run_blocking("list_file_browser_directory", move || {
+        list_directory(Path::new(&path))
+    })
+    .await
+}
+
+#[tauri::command]
+pub async fn search_file_browser_directory(
+    path: String,
+    query: String,
+) -> CommandResult<FileBrowserSearchResult> {
+    run_blocking("search_file_browser_directory", move || {
+        search_directory(Path::new(&path), &query)
+    })
+    .await
+}
+
+#[tauri::command]
+pub async fn open_file_browser_entry(path: String) -> CommandResult<()> {
+    run_blocking("open_file_browser_entry", move || {
+        let target = Path::new(&path);
+        let path_log = diagnostic_path(target);
+        log::info!("file_browser_open_requested path={path_log}");
+        match open_path_with_default_handler(target) {
+            Ok(()) => {
+                log::info!("file_browser_open_dispatched path={path_log}");
+                Ok(())
+            }
+            Err(error) => {
+                let diagnostic = open_error_diagnostic(&error);
+                log::warn!("file_browser_open_failed path={path_log} {diagnostic}");
+                Err(diagnostic)
+            }
+        }
+    })
+    .await
+}
 
 #[tauri::command]
 pub async fn reveal_in_file_manager(path: String) -> CommandResult<()> {

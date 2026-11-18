@@ -83,6 +83,7 @@
     "system-maintenance": "System Maintenance",
     "cleanup": "Deep Cleanup",
     "analysis": "Disk Space Analysis",
+    "file-browser": "File Browser",
     "large-files": "Large File Cleanup",
     "duplicate-files": "Duplicate Cleanup",
     "application-uninstall": "App Uninstaller",
@@ -274,6 +275,14 @@
     "system": "System Tools",
     "network": "Network",
     "controls": "Controls"
+  },
+  "fileBrowser": {
+    "search": "Search",
+    "goUp": "Up one level",
+    "resultsLimited": "Result limit reached. Refine your search",
+    "skippedItems": "{count} items could not be read",
+    "emptyRootTitle": "Choose a folder to begin",
+    "noMatchesTitle": "No matches"
   },
   "systemMaintenance": {
     "title": "System Maintenance",

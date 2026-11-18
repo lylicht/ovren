@@ -83,6 +83,7 @@
     "system-maintenance": "Manutenção",
     "cleanup": "Limpeza Profunda",
     "analysis": "Análise de disco",
+    "file-browser": "Navegador de arquivos",
     "large-files": "Arquivos grandes",
     "duplicate-files": "Arquivos duplicados",
     "application-uninstall": "Desinstalar apps",
@@ -274,6 +275,14 @@
     "system": "Ferramentas do Sistema",
     "network": "Rede",
     "controls": "Controles"
+  },
+  "fileBrowser": {
+    "search": "Pesquisar",
+    "goUp": "Subir um nível",
+    "resultsLimited": "Limite de resultados atingido. Refine a pesquisa",
+    "skippedItems": "Não foi possível ler {count} itens",
+    "emptyRootTitle": "Escolha uma pasta para começar",
+    "noMatchesTitle": "Nenhum resultado"
   },
   "systemMaintenance": {
     "title": "Manutenção do Sistema",

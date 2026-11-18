@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## 1.3.0 — 2026-11-18
+
+- Added an Ovren file browser with folder navigation, recursive name search, and opening items in their system apps.
+
 ## 1.2.1 — 2026-11-18
 
 - Added OvrenNET connection selection, weighting, speed limits, IPv6 and MTU controls, automatic pause, route recovery, a loopback SOCKS5 proxy, and tray quick actions.

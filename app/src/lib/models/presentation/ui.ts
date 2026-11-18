@@ -43,6 +43,7 @@ export const ICON_NAMES = {
   listStart: 'listStart',
   filterX: 'filterX',
   folder: 'folder',
+  fileBrowser: 'folderSearch',
   linuxFolder: 'linuxFolder',
   folderOpen: 'folderOpen',
   folderClock: 'folderClock',

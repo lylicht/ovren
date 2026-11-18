@@ -52,6 +52,7 @@ const dynamicKeyGroups = {
     'system-maintenance',
     'cleanup',
     'analysis',
+    'file-browser',
     'large-files',
     'duplicate-files',
     'application-uninstall',

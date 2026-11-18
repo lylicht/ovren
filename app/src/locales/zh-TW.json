@@ -83,6 +83,7 @@
     "system-maintenance": "系統維護",
     "cleanup": "深度清理",
     "analysis": "磁碟空間分析",
+    "file-browser": "檔案瀏覽器",
     "large-files": "大型檔案清理",
     "duplicate-files": "重複檔案清理",
     "application-uninstall": "解除安裝應用程式",
@@ -274,6 +275,14 @@
     "system": "系統工具",
     "network": "網路",
     "controls": "控制項"
+  },
+  "fileBrowser": {
+    "search": "搜尋",
+    "goUp": "上一層",
+    "resultsLimited": "已達結果上限，請縮小搜尋範圍",
+    "skippedItems": "有 {count} 個項目無法讀取",
+    "emptyRootTitle": "選擇資料夾以開始",
+    "noMatchesTitle": "沒有相符項目"
   },
   "systemMaintenance": {
     "title": "系統維護",

@@ -83,6 +83,7 @@
     "system-maintenance": "Mantenimiento",
     "cleanup": "Limpieza",
     "analysis": "Análisis del disco",
+    "file-browser": "Explorador de archivos",
     "large-files": "Archivos grandes",
     "duplicate-files": "Archivos duplicados",
     "application-uninstall": "Desinstalación",
@@ -274,6 +275,14 @@
     "system": "Herramientas del sistema",
     "network": "Red",
     "controls": "Controles"
+  },
+  "fileBrowser": {
+    "search": "Buscar",
+    "goUp": "Subir un nivel",
+    "resultsLimited": "Se alcanzó el límite de resultados. Refina la búsqueda",
+    "skippedItems": "No se pudieron leer {count} elementos",
+    "emptyRootTitle": "Elige una carpeta para empezar",
+    "noMatchesTitle": "Sin coincidencias"
   },
   "systemMaintenance": {
     "title": "Mantenimiento del sistema",

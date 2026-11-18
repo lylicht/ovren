@@ -57,8 +57,9 @@ pub use cleanup::{
 pub use cleanup::{CleanupPlanService, CleanupScanService, CleanupService};
 pub use filesystem::{
     metadata::diagnostic_path, DirectorySelectionOutcome, DirectorySelectionService,
-    PermanentDeleteBatchResult, PermanentDeleteCandidate, PermanentDeleteFailure,
-    ResolvedDirectory, ScanExclusionOptions, VolumeInfo,
+    FileBrowserEntry, FileBrowserListing, FileBrowserSearchResult, PermanentDeleteBatchResult,
+    PermanentDeleteCandidate, PermanentDeleteFailure, ResolvedDirectory, ScanExclusionOptions,
+    VolumeInfo, list_directory, search_directory,
 };
 pub use history::{
     ApplicationLeftoverOperationDetails, ApplicationUninstallOperationDetails,

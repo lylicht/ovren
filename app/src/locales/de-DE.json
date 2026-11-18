@@ -83,6 +83,7 @@
     "system-maintenance": "Wartung",
     "cleanup": "Bereinigung",
     "analysis": "Speicheranalyse",
+    "file-browser": "Dateibrowser",
     "large-files": "Große Dateien",
     "duplicate-files": "Duplikate",
     "application-uninstall": "Apps deinstallieren",
@@ -274,6 +275,14 @@
     "system": "Systemtools",
     "network": "Netzwerk",
     "controls": "Steuerung"
+  },
+  "fileBrowser": {
+    "search": "Suchen",
+    "goUp": "Eine Ebene höher",
+    "resultsLimited": "Ergebnislimit erreicht. Verfeinere die Suche",
+    "skippedItems": "{count} Einträge konnten nicht gelesen werden",
+    "emptyRootTitle": "Wähle einen Ordner, um zu beginnen",
+    "noMatchesTitle": "Keine Treffer"
   },
   "systemMaintenance": {
     "title": "Systemwartung",

@@ -83,6 +83,7 @@
     "system-maintenance": "システムメンテナンス",
     "cleanup": "ディープクリーン",
     "analysis": "ディスク容量分析",
+    "file-browser": "ファイルブラウザ",
     "large-files": "大容量ファイル",
     "duplicate-files": "重複ファイル",
     "application-uninstall": "アプリアンインストーラー",
@@ -274,6 +275,14 @@
     "system": "システムツール",
     "network": "ネットワーク",
     "controls": "コントロール"
+  },
+  "fileBrowser": {
+    "search": "検索",
+    "goUp": "上の階層へ",
+    "resultsLimited": "結果の上限に達しました。検索を絞り込んでください",
+    "skippedItems": "{count} 項目を読み取れませんでした",
+    "emptyRootTitle": "開始するフォルダを選択",
+    "noMatchesTitle": "一致する項目はありません"
   },
   "systemMaintenance": {
     "title": "システムメンテナンス",
