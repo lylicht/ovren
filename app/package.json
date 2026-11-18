@@ -54,7 +54,7 @@
     "build:frontend": "vue-tsc --build --force && vite build && node ./scripts/check-build-output.mjs",
     "build:ovrennet": "node scripts/build-ovrennet.mjs",
     "rust:test": "cargo test --manifest-path src-tauri/Cargo.toml -p mangodisk-core -p mangodisk-privileged -p mangodisk-privileged-protocol && pnpm rust:test:desktop",
-    "rust:test:desktop": "node scripts/build-privileged.mjs && cargo test --manifest-path src-tauri/Cargo.toml -p mangodisk --lib"
+    "rust:test:desktop": "node scripts/build-ovrennet.mjs && node scripts/build-privileged.mjs && cargo test --manifest-path src-tauri/Cargo.toml -p mangodisk --lib"
   },
   "dependencies": {
     "@tabler/icons-vue": "3.49.0",
