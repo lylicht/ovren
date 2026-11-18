@@ -4278,7 +4278,7 @@
     "back": "بازگشت به اجزای",
     "components": {
       "pawnioModules": {
-        "name": "ماژول های PawnIO",
+        "name": "PawnIO Modules",
         "license": "LGPL 2.1",
         "description": "ماژول های Intel MSR و AMD Zen برای خواندن دمای ویندوز استفاده می شود"
       },
@@ -4402,9 +4402,9 @@
     "pause": "مکث",
     "resume": "ادامه",
     "noAdapters": "هیچ آداپتور اینترنت واجد شرایطی متصل نیست",
-    "oneConnection": "یک آداپتور فعال در دسترس است؛ ترافیک از همان پیوند عبور می‌کند.",
+    "oneConnection": "یک آداپتور فعال در دسترس است؛ ترافیک از همان پیوند عبور می‌کند",
     "advancedTitle": "تنظیمات اتصال",
-    "advancedDescription": "آداپتورهای واجد شرایط را انتخاب و نحوه توزیع ترافیک را تنظیم کنید.",
+    "advancedDescription": "آداپتورهای واجد شرایط را انتخاب و نحوه توزیع ترافیک را تنظیم کنید",
     "adapterAutoWeight": "تنظیم خودکار وزن‌ها",
     "adapterWeight": "وزن ترافیک",
     "adapterLimit": "محدودیت سرعت (Mbps، صفر = نامحدود)",
@@ -4420,7 +4420,7 @@
     "allLinkDownload": "دریافت آداپتور",
     "allLinkUpload": "ارسال آداپتور",
     "proxyTitle": "پروکسی SOCKS5",
-    "proxyDescription": "یک پروکسی محلی روی این دستگاه اجرا می‌کند. اتصال‌ها فقط از loopback عبور می‌کنند.",
+    "proxyDescription": "یک پروکسی محلی روی این دستگاه اجرا می‌کند. اتصال‌ها فقط از loopback عبور می‌کنند",
     "proxyStart": "شروع پروکسی",
     "proxyStop": "توقف پروکسی",
     "recover": "بازیابی مسیرهای شبکه",

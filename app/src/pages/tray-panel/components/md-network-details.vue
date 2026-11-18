@@ -206,7 +206,7 @@ const interfaceFacts = computed(() => {
     >
     <button
       type="button"
-      class="traffic-reset"
+      class="ovren-net-toggle"
       :disabled="ovrenNetBusy || (!ovrenNet?.running && (ovrenNet?.adapters.length ?? 0) === 0)"
       @click="toggleOvrenNet"
     >
@@ -322,14 +322,16 @@ const interfaceFacts = computed(() => {
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
-.traffic-reset {
+.traffic-reset,
+.ovren-net-toggle {
   @apply text-muted-foreground hover:text-foreground;
   font-size: 11px;
   padding: 2px 4px;
   flex: none;
   cursor: pointer;
 }
-.traffic-reset:disabled {
+.traffic-reset:disabled,
+.ovren-net-toggle:disabled {
   opacity: 0.5;
   cursor: default;
 }
