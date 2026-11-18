@@ -42,7 +42,7 @@ const tauriConfig = readJson('src-tauri/tauri.conf.json');
 const linuxTauriConfig = readJson('src-tauri/tauri.linux.conf.json');
 const tauriManifest = readText('src-tauri/Cargo.toml');
 const cliManifest = readText('src-tauri/crates/mangodisk-cli/Cargo.toml');
-const readme = readText('README.md');
+const readme = readText('../README.md');
 const indexHtml = readText('index.html');
 const applicationShell = readText('src/lib/models/shell/application-shell.ts');
 const tauriLibrary = readText('src-tauri/src/lib.rs');
@@ -72,10 +72,10 @@ assertContains(cliManifest, 'name = "mangodisk-cli"', 'CLI package manifest');
 assertContains(cliManifest, 'name = "mangodisk"', 'CLI binary manifest');
 
 assertExists('public/ovren-icon.svg');
-assertExists('public/ovren-logo.svg');
 assertExists('src/components/icons/md-icon-ovren.vue');
 
-assertContains(readme, '# Ovren desktop application', 'README product name');
+assertContains(readme, '<h1 align="center">Ovren</h1>', 'README product name');
+assertContains(readme, 'app/public/ovren-icon.svg', 'README app icon');
 assertContains(indexHtml, 'Ovren', 'HTML application shell');
 assertContains(tauriLibrary, 'Ovren', 'Tauri library');
 assertContains(tauriMain, 'mangodisk_lib', 'Tauri entry point');

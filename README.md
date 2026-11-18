@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="app/public/ovren-logo.svg" alt="Ovren by Licht" width="360">
+  <img src="app/public/ovren-icon.svg" alt="Ovren app icon" width="192">
 </p>
 
 <h1 align="center">Ovren</h1>
