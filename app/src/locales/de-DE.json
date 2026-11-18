@@ -4382,5 +4382,26 @@
     "confirmMouseChanges": "Einstellungen übernehmen",
     "accelerationEnabled": "aktiviert",
     "accelerationDisabled": "aus"
+  },
+  "ovrenNet": {
+    "title": "OvrenNET",
+    "description": "Bündelt geeignete kabelgebundene und drahtlose Verbindungen zu einem ausgeglichenen Netzwerkpfad.",
+    "statusStopped": "Gestoppt",
+    "statusStarting": "Wird gestartet",
+    "statusActive": "Aktiv",
+    "start": "OvrenNET starten",
+    "stop": "OvrenNET stoppen",
+    "needTwoConnections": "Verbinde mindestens zwei aktive Internetadapter, um zu starten.",
+    "adapterDownload": "Download",
+    "adapterUpload": "Upload",
+    "activeFlows": "Aktive / gesamte Verbindungen",
+    "trafficNotice": "Bei Aktivierung ändert OvrenNET Systemrouten und kann Administratorrechte anfordern. Trenne zuerst VPNs, falls sie stören.",
+    "error": "OvrenNET konnte die Aktion nicht abschließen. Prüfe Berechtigungen und Netzwerkadapter.",
+    "licenseName": "OvrenNET",
+    "licenseDescription": "Komponente zum Bündeln von Netzwerkverbindungen, Version 1.0.0.",
+    "licenseType": "MIT",
+    "licenseSourceDocument": "MIT-Lizenz",
+    "licenseDependencyDocument": "Hinweise zu Abhängigkeiten",
+    "licenseWindowsDocument": "Lizenz des Windows-Adapters"
   }
 }

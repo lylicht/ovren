@@ -4382,5 +4382,26 @@
     "confirmMouseChanges": "설정 적용",
     "accelerationEnabled": "사용",
     "accelerationDisabled": "사용 안 함"
+  },
+  "ovrenNet": {
+    "title": "OvrenNET",
+    "description": "사용 가능한 유선 및 무선 연결을 하나의 균형 잡힌 네트워크 경로로 결합합니다.",
+    "statusStopped": "중지됨",
+    "statusStarting": "시작 중",
+    "statusActive": "활성",
+    "start": "OvrenNET 시작",
+    "stop": "OvrenNET 중지",
+    "needTwoConnections": "시작하려면 활성 인터넷 어댑터를 두 개 이상 연결하세요.",
+    "adapterDownload": "다운로드",
+    "adapterUpload": "업로드",
+    "activeFlows": "활성 / 전체 흐름",
+    "trafficNotice": "활성화하면 시스템 경로가 변경되며 관리자 권한을 요청할 수 있습니다. VPN이 방해하면 먼저 연결을 해제하세요.",
+    "error": "OvrenNET 작업을 완료할 수 없습니다. 권한과 네트워크 어댑터를 확인하세요.",
+    "licenseName": "OvrenNET",
+    "licenseDescription": "네트워크 연결 균형 조정 구성 요소, 버전 1.0.0.",
+    "licenseType": "MIT",
+    "licenseSourceDocument": "MIT 라이선스",
+    "licenseDependencyDocument": "종속성 고지",
+    "licenseWindowsDocument": "Windows 어댑터 라이선스"
   }
 }

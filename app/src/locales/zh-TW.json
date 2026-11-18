@@ -4382,5 +4382,26 @@
     "confirmMouseChanges": "套用設定",
     "accelerationEnabled": "開啟",
     "accelerationDisabled": "關閉"
+  },
+  "ovrenNet": {
+    "title": "OvrenNET",
+    "description": "將可用的有線與無線連線組合成均衡的網路路徑。",
+    "statusStopped": "已停止",
+    "statusStarting": "正在啟動",
+    "statusActive": "執行中",
+    "start": "啟動 OvrenNET",
+    "stop": "停止 OvrenNET",
+    "needTwoConnections": "請至少連接兩個可用的網際網路介面卡後再啟動。",
+    "adapterDownload": "下載",
+    "adapterUpload": "上傳",
+    "activeFlows": "使用中 / 總流量",
+    "trafficNotice": "啟用後，OvrenNET 會變更系統路由，並可能要求管理員權限。若 VPN 造成干擾，請先中斷連線。",
+    "error": "OvrenNET 無法完成此操作。請檢查權限與網路介面卡。",
+    "licenseName": "OvrenNET",
+    "licenseDescription": "網路連線平衡元件，版本 1.0.0。",
+    "licenseType": "MIT",
+    "licenseSourceDocument": "MIT 授權條款",
+    "licenseDependencyDocument": "相依性聲明",
+    "licenseWindowsDocument": "Windows 介面卡授權"
   }
 }

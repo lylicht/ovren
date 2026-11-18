@@ -65,6 +65,10 @@ jobs:
       - name: Install frontend dependencies
         working-directory: app
         run: pnpm install --frozen-lockfile
+      - name: Set up Go
+        uses: actions/setup-go@v7
+        with:
+          go-version-file: app/ovrennet/go.mod
       - name: Build Ovren installer
         working-directory: app
         env:
@@ -131,6 +135,10 @@ jobs:
       - name: Install frontend dependencies
         working-directory: app
         run: pnpm install --frozen-lockfile
+      - name: Set up Go
+        uses: actions/setup-go@v7
+        with:
+          go-version-file: app/ovrennet/go.mod
       - name: Build Linux installers
         working-directory: app
         env:
@@ -185,6 +193,10 @@ jobs:
       - name: Install frontend dependencies
         working-directory: app
         run: pnpm install --frozen-lockfile
+      - name: Set up Go
+        uses: actions/setup-go@v7
+        with:
+          go-version-file: app/ovrennet/go.mod
       - name: Build macOS disk image
         working-directory: app
         env:

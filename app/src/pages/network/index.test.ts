@@ -14,6 +14,13 @@ vi.mock('@/lib/services/resident/resident-service', () => ({
   ResidentService: { reading: vi.fn(), onReading: vi.fn() },
 }));
 vi.mock('@/lib/services/network/wyre-network-service', () => ({ WyreNetworkService: { measure: vi.fn() } }));
+vi.mock('@/lib/services/network/ovren-net-service', () => ({
+  OvrenNetService: {
+    snapshot: vi.fn().mockResolvedValue({ running: false, enabled: false, adapters: [] }),
+    start: vi.fn(),
+    stop: vi.fn(),
+  },
+}));
 vi.mock('@/lib/services/settings/byte-size-service', () => ({
   ByteSizeService: { bytes: (bytes: number) => `${bytes} B` },
 }));

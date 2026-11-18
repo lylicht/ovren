@@ -8,5 +8,6 @@ pub(crate) mod application_icon;
 pub(crate) mod application_uninstall_catalog;
 pub(crate) mod feedback;
 pub(crate) mod native_labels;
+pub(crate) mod ovren_net;
 
 pub(crate) mod windows_monitoring;

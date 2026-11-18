@@ -1,5 +1,8 @@
 import pawnIoLicense from '../../../../src-tauri/crates/mangodisk-privileged/vendors/pawnio/modules/0.2.11/COPYING?raw';
 import sfStudioLicense from './licenses/sfstudio-apache-2.0.txt?raw';
+import ovrenNetLicense from '../../../../ovrennet/LICENSE?raw';
+import ovrenNetDependencies from '../../../../ovrennet/licenses/dependencies.txt?raw';
+import ovrenNetWindowsLicense from '../../../../ovrennet/licenses/wintun.txt?raw';
 
 export interface ThirdPartyDocument {
   readonly id: string;
@@ -55,7 +58,7 @@ export const THIRD_PARTY_COMPONENTS: readonly ThirdPartyComponent[] = [
     id: 'sfstudio-symbols',
     nameKey: 'thirdPartyLicenses.components.sfStudioSymbols.name',
     version: 'main@cdd06d88',
-    author: 'bxane and SFStudio contributors; Apple Inc. (SF Symbols)',
+    author: 'Licht and SFStudio contributors; Apple Inc. (SF Symbols)',
     licenseKey: 'thirdPartyLicenses.components.sfStudioSymbols.license',
     descriptionKey: 'thirdPartyLicenses.components.sfStudioSymbols.description',
     projectUrl: 'https://github.com/lylicht/SFStudio',
@@ -74,6 +77,38 @@ export const THIRD_PARTY_COMPONENTS: readonly ThirdPartyComponent[] = [
         format: 'markdown',
         content:
           'SF Symbols are Apple’s property. Ovren uses them only as interface icons, not as its logo, app icon, or trademark. Read [Apple’s SF Symbols guidance](https://developer.apple.com/design/human-interface-guidelines/sf-symbols/).',
+      },
+    ],
+  },
+  {
+    id: 'ovrennet',
+    nameKey: 'ovrenNet.licenseName',
+    version: '1.0.0',
+    author: 'Licht (Ovren integration)',
+    licenseKey: 'ovrenNet.licenseType',
+    descriptionKey: 'ovrenNet.licenseDescription',
+    projectUrl: 'https://github.com/lylicht/ovren',
+    documents: [
+      {
+        id: 'license',
+        titleKey: 'ovrenNet.licenseSourceDocument',
+        actionKey: 'thirdPartyLicenses.readLicense',
+        format: 'text',
+        content: ovrenNetLicense,
+      },
+      {
+        id: 'dependencies',
+        titleKey: 'ovrenNet.licenseDependencyDocument',
+        actionKey: 'thirdPartyLicenses.readLicense',
+        format: 'text',
+        content: ovrenNetDependencies,
+      },
+      {
+        id: 'windows-adapter',
+        titleKey: 'ovrenNet.licenseWindowsDocument',
+        actionKey: 'thirdPartyLicenses.readLicense',
+        format: 'text',
+        content: ovrenNetWindowsLicense,
       },
     ],
   },

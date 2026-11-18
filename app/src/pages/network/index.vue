@@ -8,6 +8,7 @@ import { LoggerService } from '@/lib/services/diagnostics/logger-service';
 import { ByteSizeService } from '@/lib/services/settings/byte-size-service';
 import { ResidentService } from '@/lib/services/resident/resident-service';
 import { WyreNetworkService, type NetworkMeasurement } from '@/lib/services/network/wyre-network-service';
+import { OvrenNetService, type OvrenNetSnapshot } from '@/lib/services/network/ovren-net-service';
 import { useTrayPanelStore } from '@/stores/tray-panel-store';
 
 const { t, locale } = useI18n({ useScope: 'global' });
@@ -15,6 +16,18 @@ const trayPanelStore = useTrayPanelStore();
 const busy = ref(false);
 const result = ref<NetworkMeasurement | null>(null);
 const error = ref(false);
+const ovrenNet = ref<OvrenNetSnapshot | null>(null);
+const ovrenNetBusy = ref(false);
+const ovrenNetLoading = ref(false);
+const ovrenNetError = ref(false);
+const ovrenNetAdapters = computed(() => ovrenNet.value?.adapters.filter(adapter => adapter.connected) ?? []);
+const ovrenNetState = computed(() =>
+  ovrenNet.value?.running
+    ? ovrenNet.value.enabled
+      ? t('ovrenNet.statusActive')
+      : t('ovrenNet.statusStarting')
+    : t('ovrenNet.statusStopped')
+);
 const networkReading = computed(() => trayPanelStore.reading.network);
 const network = computed(() =>
   ['ready', 'stale'].includes(networkReading.value.status) ? networkReading.value.value : null
@@ -31,8 +44,11 @@ const ipv4Addresses = computed(
 
 let disposed = false;
 let unlistenReading: (() => void) | null = null;
+let ovrenNetTimer: number | null = null;
 onMounted(() => {
   void trayPanelStore.load();
+  void refreshOvrenNet();
+  ovrenNetTimer = window.setInterval(() => void refreshOvrenNet(), 2000);
   void ResidentService.onReading(reading => trayPanelStore.accept(reading))
     .then(unlisten => {
       if (disposed) unlisten();
@@ -42,8 +58,53 @@ onMounted(() => {
 });
 onUnmounted(() => {
   disposed = true;
+  if (ovrenNetTimer !== null) window.clearInterval(ovrenNetTimer);
   unlistenReading?.();
 });
+
+async function refreshOvrenNet() {
+  if (ovrenNetLoading.value) return;
+  ovrenNetLoading.value = true;
+  try {
+    ovrenNet.value = await OvrenNetService.snapshot();
+    ovrenNetError.value = false;
+  } catch (cause) {
+    if (!ovrenNetError.value) LoggerService.warn('network', 'ovren_net_status_failed', { error: cause });
+    ovrenNetError.value = true;
+  } finally {
+    ovrenNetLoading.value = false;
+  }
+}
+
+async function startOvrenNet() {
+  if (ovrenNetBusy.value || ovrenNetAdapters.value.length < 2) return;
+  ovrenNetBusy.value = true;
+  ovrenNetError.value = false;
+  try {
+    await OvrenNetService.start();
+    await refreshOvrenNet();
+  } catch (cause) {
+    ovrenNetError.value = true;
+    LoggerService.warn('network', 'ovren_net_start_failed', { error: cause });
+  } finally {
+    ovrenNetBusy.value = false;
+  }
+}
+
+async function stopOvrenNet() {
+  if (ovrenNetBusy.value || !ovrenNet.value?.running) return;
+  ovrenNetBusy.value = true;
+  ovrenNetError.value = false;
+  try {
+    await OvrenNetService.stop();
+    await refreshOvrenNet();
+  } catch (cause) {
+    ovrenNetError.value = true;
+    LoggerService.warn('network', 'ovren_net_stop_failed', { error: cause });
+  } finally {
+    ovrenNetBusy.value = false;
+  }
+}
 
 function formatRate(bytesPerSecond: number): string {
   return Number.isFinite(bytesPerSecond) && bytesPerSecond >= 0 ? `${ByteSizeService.bytes(bytesPerSecond)}/s` : '—';
@@ -200,5 +261,69 @@ async function measure() {
         </aside>
       </div>
     </div>
+
+    <section class="mt-4 min-w-0 rounded-xl border bg-card p-5 sm:p-7" :aria-label="t('ovrenNet.title')">
+      <header class="flex flex-wrap items-start justify-between gap-4">
+        <div class="min-w-0">
+          <h2 class="m-0 text-base font-medium text-foreground">{{ t('ovrenNet.title') }}</h2>
+          <p class="mb-0 mt-1 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+            {{ t('ovrenNet.description') }}
+          </p>
+        </div>
+        <div class="flex shrink-0 gap-2">
+          <Button
+            v-if="!ovrenNet?.running"
+            :disabled="ovrenNetBusy || ovrenNetAdapters.length < 2"
+            :aria-busy="ovrenNetBusy"
+            @click="startOvrenNet"
+          >
+            {{ ovrenNetBusy ? t('ovrenNet.statusStarting') : t('ovrenNet.start') }}
+          </Button>
+          <Button v-else :disabled="ovrenNetBusy" :aria-busy="ovrenNetBusy" variant="outline" @click="stopOvrenNet">
+            {{ t('ovrenNet.stop') }}
+          </Button>
+        </div>
+      </header>
+
+      <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm" role="status" aria-live="polite">
+        <span class="font-medium text-foreground">{{ ovrenNetState }}</span>
+        <span v-if="ovrenNet && !ovrenNet.running && ovrenNetAdapters.length < 2" class="text-muted-foreground">
+          {{ t('ovrenNet.needTwoConnections') }}
+        </span>
+        <span v-if="ovrenNetError" class="text-destructive" role="alert">{{ t('ovrenNet.error') }}</span>
+      </div>
+
+      <p class="mb-0 mt-3 max-w-4xl text-sm leading-relaxed text-muted-foreground">
+        {{ t('ovrenNet.trafficNotice') }}
+      </p>
+
+      <ul v-if="ovrenNetAdapters.length" class="mb-0 mt-5 grid list-none gap-3 p-0 md:grid-cols-2">
+        <li v-for="adapter in ovrenNetAdapters" :key="adapter.name" class="min-w-0 rounded-lg border bg-background p-4">
+          <div class="min-w-0">
+            <h3 class="m-0 truncate text-sm font-medium text-foreground">{{ adapter.name }}</h3>
+          </div>
+          <dl class="mb-0 mt-3 grid grid-cols-3 gap-3">
+            <div class="min-w-0">
+              <dt class="text-xs text-muted-foreground">{{ t('ovrenNet.adapterDownload') }}</dt>
+              <dd class="mb-0 mt-1 truncate text-sm font-medium tabular-nums text-foreground">
+                {{ formatRate(adapter.downloadBytesPerSecond) }}
+              </dd>
+            </div>
+            <div class="min-w-0">
+              <dt class="text-xs text-muted-foreground">{{ t('ovrenNet.adapterUpload') }}</dt>
+              <dd class="mb-0 mt-1 truncate text-sm font-medium tabular-nums text-foreground">
+                {{ formatRate(adapter.uploadBytesPerSecond) }}
+              </dd>
+            </div>
+            <div class="min-w-0">
+              <dt class="text-xs text-muted-foreground">{{ t('ovrenNet.activeFlows') }}</dt>
+              <dd class="mb-0 mt-1 truncate text-sm font-medium tabular-nums text-foreground">
+                {{ formatNumber(adapter.activeFlows) }}/{{ formatNumber(adapter.totalFlows) }}
+              </dd>
+            </div>
+          </dl>
+        </li>
+      </ul>
+    </section>
   </MdPageShell>
 </template>

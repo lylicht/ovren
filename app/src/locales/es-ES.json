@@ -4382,5 +4382,26 @@
     "confirmMouseChanges": "Aplicar configuración",
     "accelerationEnabled": "activada",
     "accelerationDisabled": "desactivada"
+  },
+  "ovrenNet": {
+    "title": "OvrenNET",
+    "description": "Combina conexiones por cable e inalámbricas compatibles en una sola ruta de red equilibrada.",
+    "statusStopped": "Detenido",
+    "statusStarting": "Iniciando",
+    "statusActive": "Activo",
+    "start": "Iniciar OvrenNET",
+    "stop": "Detener OvrenNET",
+    "needTwoConnections": "Conecta al menos dos adaptadores de Internet activos para iniciar.",
+    "adapterDownload": "Descarga",
+    "adapterUpload": "Subida",
+    "activeFlows": "Flujos activos / totales",
+    "trafficNotice": "Al activarse, OvrenNET cambia las rutas del sistema y puede solicitar acceso de administrador. Desconecta las VPN si interfieren.",
+    "error": "OvrenNET no pudo completar la acción. Comprueba los permisos y los adaptadores de red.",
+    "licenseName": "OvrenNET",
+    "licenseDescription": "Componente para equilibrar conexiones de red, versión 1.0.0.",
+    "licenseType": "MIT",
+    "licenseSourceDocument": "Licencia MIT",
+    "licenseDependencyDocument": "Avisos de dependencias",
+    "licenseWindowsDocument": "Licencia del adaptador de Windows"
   }
 }

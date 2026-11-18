@@ -4382,5 +4382,26 @@
     "confirmMouseChanges": "Применить настройки",
     "accelerationEnabled": "включено",
     "accelerationDisabled": "выключено"
+  },
+  "ovrenNet": {
+    "title": "OvrenNET",
+    "description": "Объединяет подходящие проводные и беспроводные подключения в сбалансированный сетевой маршрут.",
+    "statusStopped": "Остановлено",
+    "statusStarting": "Запуск",
+    "statusActive": "Активно",
+    "start": "Запустить OvrenNET",
+    "stop": "Остановить OvrenNET",
+    "needTwoConnections": "Для запуска подключите не менее двух активных интернет-адаптеров.",
+    "adapterDownload": "Загрузка",
+    "adapterUpload": "Отправка",
+    "activeFlows": "Активные / всего потоков",
+    "trafficNotice": "При включении OvrenNET меняет системные маршруты и может запросить права администратора. Если VPN мешают работе, отключите их заранее.",
+    "error": "Не удалось выполнить действие OvrenNET. Проверьте разрешения и сетевые адаптеры.",
+    "licenseName": "OvrenNET",
+    "licenseDescription": "Компонент балансировки сетевых подключений, версия 1.0.0.",
+    "licenseType": "MIT",
+    "licenseSourceDocument": "Лицензия MIT",
+    "licenseDependencyDocument": "Уведомления о зависимостях",
+    "licenseWindowsDocument": "Лицензия адаптера Windows"
   }
 }

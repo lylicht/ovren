@@ -4382,5 +4382,26 @@
     "confirmMouseChanges": "設定を適用",
     "accelerationEnabled": "有効",
     "accelerationDisabled": "無効"
+  },
+  "ovrenNet": {
+    "title": "OvrenNET",
+    "description": "利用可能な有線・無線接続を組み合わせ、ネットワーク経路を分散します。",
+    "statusStopped": "停止中",
+    "statusStarting": "起動中",
+    "statusActive": "稼働中",
+    "start": "OvrenNET を開始",
+    "stop": "OvrenNET を停止",
+    "needTwoConnections": "開始するには、アクティブなインターネットアダプターを 2 つ以上接続してください。",
+    "adapterDownload": "ダウンロード",
+    "adapterUpload": "アップロード",
+    "activeFlows": "アクティブ / 合計フロー",
+    "trafficNotice": "有効にするとシステムの経路が変更され、管理者権限を求められる場合があります。VPN が干渉する場合は先に切断してください。",
+    "error": "OvrenNET を実行できませんでした。権限とネットワークアダプターを確認してください。",
+    "licenseName": "OvrenNET",
+    "licenseDescription": "ネットワーク接続を分散するコンポーネント、バージョン 1.0.0。",
+    "licenseType": "MIT",
+    "licenseSourceDocument": "MIT ライセンス",
+    "licenseDependencyDocument": "依存関係のライセンス表記",
+    "licenseWindowsDocument": "Windows アダプターのライセンス"
   }
 }

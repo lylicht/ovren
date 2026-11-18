@@ -4382,5 +4382,26 @@
     "confirmMouseChanges": "Ayarları uygula",
     "accelerationEnabled": "açık",
     "accelerationDisabled": "kapalı"
+  },
+  "ovrenNet": {
+    "title": "OvrenNET",
+    "description": "Uygun kablolu ve kablosuz bağlantıları dengeli tek bir ağ yolunda birleştirir.",
+    "statusStopped": "Durduruldu",
+    "statusStarting": "Başlatılıyor",
+    "statusActive": "Etkin",
+    "start": "OvrenNET'i başlat",
+    "stop": "OvrenNET'i durdur",
+    "needTwoConnections": "Başlatmak için en az iki etkin internet bağdaştırıcısı bağlayın.",
+    "adapterDownload": "İndirme",
+    "adapterUpload": "Yükleme",
+    "activeFlows": "Etkin / toplam akış",
+    "trafficNotice": "Etkinleştirildiğinde OvrenNET sistem yönlendirmelerini değiştirir ve yönetici erişimi isteyebilir. VPN'ler engel oluyorsa önce bağlantılarını kesin.",
+    "error": "OvrenNET bu işlemi tamamlayamadı. İzinleri ve ağ bağdaştırıcılarını denetleyin.",
+    "licenseName": "OvrenNET",
+    "licenseDescription": "Ağ bağlantısı dengeleme bileşeni, sürüm 1.0.0.",
+    "licenseType": "MIT",
+    "licenseSourceDocument": "MIT Lisansı",
+    "licenseDependencyDocument": "Bağımlılık bildirimleri",
+    "licenseWindowsDocument": "Windows bağdaştırıcı lisansı"
   }
 }

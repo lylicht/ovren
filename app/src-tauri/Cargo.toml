@@ -1,8 +1,8 @@
 [package]
 name = "mangodisk"
 version.workspace = true
-description = "Ovren desktop toolkit by Licht for Windows, macOS and Linux, based on MangoDisk"
-authors = ["Licht", "bxane", "harry0703 and MangoDisk contributors"]
+description = "Ovren desktop toolkit by Licht for Windows, macOS and Linux"
+authors = ["Licht"]
 edition.workspace = true
 rust-version.workspace = true
 
@@ -37,6 +37,7 @@ tauri-plugin-os = "2.4.0"
 tauri-plugin-process = "2.4.0"
 tauri-plugin-prevent-default = { version = "6.0.1", features = ["platform-windows"] }
 tauri-plugin-single-instance = "2.5.2"
+tauri-plugin-shell = "2"
 tauri-plugin-store = "2.5.0"
 tauri-plugin-updater = "2.13.2"
 tauri-plugin-window-state = "2.5.0"

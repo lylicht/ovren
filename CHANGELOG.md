@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## 1.1.0 — 2026-11-18
+
+- Added OvrenNET network merging controls and live adapter traffic to the Network page.
+- Added the OvrenNET helper for Windows, macOS and Linux builds, including its bundled platform dependencies and license notices.
+
 ## 1.0.0 — 2026-11-17
 
 Ovren is the new desktop identity for the project, made and maintained by Licht.

@@ -8,6 +8,7 @@
 /target/
 /src-tauri/gen/
 /src-tauri/resources/privileged/
+/src-tauri/binaries/ovrennet/
 /output/
 *.tsbuildinfo
 

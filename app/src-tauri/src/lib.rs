@@ -173,6 +173,7 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_process::init())
+        .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_store::Builder::default().build())
         .plugin(
             tauri_plugin_updater::Builder::new()
@@ -218,6 +219,9 @@ pub fn run() {
             commands::resident::resident_main_ready,
             commands::resident::resident_get_autostart,
             commands::resident::resident_set_autostart,
+            commands::ovren_net::ovren_net_snapshot,
+            commands::ovren_net::ovren_net_start,
+            commands::ovren_net::ovren_net_stop,
             commands::ai::ai_get_preferences,
             commands::ai::ai_set_enabled,
             commands::ai::ai_get_settings,
