@@ -82,7 +82,11 @@ describe('third-party licenses dialog', () => {
     expect(installer?.textContent).not.toContain('LGPL');
     expect(installer?.textContent).toContain('namazso');
     expect(modules?.textContent).toContain('namazso');
-    expect(document.body.querySelectorAll('[data-document-action]')).toHaveLength(4);
+    const ovrenNet = document.body.querySelector('[aria-labelledby="ovrennet-heading"]');
+    expect(ovrenNet?.textContent).toContain('OvrenNET');
+    expect(ovrenNet?.textContent).toContain('1.0.0');
+    expect(ovrenNet?.textContent).toContain('MIT');
+    expect(document.body.querySelectorAll('[data-document-action]')).toHaveLength(7);
     expect(document.body.querySelector('[data-slot="dialog-description"]')?.classList.contains('sr-only')).toBe(true);
 
     modulesButton(i18n.global.t('thirdPartyLicenses.readLicense')).click();
