@@ -109,9 +109,17 @@ func CheckDriver() error { return nil }
 
 func WaitForTray(max time.Duration) bool { return true }
 
+func signInUser() (string, error) {
+	uid, err := exec.Command("/usr/bin/stat", "-f", "%u", "/dev/console").Output()
+	if err != nil {
+		return "", err
+	}
+	return strings.TrimSpace(string(uid)), nil
+}
+
 func OpenURL(url string) error {
-	if u, err := signInUser(); err == nil {
-		if exec.Command("/bin/launchctl", "asuser", u.Uid, "open", url).Run() == nil {
+	if uid, err := signInUser(); err == nil && uid != "" {
+		if exec.Command("/bin/launchctl", "asuser", uid, "open", url).Run() == nil {
 			return nil
 		}
 	}
