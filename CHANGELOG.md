@@ -1,7 +1,5 @@
 # Changelog
 
-## [Unreleased]
-
 ## 1.3.0 — 2026-11-18
 
 - Added an Ovren file browser with folder navigation, recursive name search, and opening items in their system apps.
