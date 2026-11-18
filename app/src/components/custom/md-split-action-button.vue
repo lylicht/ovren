@@ -132,7 +132,7 @@ const hasMenu = computed(() => props.items.length > 0);
 }
 
 .md-split-action--joined .md-split-action__primary {
-  border-right-width: 0;
+  border-inline-end-width: 0;
 }
 
 .md-split-action__menu {
@@ -144,7 +144,7 @@ const hasMenu = computed(() => props.items.length > 0);
 }
 
 .md-split-action--default .md-split-action__menu {
-  border-left: 1px solid color-mix(in srgb, var(--primary-foreground) 24%, transparent);
+  border-inline-start: 1px solid color-mix(in srgb, var(--primary-foreground) 24%, transparent);
 }
 
 .md-split-action__primary:hover,

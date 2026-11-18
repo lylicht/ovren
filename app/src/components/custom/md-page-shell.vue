@@ -94,7 +94,7 @@ const windowDragRegion = isMacOs || hasDesktopWindowControls ? '' : undefined;
   min-height: var(--layout-page-header-height);
   grid-template-columns: minmax(0, 1fr) minmax(0, auto);
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   flex: none;
 }
 
@@ -158,7 +158,7 @@ const windowDragRegion = isMacOs || hasDesktopWindowControls ? '' : undefined;
   flex: none;
   align-items: center;
   justify-content: flex-end;
-  gap: 8px;
+  gap: 12px;
   white-space: nowrap;
 }
 
@@ -194,14 +194,14 @@ const windowDragRegion = isMacOs || hasDesktopWindowControls ? '' : undefined;
   min-height: 0;
   flex: 1;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
   overflow-x: hidden;
   overscroll-behavior: contain;
 }
 
 .md-page-content-stage {
   /* Content and overlays share the same lower edge, including page spacing. */
-  --page-content-bottom-inset: 20px;
+  --page-content-bottom-inset: 24px;
   position: relative;
   display: flex;
   min-width: 0;
@@ -210,7 +210,7 @@ const windowDragRegion = isMacOs || hasDesktopWindowControls ? '' : undefined;
 }
 
 .md-page-shell--workspace .md-page-content-stage {
-  --page-content-bottom-inset: 12px;
+  --page-content-bottom-inset: 16px;
 }
 
 .md-page-shell--workspace .md-page-content-stage--with-footer {
@@ -240,7 +240,7 @@ const windowDragRegion = isMacOs || hasDesktopWindowControls ? '' : undefined;
   align-items: center;
   justify-content: flex-end;
   gap: 12px;
-  margin-top: 6px;
-  padding-bottom: 12px;
+  margin-top: 8px;
+  padding-bottom: 16px;
 }
 </style>

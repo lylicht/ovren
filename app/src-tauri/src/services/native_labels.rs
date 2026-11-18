@@ -27,7 +27,7 @@ impl NativeLabels {
     }
     pub fn for_locale(locale: &str) -> Self {
         let locale = supported_locale(locale);
-        static MESSAGES: OnceLock<[Value; 11]> = OnceLock::new();
+        static MESSAGES: OnceLock<[Value; 12]> = OnceLock::new();
         let values = MESSAGES.get_or_init(|| {
             [
                 include_str!("../../../src/locales/en-US.json"),
@@ -41,6 +41,7 @@ impl NativeLabels {
                 include_str!("../../../src/locales/fr-FR.json"),
                 include_str!("../../../src/locales/de-DE.json"),
                 include_str!("../../../src/locales/es-ES.json"),
+                include_str!("../../../src/locales/fa-IR.json"),
             ]
             .map(|text| serde_json::from_str(text).expect("validated locale resource"))
         });
@@ -55,6 +56,7 @@ impl NativeLabels {
             "fr-FR" => 8,
             "de-DE" => 9,
             "es-ES" => 10,
+            "fa-IR" => 11,
             _ => 0,
         };
         Self {
@@ -82,6 +84,7 @@ fn supported_locale(locale: &str) -> &'static str {
         ("zh", "zh-CN"),
         ("ja", "ja-JP"),
         ("ko", "ko-KR"),
+        ("fa", "fa-IR"),
         ("tr", "tr-TR"),
         ("pt", "pt-BR"),
         ("ru", "ru-RU"),
@@ -103,8 +106,8 @@ mod tests {
     #[test]
     fn runtime_prompts_are_complete_in_every_supported_locale() {
         for locale in [
-            "en-US", "zh-CN", "zh-TW", "ja-JP", "ko-KR", "tr-TR", "pt-BR", "ru-RU", "fr-FR",
-            "de-DE", "es-ES",
+            "en-US", "zh-CN", "zh-TW", "ja-JP", "ko-KR", "fa-IR", "tr-TR", "pt-BR", "ru-RU",
+            "fr-FR", "de-DE", "es-ES",
         ] {
             let labels = NativeLabels::for_locale(locale);
             for key in [
@@ -127,6 +130,7 @@ mod tests {
             ("fr-FR", "Ouvrir Ovren", "Réglages", "Quitter"),
             ("de-DE", "Ovren öffnen", "Einstellungen", "Beenden"),
             ("es-ES", "Abrir Ovren", "Ajustes", "Salir"),
+            ("fa-IR", "باز کردن Ovren", "تنظیمات", "خروج"),
         ] {
             let labels = NativeLabels::for_locale(locale);
             assert_eq!(labels.text("/systemStatus/openMain"), open);
@@ -143,6 +147,9 @@ mod tests {
             ("zh-SG", "zh-CN"),
             ("ja", "ja-JP"),
             ("ko-KR", "ko-KR"),
+            ("fa-IR", "fa-IR"),
+            ("fa-AF", "fa-IR"),
+            ("fa", "fa-IR"),
             ("ru-RU", "ru-RU"),
             ("ru", "ru-RU"),
             ("fr", "fr-FR"),

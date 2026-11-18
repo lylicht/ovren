@@ -70,7 +70,7 @@ const result = {
   downloadMbps: 128.5,
   uploadMbps: 24.3,
   failedProbesPercent: 0,
-  dataMb: 16,
+  dataMb: 14,
 };
 const wrappers: ReturnType<typeof mount>[] = [];
 

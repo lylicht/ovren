@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## 1.2.0 — 2026-11-18
+
+- Added Persian (fa-IR) localization and right-to-left layout support.
+- Refined application spacing and updated the Ovren icon.
+- Improved reliability and diagnostics for network speed checks.
 ## 1.1.0 — 2026-11-18
 
 - Added OvrenNET network merging controls and live adapter traffic to the Network page.

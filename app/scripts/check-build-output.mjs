@@ -7,6 +7,7 @@ const expectedLocaleIds = new Set([
   'de-de',
   'en-us',
   'es-es',
+  'fa-ir',
   'fr-fr',
   'ja-jp',
   'ko-kr',
@@ -52,6 +53,7 @@ const localeChunkLimitOverrides = new Map([
   ['fr-fr', { bytes: 314 * 1024, gzipBytes: 63 * 1024 }],
   ['de-de', { bytes: maximumLocaleChunkBytes, gzipBytes: 64 * 1024 }],
   ['es-es', { bytes: 305 * 1024, gzipBytes: 63 * 1024 }],
+  ['fa-ir', { bytes: 360 * 1024, gzipBytes: 67 * 1024 }],
   ['ja-jp', { bytes: 326 * 1024, gzipBytes: 62 * 1024 }],
   ['ru-ru', { bytes: 394 * 1024, gzipBytes: 70 * 1024 }],
 ]);

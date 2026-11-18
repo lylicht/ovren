@@ -44,7 +44,7 @@ withDefaults(
 .result-master-detail-navigation {
   @apply border-border/70 bg-workspace;
   min-height: 0;
-  border-right-width: 1px;
+  border-inline-end-width: 1px;
   padding: 8px 6px;
 }
 

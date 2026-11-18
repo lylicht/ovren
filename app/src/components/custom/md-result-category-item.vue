@@ -47,7 +47,7 @@ const emit = defineEmits<{
   gap: 9px;
   border-radius: var(--radius);
   padding: 8px 10px;
-  text-align: left;
+  text-align: start;
   transition:
     background-color 0.16s ease,
     color 0.16s ease;
@@ -126,6 +126,6 @@ const emit = defineEmits<{
   max-width: 76px;
   padding-left: 6px;
   font-weight: 500;
-  text-align: right;
+  text-align: end;
 }
 </style>

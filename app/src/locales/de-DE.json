@@ -2461,7 +2461,8 @@
       "ptBR": "Português (Brasil)",
       "frFR": "Français (France)",
       "deDE": "Deutsch (Deutschland)",
-      "esES": "Español (España)"
+      "esES": "Español (España)",
+      "faIR": "Persisch"
     },
     "colorThemeTitle": "Farbpalette",
     "colorThemeDescription": "Farben unabhängig vom hellen oder dunklen Modus auswählen",
@@ -4364,7 +4365,7 @@
     "failedProbes": "Fehlgeschlagene Proben",
     "networkResultNote": "Etwa {amount} MB übertragen. Cloudflare kann Ihre öffentliche IP-Adresse sehen",
     "networkPrivacyTitle": "Bei Bedarf und lokal",
-    "networkPrivacy": "Im Hintergrund läuft nichts. Der Geschwindigkeitstest sendet erst nach dem Start etwa 16 MB an Cloudflare",
+    "networkPrivacy": "Im Hintergrund läuft nichts. Der Geschwindigkeitstest sendet erst nach dem Start etwa 14 MB an Cloudflare",
     "mouseTitle": "Maus",
     "mouseDescription": "Systemeinstellungen für den Mauszeiger prüfen und ändern",
     "pointerSpeed": "Zeigergeschwindigkeit",

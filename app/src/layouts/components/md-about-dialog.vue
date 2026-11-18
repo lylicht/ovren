@@ -299,7 +299,7 @@ function downloadUpdate() {
   align-items: center;
   gap: 14px;
   padding: 24px 28px 16px;
-  text-align: left;
+  text-align: start;
 }
 
 .portable-update-note {
@@ -460,7 +460,7 @@ function downloadUpdate() {
 }
 
 .download-percent {
-  text-align: right;
+  text-align: end;
 }
 
 .download-track {

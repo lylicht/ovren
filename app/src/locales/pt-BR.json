@@ -2461,7 +2461,8 @@
       "ptBR": "Português (Brasil)",
       "frFR": "Français (France)",
       "deDE": "Deutsch (Deutschland)",
-      "esES": "Español (España)"
+      "esES": "Español (España)",
+      "faIR": "Persa"
     },
     "colorThemeTitle": "Cor do tema",
     "colorThemeDescription": "Escolha uma paleta de cores independentemente do modo claro ou escuro",
@@ -4364,7 +4365,7 @@
     "failedProbes": "Testes com falha",
     "networkResultNote": "Cerca de {amount} MB transferidos. A Cloudflare pode ver seu IP público",
     "networkPrivacyTitle": "Sob demanda e local",
-    "networkPrivacy": "Nada é executado em segundo plano. O teste envia cerca de 16 MB à Cloudflare somente quando você o inicia",
+    "networkPrivacy": "Nada é executado em segundo plano. O teste envia cerca de 14 MB à Cloudflare somente quando você o inicia",
     "mouseTitle": "Mouse",
     "mouseDescription": "Revise e ajuste as configurações do ponteiro do sistema",
     "pointerSpeed": "Velocidade do ponteiro",

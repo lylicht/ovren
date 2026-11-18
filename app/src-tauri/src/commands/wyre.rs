@@ -2,6 +2,8 @@ use serde::{Deserialize, Serialize};
 use std::time::{Duration, Instant};
 
 const SPEED_TEST_BASE: &str = "https://speed.cloudflare.com";
+const SPEED_TEST_TRANSFER_TIMEOUT: Duration = Duration::from_secs(120);
+const SPEED_TEST_PROBE_TIMEOUT: Duration = Duration::from_secs(10);
 #[cfg(target_os = "windows")]
 const WINDOWS_MOUSE_TYPE: &str = r#"Add-Type -TypeDefinition 'using System; using System.Runtime.InteropServices; public static class WyreMouse { [DllImport("user32.dll", SetLastError=true)] public static extern bool SystemParametersInfo(int action, int param, IntPtr value, int flags); [DllImport("user32.dll", EntryPoint="SystemParametersInfo", SetLastError=true)] public static extern bool SystemParametersInfoArray(int action, int param, int[] value, int flags); }'"#;
 
@@ -29,28 +31,39 @@ pub struct MouseSettings {
 #[tauri::command]
 pub async fn network_test() -> Result<NetworkMeasurement, String> {
     let client = reqwest::Client::builder()
-        .timeout(Duration::from_secs(30))
+        .connect_timeout(SPEED_TEST_PROBE_TIMEOUT)
+        .timeout(SPEED_TEST_TRANSFER_TIMEOUT)
         .build()
         .map_err(|error| format!("Could not prepare the network check: {error}"))?;
     let mut samples = Vec::new();
     let mut failed = 0u8;
+    let mut last_probe_error = String::new();
     for _ in 0..4 {
         let started = Instant::now();
         match client
             .get(format!("{SPEED_TEST_BASE}/__down?bytes=0"))
+            .timeout(SPEED_TEST_PROBE_TIMEOUT)
             .send()
             .await
             .and_then(reqwest::Response::error_for_status)
         {
             Ok(response) => match response.bytes().await {
                 Ok(_) => samples.push(started.elapsed().as_secs_f64() * 1000.0),
-                Err(_) => failed += 1,
+                Err(error) => {
+                    failed += 1;
+                    last_probe_error = error.to_string();
+                }
             },
-            Err(_) => failed += 1,
+            Err(error) => {
+                failed += 1;
+                last_probe_error = error.to_string();
+            }
         }
     }
     if samples.is_empty() {
-        return Err("Could not reach the speed test server. Check your internet connection.".into());
+        return Err(format!(
+            "Could not reach the speed test server. Check your internet connection. {last_probe_error}"
+        ));
     }
     let latency = samples.iter().sum::<f64>() / samples.len() as f64;
     let jitter = samples
@@ -61,7 +74,7 @@ pub async fn network_test() -> Result<NetworkMeasurement, String> {
 
     let download_started = Instant::now();
     let download = client
-        .get(format!("{SPEED_TEST_BASE}/__down?bytes=12000000"))
+        .get(format!("{SPEED_TEST_BASE}/__down?bytes=10000000"))
         .send()
         .await
         .and_then(reqwest::Response::error_for_status)
@@ -90,7 +103,7 @@ pub async fn network_test() -> Result<NetworkMeasurement, String> {
         download_mbps,
         upload_mbps,
         failed_probes_percent: failed * 25,
-        data_mb: 16,
+        data_mb: 14,
     })
 }
 

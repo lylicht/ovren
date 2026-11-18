@@ -142,16 +142,16 @@ async function measure() {
 </script>
 
 <template>
-  <MdPageShell :title="t('wyre.networkTitle')" :subtitle="t('wyre.networkDescription')" content-mode="workspace">
+  <MdPageShell :title="t('wyre.networkTitle')" :subtitle="t('wyre.networkDescription')" content-mode="document">
     <template #actions>
       <Button :disabled="busy" :aria-busy="busy" @click="measure">
         {{ busy ? t('wyre.networkMeasuring') : t('wyre.networkRun') }}
       </Button>
     </template>
 
-    <div class="grid h-full content-start gap-4 xl:grid-cols-[minmax(0,1.35fr)_minmax(280px,.65fr)]">
-      <section class="min-w-0 rounded-xl border bg-card p-5 sm:p-7" :aria-label="t('wyre.networkTestTitle')">
-        <header class="mb-6 flex flex-wrap items-start justify-between gap-3">
+    <div class="grid content-start gap-6 xl:grid-cols-[minmax(0,1.35fr)_minmax(280px,.65fr)]">
+      <section class="min-w-0 rounded-xl border bg-card p-6" :aria-label="t('wyre.networkTestTitle')">
+        <header class="mb-4 flex flex-wrap items-start justify-between gap-4">
           <div class="min-w-0">
             <h2 class="m-0 text-base font-medium text-foreground">{{ t('wyre.networkTestTitle') }}</h2>
             <p class="mb-0 mt-1 text-sm leading-relaxed text-muted-foreground">
@@ -172,7 +172,7 @@ async function measure() {
           </span>
         </header>
 
-        <dl v-if="result" class="m-0 grid grid-cols-2 gap-3 lg:grid-cols-6">
+        <dl v-if="result" class="m-0 grid grid-cols-2 gap-4 lg:grid-cols-6">
           <div
             v-for="item in measurements"
             :key="item.key"
@@ -212,8 +212,8 @@ async function measure() {
         </div>
       </section>
 
-      <div class="grid content-start gap-4">
-        <section class="min-w-0 rounded-xl border bg-card p-5 sm:p-7" :aria-label="t('wyre.networkCurrentConnection')">
+      <div class="grid content-start gap-6">
+        <section class="min-w-0 rounded-xl border bg-card p-6" :aria-label="t('wyre.networkCurrentConnection')">
           <div class="flex items-start justify-between gap-4">
             <div class="min-w-0">
               <h2 class="m-0 text-base font-medium text-foreground">{{ t('wyre.networkCurrentConnection') }}</h2>
@@ -233,7 +233,7 @@ async function measure() {
             </span>
           </div>
 
-          <dl class="mb-0 mt-5 grid grid-cols-2 gap-3">
+          <dl class="mb-0 mt-4 grid grid-cols-2 gap-4">
             <div class="min-w-0 rounded-lg border bg-background p-3">
               <dt class="text-xs text-muted-foreground">{{ t('systemStatus.download') }}</dt>
               <dd class="mb-0 mt-2 truncate text-lg font-medium tabular-nums text-foreground">
@@ -255,14 +255,14 @@ async function measure() {
           <p v-else class="mb-0 mt-4 text-sm text-muted-foreground" role="status">{{ networkStatus }}</p>
         </section>
 
-        <aside class="rounded-xl border bg-card p-5 sm:p-7">
+        <aside class="rounded-xl border bg-card p-6">
           <h2 class="m-0 text-base font-medium text-foreground">{{ t('wyre.networkPrivacyTitle') }}</h2>
           <p class="mb-0 mt-2 text-sm leading-relaxed text-muted-foreground">{{ t('wyre.networkPrivacy') }}</p>
         </aside>
       </div>
     </div>
 
-    <section class="mt-4 min-w-0 rounded-xl border bg-card p-5 sm:p-7" :aria-label="t('ovrenNet.title')">
+    <section class="min-w-0 rounded-xl border bg-card p-6" :aria-label="t('ovrenNet.title')">
       <header class="flex flex-wrap items-start justify-between gap-4">
         <div class="min-w-0">
           <h2 class="m-0 text-base font-medium text-foreground">{{ t('ovrenNet.title') }}</h2>
@@ -290,14 +290,14 @@ async function measure() {
         <span v-if="ovrenNet && !ovrenNet.running && ovrenNetAdapters.length < 2" class="text-muted-foreground">
           {{ t('ovrenNet.needTwoConnections') }}
         </span>
-        <span v-if="ovrenNetError" class="text-destructive" role="alert">{{ t('ovrenNet.error') }}</span>
+        <span v-if="ovrenNetError" class="text-destructive-text" role="alert">{{ t('ovrenNet.error') }}</span>
       </div>
 
       <p class="mb-0 mt-3 max-w-4xl text-sm leading-relaxed text-muted-foreground">
         {{ t('ovrenNet.trafficNotice') }}
       </p>
 
-      <ul v-if="ovrenNetAdapters.length" class="mb-0 mt-5 grid list-none gap-3 p-0 md:grid-cols-2">
+      <ul v-if="ovrenNetAdapters.length" class="mb-0 mt-6 grid list-none gap-4 p-0 md:grid-cols-2">
         <li v-for="adapter in ovrenNetAdapters" :key="adapter.name" class="min-w-0 rounded-lg border bg-background p-4">
           <div class="min-w-0">
             <h3 class="m-0 truncate text-sm font-medium text-foreground">{{ adapter.name }}</h3>

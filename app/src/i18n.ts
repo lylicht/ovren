@@ -4,6 +4,7 @@ import { LANGUAGE_IDS, type LanguageId } from '@/lib/models/settings/settings';
 import deDE from '@/locales/modules/de-de';
 import enUS from '@/locales/modules/en-us';
 import esES from '@/locales/modules/es-es';
+import faIR from '@/locales/modules/fa-ir';
 import frFR from '@/locales/modules/fr-fr';
 import jaJP from '@/locales/modules/ja-jp';
 import koKR from '@/locales/modules/ko-kr';
@@ -58,6 +59,7 @@ export const i18n = createI18n<[MessageSchema], SupportedLocale, false>({
     [LANGUAGE_IDS.zhTW]: zhTW,
     [LANGUAGE_IDS.jaJP]: jaJP,
     [LANGUAGE_IDS.koKR]: koKR,
+    [LANGUAGE_IDS.faIR]: faIR,
     [LANGUAGE_IDS.ruRU]: ruRU,
     [LANGUAGE_IDS.enUS]: enUS,
     [LANGUAGE_IDS.trTR]: trTR,
@@ -76,6 +78,7 @@ if (import.meta.hot) {
       './locales/modules/de-de',
       './locales/modules/en-us',
       './locales/modules/es-es',
+      './locales/modules/fa-ir',
       './locales/modules/fr-fr',
       './locales/modules/ja-jp',
       './locales/modules/ko-kr',
@@ -90,6 +93,7 @@ if (import.meta.hot) {
         LANGUAGE_IDS.deDE,
         LANGUAGE_IDS.enUS,
         LANGUAGE_IDS.esES,
+        LANGUAGE_IDS.faIR,
         LANGUAGE_IDS.frFR,
         LANGUAGE_IDS.jaJP,
         LANGUAGE_IDS.koKR,

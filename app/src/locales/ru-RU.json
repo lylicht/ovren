@@ -2461,7 +2461,8 @@
       "ptBR": "Português (Brasil)",
       "frFR": "Français (France)",
       "deDE": "Deutsch (Deutschland)",
-      "esES": "Español (España)"
+      "esES": "Español (España)",
+      "faIR": "Персидский"
     },
     "colorThemeTitle": "Цветовая тема",
     "colorThemeDescription": "Выберите палитру независимо от светлого или тёмного режима",
@@ -4364,7 +4365,7 @@
     "failedProbes": "Неудачные пробы",
     "networkResultNote": "Передано около {amount} МБ. Cloudflare видит ваш публичный IP-адрес",
     "networkPrivacyTitle": "Запуск по запросу",
-    "networkPrivacy": "В фоновом режиме проверка не выполняется. После запуска она передаёт Cloudflare около 16 МБ",
+    "networkPrivacy": "В фоновом режиме проверка не выполняется. После запуска она передаёт Cloudflare около 14 МБ",
     "mouseTitle": "Мышь",
     "mouseDescription": "Просмотр и изменение системных настроек указателя",
     "pointerSpeed": "Скорость указателя",

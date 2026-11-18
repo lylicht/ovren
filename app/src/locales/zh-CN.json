@@ -2461,7 +2461,8 @@
       "ptBR": "Português (Brasil)",
       "frFR": "Français (France)",
       "deDE": "Deutsch (Deutschland)",
-      "esES": "Español (España)"
+      "esES": "Español (España)",
+      "faIR": "波斯语"
     },
     "colorThemeTitle": "主题颜色",
     "colorThemeDescription": "选择界面配色，亮暗模式独立设置",
@@ -4364,7 +4365,7 @@
     "failedProbes": "失败探测",
     "networkResultNote": "传输了约 {amount} MB。Cloudflare 可以看到你的公网 IP 地址",
     "networkPrivacyTitle": "按需运行",
-    "networkPrivacy": "不会在后台运行。仅在你启动测速后，才会向 Cloudflare 传输约 16 MB",
+    "networkPrivacy": "不会在后台运行。仅在你启动测速后，才会向 Cloudflare 传输约 14 MB",
     "mouseTitle": "鼠标",
     "mouseDescription": "查看并调整操作系统指针设置",
     "pointerSpeed": "指针速度",

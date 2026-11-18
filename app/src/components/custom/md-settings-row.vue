@@ -76,7 +76,7 @@ withDefaults(
   border: 0;
   padding: 7px 14px;
   background: transparent;
-  text-align: left;
+  text-align: start;
   font: inherit;
   @apply text-card-foreground transition-colors duration-200 hover:bg-muted/50;
 }

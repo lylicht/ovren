@@ -2461,7 +2461,8 @@
       "ptBR": "Português (Brasil)",
       "frFR": "Français (France)",
       "deDE": "Deutsch (Deutschland)",
-      "esES": "Español (España)"
+      "esES": "Español (España)",
+      "faIR": "ペルシア語"
     },
     "colorThemeTitle": "テーマカラー",
     "colorThemeDescription": "ライト・ダークモードとは別に配色を選択します",
@@ -4364,7 +4365,7 @@
     "failedProbes": "失敗した計測",
     "networkResultNote": "約 {amount} MB を転送しました。Cloudflare には公開 IP アドレスが見えます",
     "networkPrivacyTitle": "オンデマンドで実行",
-    "networkPrivacy": "バックグラウンドでは実行しません。速度測定を開始した場合のみ、約 16 MB を Cloudflare に送信します",
+    "networkPrivacy": "バックグラウンドでは実行しません。速度測定を開始した場合のみ、約 14 MB を Cloudflare に送信します",
     "mouseTitle": "マウス",
     "mouseDescription": "OS のポインター設定を確認して変更します",
     "pointerSpeed": "ポインター速度",

@@ -76,7 +76,7 @@ onBeforeUnmount(() => {
   align-items: baseline;
   justify-content: flex-end;
   max-width: 100%;
-  text-align: right;
+  text-align: end;
   cursor: pointer;
   border-radius: 3px;
 }

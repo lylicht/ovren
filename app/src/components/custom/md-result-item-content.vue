@@ -75,7 +75,7 @@ const emit = defineEmits<{ toggle: [] }>();
   align-items: center;
   gap: 9px;
   padding: 5px 6px;
-  text-align: left;
+  text-align: start;
 }
 
 .result-item-content.expandable {

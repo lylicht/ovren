@@ -135,10 +135,10 @@
   --layout-sidebar-collapsed-width: 68px;
   --layout-sidebar-expanded-width: 240px;
   --layout-sidebar-item-height: 32px;
-  --layout-page-padding-inline: 20px;
-  --layout-page-padding-top: 14px;
+  --layout-page-padding-inline: clamp(24px, 2vw, 32px);
+  --layout-page-padding-top: 16px;
   --layout-scrollbar-width: 10px;
-  --layout-page-header-height: 58px;
+  --layout-page-header-height: 64px;
   --layout-page-readable-width: 1160px;
   --layout-page-wide-width: 1280px;
   --layout-workspace-toolbar-height: 36px;
@@ -472,4 +472,22 @@ body,
 
 [data-slot='button'].bg-destructive:hover:not(:disabled) {
   background-color: var(--destructive-hover);
+}
+
+[dir='rtl'] :where(.text-left) {
+  text-align: right;
+}
+
+[dir='rtl'] :where(.text-right) {
+  text-align: left;
+}
+
+[dir='rtl'] :where(.ml-auto) {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+[dir='rtl'] :where(.mr-auto) {
+  margin-right: 0;
+  margin-left: auto;
 }

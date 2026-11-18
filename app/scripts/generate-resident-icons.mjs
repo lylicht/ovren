@@ -14,7 +14,7 @@ const source = readFileSync(join(root, 'public/ovren-icon.svg'), 'utf8');
 if (!source.includes('id="ovren-mark"')) {
   throw new Error('The Ovren mark changed; review the tray icon source before regenerating.');
 }
-const template = `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="76 76 360 360"><g fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round"><path d="M344 147a146 146 0 1 0 47 57" stroke-width="38"/><path d="m166 218 78 91c7 8 17 8 24 0l88-112" stroke-width="36"/></g></svg>`;
+const template = `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="16 76 480 360"><g fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="34"><path d="M256 256c-45-80-109-128-165-83-54 44-43 126 20 166 57 36 119 9 145-83"/><path d="M256 256c45-80 109-128 165-83 54 44 43 126-20 166-57 36-119 9-145-83"/></g></svg>`;
 const temporary = mkdtempSync(join(tmpdir(), 'ovren-icons-'));
 const output = join(root, 'src-tauri/icons');
 const cli = join(root, 'node_modules/@tauri-apps/cli/tauri.js');

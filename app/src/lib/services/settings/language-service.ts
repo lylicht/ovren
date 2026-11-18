@@ -24,5 +24,6 @@ export class LanguageService {
     const locale = isLanguageId(language) ? language : LANGUAGE_IDS.enUS;
     i18n.global.locale.value = locale;
     document.documentElement.lang = locale;
+    document.documentElement.dir = locale === LANGUAGE_IDS.faIR ? 'rtl' : 'ltr';
   }
 }

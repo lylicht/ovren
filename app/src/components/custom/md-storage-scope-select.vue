@@ -609,7 +609,7 @@ watch(() => props.modelValue, closeTooltips);
   z-index: 1;
   align-self: center;
   justify-self: end;
-  margin-right: 0.25rem;
+  margin-inline-end: 0.25rem;
   display: flex;
   align-items: center;
   gap: 0.125rem;
@@ -644,27 +644,27 @@ watch(() => props.modelValue, closeTooltips);
   @apply text-muted-foreground hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none;
 }
 .scope-history-option.selected:not(:has(.scope-multiple-option)) .scope-option-actions {
-  margin-right: 1.75rem;
+  margin-inline-end: 1.75rem;
 }
 
 /* Reserve action space so hover never moves labels or the selection indicator. */
 .scope-option-item {
-  padding-right: 3.5rem;
+  padding-inline-end: 3.5rem;
 }
 .scope-option-item.scope-option-removable {
-  padding-right: 5.25rem;
+  padding-inline-end: 5.25rem;
 }
 .scope-option-item.scope-multiple-option {
-  padding-right: 2rem;
+  padding-inline-end: 2rem;
 }
 .scope-option-item.scope-multiple-option.scope-protection-option {
-  padding-right: 7.25rem;
+  padding-inline-end: 7.25rem;
 }
 .scope-option-item.scope-option-removable.scope-multiple-option {
-  padding-right: 3.75rem;
+  padding-inline-end: 3.75rem;
 }
 .scope-option-item.scope-option-removable.scope-multiple-option.scope-protection-option {
-  padding-right: 9rem;
+  padding-inline-end: 9rem;
 }
 .scope-option-actions :deep(.scope-option-reveal) {
   opacity: 0;
@@ -677,11 +677,11 @@ watch(() => props.modelValue, closeTooltips);
 }
 
 .scope-multiple-option {
-  padding-left: 2rem;
+  padding-inline-start: 2rem;
 }
 .scope-multiple-option :deep(> span:first-child) {
-  left: 0.5rem;
-  right: auto;
+  inset-inline-start: 0.5rem;
+  inset-inline-end: auto;
   width: 17px;
   height: 17px;
   border: 1.5px solid var(--color-border);

@@ -2461,7 +2461,8 @@
       "ptBR": "Português (Brasil)",
       "frFR": "Français (France)",
       "deDE": "Deutsch (Deutschland)",
-      "esES": "Español (España)"
+      "esES": "Español (España)",
+      "faIR": "波斯語"
     },
     "colorThemeTitle": "主題顏色",
     "colorThemeDescription": "選擇介面配色，明暗模式獨立設定",
@@ -4364,7 +4365,7 @@
     "failedProbes": "失敗探測",
     "networkResultNote": "已傳輸約 {amount} MB。Cloudflare 可以看到您的公開 IP 位址",
     "networkPrivacyTitle": "依需求執行",
-    "networkPrivacy": "不會在背景執行。只有在您開始測速後，才會向 Cloudflare 傳輸約 16 MB",
+    "networkPrivacy": "不會在背景執行。只有在您開始測速後，才會向 Cloudflare 傳輸約 14 MB",
     "mouseTitle": "滑鼠",
     "mouseDescription": "檢視並調整作業系統指標設定",
     "pointerSpeed": "指標速度",

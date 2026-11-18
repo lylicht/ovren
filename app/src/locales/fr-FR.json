@@ -2461,7 +2461,8 @@
       "ptBR": "Português (Brasil)",
       "frFR": "Français (France)",
       "deDE": "Deutsch (Deutschland)",
-      "esES": "Español (España)"
+      "esES": "Español (España)",
+      "faIR": "Persan"
     },
     "colorThemeTitle": "Palette de couleurs",
     "colorThemeDescription": "Choisir les couleurs indépendamment du mode clair ou sombre",
@@ -4364,7 +4365,7 @@
     "failedProbes": "Sondes échouées",
     "networkResultNote": "Environ {amount} Mo transférés. Cloudflare peut voir votre adresse IP publique",
     "networkPrivacyTitle": "À la demande et en local",
-    "networkPrivacy": "Aucune tâche ne tourne en arrière-plan. Le test envoie environ 16 Mo à Cloudflare uniquement lorsque vous le lancez",
+    "networkPrivacy": "Aucune tâche ne tourne en arrière-plan. Le test envoie environ 14 Mo à Cloudflare uniquement lorsque vous le lancez",
     "mouseTitle": "Souris",
     "mouseDescription": "Consultez et modifiez les réglages du pointeur du système",
     "pointerSpeed": "Vitesse du pointeur",

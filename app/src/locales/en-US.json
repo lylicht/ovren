@@ -2461,7 +2461,8 @@
       "ptBR": "Português (Brasil)",
       "frFR": "Français (France)",
       "deDE": "Deutsch (Deutschland)",
-      "esES": "Español (España)"
+      "esES": "Español (España)",
+      "faIR": "Persian"
     },
     "colorThemeTitle": "Theme color",
     "colorThemeDescription": "Choose a color palette independently of light or dark mode",
@@ -4364,7 +4365,7 @@
     "failedProbes": "Failed probes",
     "networkResultNote": "About {amount} MB transferred. Cloudflare can see your public IP address",
     "networkPrivacyTitle": "On-demand and local",
-    "networkPrivacy": "Nothing runs in the background. The speed check sends about 16 MB to Cloudflare only after you start it",
+    "networkPrivacy": "Nothing runs in the background. The speed check sends about 14 MB to Cloudflare only after you start it",
     "mouseTitle": "Mouse",
     "mouseDescription": "Review and adjust your operating system pointer settings",
     "pointerSpeed": "Pointer speed",

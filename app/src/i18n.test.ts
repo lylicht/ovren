@@ -6,6 +6,7 @@ import { LanguageService } from '@/lib/services/settings/language-service';
 import deDE from '@/locales/de-DE.json';
 import enUS from '@/locales/en-US.json';
 import esES from '@/locales/es-ES.json';
+import faIR from '@/locales/fa-IR.json';
 import frFR from '@/locales/fr-FR.json';
 import jaJP from '@/locales/ja-JP.json';
 import koKR from '@/locales/ko-KR.json';
@@ -15,7 +16,7 @@ import trTR from '@/locales/tr-TR.json';
 import zhCN from '@/locales/zh-CN.json';
 import zhTW from '@/locales/zh-TW.json';
 
-const localeResources = [zhCN, zhTW, jaJP, koKR, ruRU, enUS, trTR, ptBR, frFR, deDE, esES];
+const localeResources = [zhCN, zhTW, jaJP, koKR, faIR, ruRU, enUS, trTR, ptBR, frFR, deDE, esES];
 
 function leafKeys(value: unknown, prefix = ''): string[] {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return [prefix];
@@ -57,7 +58,7 @@ describe('i18n resources', () => {
     const englishEntries = new Map(leafEntries(enUS));
     const argumentsIn = (value: unknown) =>
       typeof value === 'string' ? [...new Set(value.match(/\{[a-zA-Z][a-zA-Z0-9_]*\}/gu) ?? [])].sort() : [];
-    for (const resource of [trTR, ptBR, ruRU, frFR, deDE, esES]) {
+    for (const resource of [faIR, trTR, ptBR, ruRU, frFR, deDE, esES]) {
       const mismatchedKeys = leafEntries(resource)
         .filter(
           ([key, value]) => JSON.stringify(argumentsIn(value)) !== JSON.stringify(argumentsIn(englishEntries.get(key)))
@@ -153,6 +154,7 @@ describe('i18n resources', () => {
       [LANGUAGE_IDS.enUS]: 'Open',
       [LANGUAGE_IDS.jaJP]: '開く',
       [LANGUAGE_IDS.koKR]: '열기',
+      [LANGUAGE_IDS.faIR]: 'باز کردن',
       [LANGUAGE_IDS.ruRU]: 'Открыть',
       [LANGUAGE_IDS.zhCN]: '打开',
       [LANGUAGE_IDS.zhTW]: '開啟',
@@ -176,6 +178,8 @@ describe('i18n resources', () => {
     expect(LanguageService.resolveSupportedLanguage(['ja-JP'])).toBe(LANGUAGE_IDS.jaJP);
     expect(LanguageService.resolveSupportedLanguage(['ko-KR', 'en-US'])).toBe(LANGUAGE_IDS.koKR);
     expect(LanguageService.resolveSupportedLanguage(['ko'])).toBe(LANGUAGE_IDS.koKR);
+    expect(LanguageService.resolveSupportedLanguage(['fa-IR', 'en-US'])).toBe(LANGUAGE_IDS.faIR);
+    expect(LanguageService.resolveSupportedLanguage(['fa-AF'])).toBe(LANGUAGE_IDS.faIR);
     expect(LanguageService.resolveSupportedLanguage(['ru-RU', 'en-US'])).toBe(LANGUAGE_IDS.ruRU);
     expect(LanguageService.resolveSupportedLanguage(['ru'])).toBe(LANGUAGE_IDS.ruRU);
     expect(LanguageService.resolveSupportedLanguage(['tr-TR', 'en-US'])).toBe(LANGUAGE_IDS.trTR);

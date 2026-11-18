@@ -2461,7 +2461,8 @@
       "ptBR": "Português (Brasil)",
       "frFR": "Français (France)",
       "deDE": "Deutsch (Deutschland)",
-      "esES": "Español (España)"
+      "esES": "Español (España)",
+      "faIR": "Farsça"
     },
     "colorThemeTitle": "Tema rengi",
     "colorThemeDescription": "Açık veya koyu moddan bağımsız bir renk paleti seçin",
@@ -4364,7 +4365,7 @@
     "failedProbes": "Başarısız ölçümler",
     "networkResultNote": "Yaklaşık {amount} MB aktarıldı. Cloudflare genel IP adresinizi görebilir",
     "networkPrivacyTitle": "İsteğe bağlı ve yerel",
-    "networkPrivacy": "Arka planda çalışmaz. Hız testi yalnızca başlattığınızda Cloudflare’a yaklaşık 16 MB gönderir",
+    "networkPrivacy": "Arka planda çalışmaz. Hız testi yalnızca başlattığınızda Cloudflare’a yaklaşık 14 MB gönderir",
     "mouseTitle": "Fare",
     "mouseDescription": "İşletim sistemi işaretçi ayarlarını görüntüleyip değiştirin",
     "pointerSpeed": "İşaretçi hızı",

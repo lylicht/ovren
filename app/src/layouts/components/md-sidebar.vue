@@ -310,8 +310,8 @@ watch(
   border: 1.5px solid color-mix(in oklab, var(--primary) 16%, transparent);
   border-top-color: var(--primary);
   border-top-color: color-mix(in oklab, var(--primary) 88%, transparent);
-  border-right-color: var(--primary);
-  border-right-color: color-mix(in oklab, var(--primary) 46%, transparent);
+  border-inline-end-color: var(--primary);
+  border-inline-end-color: color-mix(in oklab, var(--primary) 46%, transparent);
   border-radius: 50%;
   pointer-events: none;
   animation: nav-spin 0.9s linear infinite;
@@ -341,7 +341,7 @@ watch(
 .nav-accessory {
   position: absolute;
   top: 8px;
-  right: 8px;
+  inset-inline-end: 8px;
   display: grid;
   width: 12px;
   height: 12px;
@@ -350,7 +350,7 @@ watch(
 }
 .sidebar.expanded .nav-accessory {
   position: static;
-  margin-left: auto;
+  margin-inline-start: auto;
 }
 .nav-status {
   width: 11px;
