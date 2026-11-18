@@ -53,8 +53,17 @@ def check_elf_versions(
             raise RuntimeError(f"{path.relative_to(root)} has the wrong ELF architecture")
         count += 1
         result = subprocess.run(
-            ["objdump", "-T", str(path)], capture_output=True, text=True, check=True
+            ["objdump", "-T", str(path)], capture_output=True, text=True
         )
+        if result.returncode:
+            dynamic = subprocess.run(
+                ["readelf", "-d", str(path)], capture_output=True, text=True, check=True
+            )
+            if "There is no dynamic section in this file." not in dynamic.stdout + dynamic.stderr:
+                raise subprocess.CalledProcessError(
+                    result.returncode, result.args, result.stdout, result.stderr
+                )
+            continue
         versions = [
             tuple(map(int, match))
             for match in re.findall(r"GLIBC_(\d+)\.(\d+)", result.stdout)

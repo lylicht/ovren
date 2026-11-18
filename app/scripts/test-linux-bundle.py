@@ -4,18 +4,20 @@
 from pathlib import Path
 import runpy
 import shutil
+import struct
 import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
 
 
 SCRIPTS_DIR = Path(__file__).resolve().parent
-check_appimage_libraries = runpy.run_path(str(SCRIPTS_DIR / "check-linux-bundle.py"))[
-    "check_appimage_libraries"
-]
+bundle_checks = runpy.run_path(str(SCRIPTS_DIR / "check-linux-bundle.py"))
+check_appimage_libraries = bundle_checks["check_appimage_libraries"]
+check_elf_versions = bundle_checks["check_elf_versions"]
 
 
-class AppImageLibraryTests(unittest.TestCase):
+class LinuxBundleTests(unittest.TestCase):
     def setUp(self) -> None:
         self.temp = tempfile.TemporaryDirectory(prefix="mangodisk bundle ")
         self.addCleanup(self.temp.cleanup)
@@ -24,6 +26,12 @@ class AppImageLibraryTests(unittest.TestCase):
         self.modules.mkdir(parents=True)
         for name in ("libgiognutls.so", "giomodule.cache"):
             (self.modules / name).touch()
+
+    def make_elf(self) -> None:
+        header = bytearray(20)
+        header[:6] = b"\x7fELF\x02\x01"
+        header[18:20] = struct.pack("<H", 62)
+        (self.root / "ovrenNET").write_bytes(header)
 
     def test_accepts_gio_modules_without_bundled_wayland(self) -> None:
         (self.root / "usr/lib/libwebkit2gtk-4.1.so.0").touch()
@@ -66,6 +74,33 @@ class AppImageLibraryTests(unittest.TestCase):
                 with self.assertRaisesRegex(RuntimeError, name):
                     check_appimage_libraries(self.root)
                 module.touch()
+
+    def test_accepts_static_elf_without_dynamic_symbols(self) -> None:
+        self.make_elf()
+        with patch(
+            "subprocess.run",
+            side_effect=[
+                subprocess.CompletedProcess(["objdump"], 1, "", "no dynamic symbol table"),
+                subprocess.CompletedProcess(
+                    ["readelf"], 0, "There is no dynamic section in this file.", ""
+                ),
+            ],
+        ):
+            self.assertEqual(check_elf_versions(self.root, 62), (1, (0, 0), None))
+
+    def test_rejects_dynamic_elf_when_objdump_fails(self) -> None:
+        self.make_elf()
+        with patch(
+            "subprocess.run",
+            side_effect=[
+                subprocess.CompletedProcess(["objdump"], 1, "", "corrupt dynamic table"),
+                subprocess.CompletedProcess(
+                    ["readelf"], 0, "Dynamic section at offset 0x0 contains 1 entry:", ""
+                ),
+            ],
+        ):
+            with self.assertRaises(subprocess.CalledProcessError):
+                check_elf_versions(self.root, 62)
 
     def test_launcher_sets_gio_path_and_preserves_arguments_and_exit_code(self) -> None:
         launcher = self.root / "AppRun"
