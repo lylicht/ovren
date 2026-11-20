@@ -200,12 +200,9 @@ fn browser_entry(
 }
 
 fn sort_entries(entries: &mut [FileBrowserEntry]) {
-    entries.sort_by(|left, right| {
-        right
-            .is_directory
-            .cmp(&left.is_directory)
-            .then_with(|| left.name.to_lowercase().cmp(&right.name.to_lowercase()))
-    });
+    // Compute Unicode case-folded keys once per entry, rather than allocating
+    // lowercase strings for each comparison in large directories.
+    entries.sort_by_cached_key(|entry| (!entry.is_directory, entry.name.to_lowercase()));
 }
 
 #[cfg(test)]
