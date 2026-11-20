@@ -320,9 +320,9 @@
     "linkKind": "Link",
     "folderKind": "Pasta",
     "fileKind": "Arquivo",
-    "createDescription": "Criar um item na pasta atual.",
+    "createDescription": "Criar um item na pasta atual",
     "create": "Criar",
-    "renameDescription": "Escolha um novo nome para este item.",
+    "renameDescription": "Escolha um novo nome para este item",
     "trashDescription": "Mover os itens selecionados para a lixeira do sistema?",
     "errors": {
       "alreadyExists": "O nome já existe",
@@ -332,7 +332,7 @@
       "failed": "Falha na operação"
     },
     "previewText": "Prévia de texto",
-    "previewLimited": "Exibindo os primeiros 64 KiB deste arquivo.",
+    "previewLimited": "Exibindo os primeiros 64 KiB deste arquivo",
     "previewFailed": "Não foi possível visualizar este arquivo",
     "importFiles": "Importar arquivos",
     "importDescription": "Copiar {count} arquivos ou pastas para a pasta atual?",
