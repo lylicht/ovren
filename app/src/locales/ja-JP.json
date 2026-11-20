@@ -330,7 +330,13 @@
       "permissionDenied": "アクセスが拒否されました",
       "invalidInput": "名前または選択が無効です",
       "failed": "操作に失敗しました"
-    }
+    },
+    "previewText": "テキストをプレビュー",
+    "previewLimited": "このファイルの先頭 64 KiB を表示しています。",
+    "previewFailed": "ファイルをプレビューできません",
+    "importFiles": "ファイルを取り込む",
+    "importDescription": "選択した {count} 件を現在のフォルダーにコピーしますか？",
+    "copyHere": "ここにコピー"
   },
   "systemMaintenance": {
     "title": "システムメンテナンス",
