@@ -320,9 +320,9 @@
     "linkKind": "連結",
     "folderKind": "資料夾",
     "fileKind": "檔案",
-    "createDescription": "在目前資料夾中建立項目。",
+    "createDescription": "在目前資料夾中建立項目",
     "create": "建立",
-    "renameDescription": "為此項目選擇新名稱。",
+    "renameDescription": "為此項目選擇新名稱",
     "trashDescription": "將選取的項目移至系統垃圾桶？",
     "errors": {
       "alreadyExists": "名稱已存在",
@@ -332,7 +332,7 @@
       "failed": "操作失敗"
     },
     "previewText": "預覽文字",
-    "previewLimited": "僅顯示檔案前 64 KiB 內容。",
+    "previewLimited": "僅顯示檔案前 64 KiB 內容",
     "previewFailed": "無法預覽此檔案",
     "importFiles": "匯入檔案",
     "importDescription": "將選取的 {count} 個檔案或資料夾複製到目前資料夾？",
