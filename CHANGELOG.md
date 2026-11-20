@@ -4,6 +4,7 @@
 
 - Added primary-button, scrolling, and double-click controls to the mouse settings on supported desktops.
 - Expanded mouse settings in Windows and GNOME, with review, apply, undo, and localized controls.
+- Set the main window taskbar icon from the same canonical artwork used by the desktop app icon.
 
 ## 1.3.3 — 2026-11-20
 

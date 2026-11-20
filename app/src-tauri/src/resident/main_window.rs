@@ -104,10 +104,13 @@ pub fn open(
         // do not create the main window, so showing this foreground window
         // immediately avoids that platform defect without a login flash.
         let initially_visible = cfg!(target_os = "linux");
-        let window = WebviewWindowBuilder::from_config(app, config)?
+        let mut builder = WebviewWindowBuilder::from_config(app, config)?
             .visible(initially_visible)
-            .focused(initially_visible)
-            .build()?;
+            .focused(initially_visible);
+        if let Some(icon) = app.default_window_icon() {
+            builder = builder.icon(icon.clone())?;
+        }
+        let window = builder.build()?;
         #[cfg(windows)]
         crate::webview_recovery::install(&window);
         #[cfg(not(windows))]
