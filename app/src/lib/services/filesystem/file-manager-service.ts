@@ -21,6 +21,10 @@ export class FileManagerService {
     return homeDir();
   }
 
+  static openBrowserWindow(): Promise<void> {
+    return invoke<void>('open_file_browser_window');
+  }
+
   static parentDirectory(path: string): Promise<string> {
     return dirname(path);
   }

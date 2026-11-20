@@ -6,7 +6,7 @@ use mangodisk_core::{
     FileBrowserSearchResult, FileMutationReport, FileTextPreview, FileTransferMode,
     LargeFileService,
 };
-use tauri::{AppHandle, Manager};
+use tauri::{AppHandle, Manager, WebviewWindowBuilder};
 use tauri_plugin_opener::OpenerExt;
 
 use super::error::{into_command_result, run_blocking, CommandResult};
@@ -17,6 +17,36 @@ pub async fn list_file_browser_directory(path: String) -> CommandResult<FileBrow
         list_directory(Path::new(&path))
     })
     .await
+}
+
+#[tauri::command]
+pub fn open_file_browser_window(app: AppHandle) -> CommandResult<()> {
+    let result: tauri::Result<()> = (|| {
+        if let Some(window) = app.get_webview_window(crate::FILE_BROWSER_WINDOW_LABEL) {
+            window.unminimize()?;
+            window.show()?;
+            window.set_focus()?;
+            return Ok(());
+        }
+
+        let config = app
+            .config()
+            .app
+            .windows
+            .iter()
+            .find(|window| window.label == crate::FILE_BROWSER_WINDOW_LABEL)
+            .ok_or_else(|| std::io::Error::other("file browser window configuration is missing"))?;
+        let mut builder = WebviewWindowBuilder::from_config(&app, config)?
+            .visible(true)
+            .focused(true);
+        if let Some(icon) = app.default_window_icon() {
+            builder = builder.icon(icon.clone())?;
+        }
+        builder.build()?;
+        log::info!("file_browser_window_created");
+        Ok(())
+    })();
+    into_command_result("open_file_browser_window", result)
 }
 
 #[tauri::command]

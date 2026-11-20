@@ -284,6 +284,7 @@
     "emptyRootTitle": "选择文件夹以开始",
     "noMatchesTitle": "没有匹配项",
     "navigation": "文件导航",
+    "openInWindow": "在单独窗口中打开",
     "back": "后退",
     "forward": "前进",
     "home": "主目录",

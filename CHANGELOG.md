@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.5 — 2026-11-20
+
+- Open the file browser in its own native, resizable window from the file browser page.
+
 ## 1.3.4 — 2026-11-20
 
 - Added primary-button, scrolling, and double-click controls to the mouse settings on supported desktops.

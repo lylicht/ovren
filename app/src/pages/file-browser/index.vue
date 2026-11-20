@@ -47,6 +47,7 @@ const emit = defineEmits<{
   analyze: [path: string];
   openTool: [page: 'large-files' | 'duplicate-files'];
 }>();
+withDefaults(defineProps<{ standalone?: boolean }>(), { standalone: false });
 
 const { locale, t } = useI18n({ useScope: 'global' });
 const storageScopes = useStorageScopeStore();
@@ -146,6 +147,14 @@ const standardFolderIcons: Record<StandardScanFolderId, IconName> = {
 function clearMessages() {
   errorMessage.value = '';
   statusMessage.value = '';
+}
+
+async function openInWindow() {
+  try {
+    await FileManagerService.openBrowserWindow();
+  } catch {
+    errorMessage.value = t('common.operationFailed');
+  }
 }
 
 async function loadDirectory(target: string, mode: HistoryMode = 'push', index = -1, forceRefresh = false) {
@@ -628,6 +637,12 @@ onBeforeUnmount(() => {
     :title="t('navigation.file-browser')"
     :subtitle="path || undefined"
   >
+    <template v-if="!standalone" #actions>
+      <Button variant="outline" size="sm" @click="openInWindow">
+        <MdIcon :name="ICON_NAMES.windowRestore" :size="15" />
+        {{ t('fileBrowser.openInWindow') }}
+      </Button>
+    </template>
     <MdResultWorkspace class="file-browser-workspace">
       <div class="file-browser-nav" role="toolbar" :aria-label="t('fileBrowser.navigation')">
         <Button
@@ -852,7 +867,7 @@ onBeforeUnmount(() => {
               <span dir="auto">{{ browserName(recent) }}</span>
             </button>
           </div>
-          <div class="file-browser-side-section">
+          <div v-if="!standalone" class="file-browser-side-section">
             <strong>{{ t('fileBrowser.ovrenTools') }}</strong>
             <button
               class="file-browser-side-link"

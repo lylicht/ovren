@@ -126,6 +126,8 @@ const resolveCleanupRuleMessage: CleanupRuleMessageResolver = (key, parameters) 
 };
 
 const store = useAppStore();
+const isStandaloneFileBrowserWindow = new URLSearchParams(window.location.search).get('window') === 'file-browser';
+if (isStandaloneFileBrowserWindow) store.navigate(PAGE_IDS.fileBrowser);
 const appUpdateStore = useAppUpdateStore();
 const cleanupStore = useCleanupStore();
 const systemMaintenanceStore = useSystemMaintenanceStore();
@@ -314,6 +316,7 @@ function toggleSidebar() {
 }
 
 onMounted(() => {
+  if (isStandaloneFileBrowserWindow) return;
   window.addEventListener('resize', syncSidebarExpansion);
   syncSidebarExpansion();
   cleanupStore.initialize();
@@ -656,18 +659,20 @@ async function cancelDeepCleanup() {
   <main
     class="app-shell"
     :class="{
-      'custom-titlebar': customTitlebarPlatform,
-      'macos-overlay': isMacOs,
-      'desktop-custom-titlebar': isWindows || isLinux,
+      'custom-titlebar': customTitlebarPlatform && !isStandaloneFileBrowserWindow,
+      'macos-overlay': isMacOs && !isStandaloneFileBrowserWindow,
+      'desktop-custom-titlebar': (isWindows || isLinux) && !isStandaloneFileBrowserWindow,
+      'standalone-file-browser-window': isStandaloneFileBrowserWindow,
       'sidebar-expanded': sidebarExpanded,
     }"
   >
     <MdWindowTitlebar
-      v-if="customTitlebarPlatform"
+      v-if="customTitlebarPlatform && !isStandaloneFileBrowserWindow"
       :platform="customTitlebarPlatform"
       :sidebar-expanded="sidebarExpanded"
     />
     <MdSidebar
+      v-if="!isStandaloneFileBrowserWindow"
       :current-page="store.currentPage"
       :busy-pages="busyPages"
       :notice-pages="noticePages"
@@ -676,7 +681,7 @@ async function cancelDeepCleanup() {
       @navigate="navigate"
       @toggle="toggleSidebar"
     />
-    <div class="content-shell">
+    <div class="content-shell" :class="{ 'content-shell--standalone': isStandaloneFileBrowserWindow }">
       <KeepAlive>
         <SystemOptimizationPage v-if="store.currentPage === PAGE_IDS.systemOptimization" />
         <SystemMaintenancePage v-else-if="store.currentPage === PAGE_IDS.systemMaintenance" />
@@ -783,6 +788,7 @@ async function cancelDeepCleanup() {
         />
         <FileBrowserPage
           v-else-if="store.currentPage === PAGE_IDS.fileBrowser"
+          :standalone="isStandaloneFileBrowserWindow"
           @analyze="analyzeFileBrowserPath"
           @open-tool="openFileBrowserTool"
         />
@@ -917,5 +923,8 @@ async function cancelDeepCleanup() {
   overflow: hidden;
   border-radius: 12px 0 0;
   @apply bg-background;
+}
+.content-shell--standalone {
+  border-radius: 0;
 }
 </style>

@@ -20,6 +20,7 @@ use tauri_plugin_log::RotationStrategy;
 use tauri_plugin_window_state::{StateFlags, WindowExt};
 
 const MAIN_WINDOW_LABEL: &str = "main";
+const FILE_BROWSER_WINDOW_LABEL: &str = "file-browser";
 const LOG_FILE_MAX_BYTES: u128 = 10 * 1024 * 1024;
 // KeepSome only counts dated archives and excludes the active log file. Four
 // archives plus the active file keep the five most recent logs requested by
@@ -294,6 +295,7 @@ pub fn run() {
             commands::file_manager::open_large_file_entry,
             commands::file_manager::open_duplicate_file_entry,
             commands::file_manager::list_file_browser_directory,
+            commands::file_manager::open_file_browser_window,
             commands::file_manager::preview_file_browser_entry,
             commands::file_manager::create_file_browser_entry,
             commands::file_manager::rename_file_browser_entry,

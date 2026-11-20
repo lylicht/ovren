@@ -1,9 +1,10 @@
 {
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "main-capability",
-  "description": "Minimum permissions for the Ovren main window",
+  "description": "Minimum permissions for the Ovren application windows",
   "windows": [
-    "main"
+    "main",
+    "file-browser"
   ],
   "permissions": [
     "core:default",
