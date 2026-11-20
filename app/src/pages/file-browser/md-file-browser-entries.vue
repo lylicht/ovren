@@ -23,6 +23,8 @@ const emit = defineEmits<{
   select: [entry: FileBrowserEntry, event: MouseEvent];
   activate: [entry: FileBrowserEntry];
   context: [entry: FileBrowserEntry, event: MouseEvent];
+  dragStart: [entry: FileBrowserEntry, event: DragEvent];
+  dropOn: [entry: FileBrowserEntry, event: DragEvent];
 }>();
 
 const { t, locale } = useI18n({ useScope: 'global' });
@@ -88,6 +90,7 @@ function modified(entry: FileBrowserEntry) {
           :key="entry.path"
           type="button"
           role="option"
+          :draggable="!busy"
           class="browser-entry"
           :class="{ selected: selected.has(entry.path), 'grid-entry': view === 'grid' }"
           :aria-selected="selected.has(entry.path)"
@@ -97,6 +100,9 @@ function modified(entry: FileBrowserEntry) {
           @click="emit('select', entry, $event)"
           @dblclick="emit('activate', entry)"
           @contextmenu.prevent="emit('context', entry, $event)"
+          @dragstart="emit('dragStart', entry, $event)"
+          @dragover="entry.isDirectory && !entry.isSymlink && $event.preventDefault()"
+          @drop.prevent="emit('dropOn', entry, $event)"
         >
           <span class="entry-icon">
             <MdIcon :name="browserEntryIcon(entry)" :size="view === 'grid' ? 31 : 20" />
