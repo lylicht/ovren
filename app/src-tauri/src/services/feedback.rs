@@ -228,8 +228,7 @@ struct FeedbackMetadata<'a> {
 fn feedback_architecture() -> &'static str {
     #[cfg(target_os = "windows")]
     {
-        super::app_update_native_arch::telemetry_native_arch()
-            .unwrap_or_else(tauri_plugin_os::arch)
+        super::app_update_native_arch::telemetry_native_arch().unwrap_or_else(tauri_plugin_os::arch)
     }
     #[cfg(not(target_os = "windows"))]
     {
@@ -818,4 +817,3 @@ mod tests {
         assert!(loopback_feedback_endpoint("http://localhost:3000@evil.example/api").is_none());
     }
 }
-

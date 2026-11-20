@@ -2637,7 +2637,8 @@
     "manualDownloadFailed": "无法打开下载地址",
     "installFailed": "安装失败",
     "restartFailed": "无法重新启动 Ovren",
-    "navigationNotice": "有新版本可用"
+    "navigationNotice": "有新版本可用",
+    "downloadLatest": "下载最新安装程序"
   },
   "loading": {
     "starting": "正在读取磁盘信息…",

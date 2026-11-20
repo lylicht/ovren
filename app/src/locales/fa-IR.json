@@ -2637,7 +2637,8 @@
     "manualDownloadFailed": "دانلود بازی Unable to open the download",
     "installFailed": "نصب شکست خورده",
     "restartFailed": "دانلود بازی Ovren",
-    "navigationNotice": "نسخه جدید در دسترس است"
+    "navigationNotice": "نسخه جدید در دسترس است",
+    "downloadLatest": "دانلود جدیدترین نصب‌کننده"
   },
   "loading": {
     "starting": "خواندن اطلاعات دیسک ",

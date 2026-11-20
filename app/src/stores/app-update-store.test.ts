@@ -5,6 +5,7 @@ import { APP_DISTRIBUTION_IDS, APP_UPDATE_ACTION_IDS, APP_UPDATE_STATUS_IDS } fr
 import { AppDistributionService } from '@/lib/services/updates/app-distribution-service';
 import { AppUpdateService } from '@/lib/services/updates/app-update-service';
 import { LinkService } from '@/lib/services/shell/link-service';
+import { OperatingSystemService } from '@/lib/services/settings/operating-system-service';
 import { LoggerService } from '@/lib/services/diagnostics/logger-service';
 
 import { useAppUpdateStore } from './app-update-store';
@@ -130,6 +131,18 @@ describe('app update store', () => {
 
     expect(store.dialogOpen).toBe(true);
     expect(store.updateNoticeUnread).toBe(false);
+  });
+
+  it('opens the current platform installer from About', async () => {
+    vi.spyOn(OperatingSystemService, 'currentPlatform').mockReturnValue('windows');
+    const open = vi.spyOn(LinkService, 'open').mockResolvedValue();
+    const store = useAppUpdateStore();
+
+    await store.openLatestDownload();
+
+    expect(open).toHaveBeenCalledWith(
+      'https://github.com/lylicht/ovren/releases/latest/download/Ovren-latest-windows-x86_64-setup.exe'
+    );
   });
 
   it('tracks download progress and waits for explicit installation', async () => {

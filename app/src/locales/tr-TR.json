@@ -2637,7 +2637,8 @@
     "manualDownloadFailed": "İndirme açılamadı",
     "installFailed": "Yükleme başarısız oldu",
     "restartFailed": "Ovren yeniden başlatılamadı",
-    "navigationNotice": "Yeni bir sürüm kullanılabilir"
+    "navigationNotice": "Yeni bir sürüm kullanılabilir",
+    "downloadLatest": "En yeni yükleyiciyi indir"
   },
   "loading": {
     "starting": "Disk bilgileri okunuyor…",

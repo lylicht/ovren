@@ -13,6 +13,7 @@ import { LOG_DOMAINS, LOG_EVENTS } from '@/lib/models/diagnostics/telemetry';
 import { AppDistributionService } from '@/lib/services/updates/app-distribution-service';
 import { AppUpdateService } from '@/lib/services/updates/app-update-service';
 import { LinkService } from '@/lib/services/shell/link-service';
+import { OperatingSystemService } from '@/lib/services/settings/operating-system-service';
 import { LoggerService } from '@/lib/services/diagnostics/logger-service';
 import { normalizeError } from '@/lib/utils/diagnostics/error';
 
@@ -262,6 +263,17 @@ export const useAppUpdateStore = defineStore('app-update', {
           releaseVersion: update.version,
           diagnostic,
         });
+      }
+    },
+    async openLatestDownload() {
+      this.actionError = '';
+      this.failureStage = null;
+      try {
+        await LinkService.open(AppUpdateService.latestInstallerUrl(OperatingSystemService.currentPlatform()));
+      } catch (error) {
+        this.actionError = normalizeError(error).trim();
+        this.failureStage = APP_UPDATE_FAILURE_STAGE_IDS.download;
+        this.dialogOpen = true;
       }
     },
     dismiss() {

@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { copyFileSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const tag = process.env.OVREN_RELEASE_TAG || process.env.GITHUB_REF_NAME;
@@ -27,6 +27,22 @@ function platform(directory, extension) {
     signature,
   };
 }
+
+function publishLatestInstaller(directory, suffix, filename) {
+  const matches = readdirSync(directory).filter((name) => name.endsWith(suffix));
+  if (matches.length !== 1) throw new Error(`Expected exactly one ${suffix} installer in ${directory}.`);
+
+  const source = join(directory, matches[0]);
+  const target = join('release', filename);
+  copyFileSync(source, target);
+  if (statSync(source).size === 0 || statSync(source).size !== statSync(target).size) {
+    throw new Error(`Latest installer alias did not match ${matches[0]}.`);
+  }
+}
+
+publishLatestInstaller('release/windows', '-setup.exe', 'Ovren-latest-windows-x86_64-setup.exe');
+publishLatestInstaller('release/linux', '.AppImage', 'Ovren-latest-linux-x86_64.AppImage');
+publishLatestInstaller('release/macos', '.dmg', 'Ovren-latest-macos.dmg');
 
 const manifest = {
   version,

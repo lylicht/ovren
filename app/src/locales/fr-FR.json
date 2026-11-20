@@ -2637,7 +2637,8 @@
     "manualDownloadFailed": "Impossible d'ouvrir le téléchargement",
     "installFailed": "Échec de l'installation",
     "restartFailed": "Impossible de redémarrer Ovren",
-    "navigationNotice": "Une nouvelle version est disponible"
+    "navigationNotice": "Une nouvelle version est disponible",
+    "downloadLatest": "Télécharger le dernier programme d’installation"
   },
   "loading": {
     "starting": "Lecture des informations sur le disque…",

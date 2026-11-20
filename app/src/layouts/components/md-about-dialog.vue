@@ -42,6 +42,7 @@ const emit = defineEmits<{
   check: [];
   download: [];
   manualDownload: [];
+  latestDownload: [];
   install: [];
   restart: [];
   openLink: [url: string];
@@ -140,6 +141,10 @@ function downloadUpdate() {
       <div class="about-dialog-body">
         <p v-if="!updateFocused" class="product-description">{{ t('settings.aboutDescription') }}</p>
         <nav v-if="!updateFocused" class="project-links" :aria-label="t('settings.projectLinksLabel')">
+          <button type="button" @click="emit('latestDownload')">
+            {{ t('updates.downloadLatest') }}
+            <MdIcon :name="ICON_NAMES.download" :size="13" />
+          </button>
           <button type="button" @click="emit('openLink', websiteUrl)">
             {{ t('settings.websiteAction') }}
             <MdIcon :name="ICON_NAMES.external" :size="13" />

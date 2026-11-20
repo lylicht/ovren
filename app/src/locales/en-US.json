@@ -2637,7 +2637,8 @@
     "manualDownloadFailed": "Unable to open the download",
     "installFailed": "Installation failed",
     "restartFailed": "Unable to restart Ovren",
-    "navigationNotice": "A new version is available"
+    "navigationNotice": "A new version is available",
+    "downloadLatest": "Download latest installer"
   },
   "loading": {
     "starting": "Reading disk information…",

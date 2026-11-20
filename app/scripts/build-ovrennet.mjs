@@ -6,8 +6,9 @@ import { fileURLToPath } from 'node:url';
 const appDir = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const sourceDir = resolve(appDir, 'ovrennet');
 const binaryDir = resolve(appDir, 'src-tauri', 'binaries', 'ovrennet');
-const target = process.env.TAURI_ENV_TARGET_TRIPLE
-  ?? spawnSync('rustc', ['--print', 'host-tuple'], { encoding: 'utf8' }).stdout?.trim();
+const target =
+  process.env.TAURI_ENV_TARGET_TRIPLE ??
+  spawnSync('rustc', ['--print', 'host-tuple'], { encoding: 'utf8' }).stdout?.trim();
 const platforms = {
   'x86_64-pc-windows-msvc': ['windows', 'amd64'],
   'x86_64-unknown-linux-gnu': ['linux', 'amd64'],
@@ -36,16 +37,20 @@ if (build.status !== 0) process.exit(build.status ?? 1);
 if (platform[0] === 'windows') {
   const fetchEnvironment = { ...process.env };
   delete fetchEnvironment.PSModulePath;
-  const fetch = spawnSync('powershell.exe', [
-    '-NoProfile',
-    '-NonInteractive',
-    '-ExecutionPolicy',
-    'Bypass',
-    '-File',
-    resolve(sourceDir, 'scripts', 'fetch-wintun.ps1'),
-    '-OutDir',
-    binaryDir,
-  ], { stdio: 'inherit', env: fetchEnvironment });
+  const fetch = spawnSync(
+    'powershell.exe',
+    [
+      '-NoProfile',
+      '-NonInteractive',
+      '-ExecutionPolicy',
+      'Bypass',
+      '-File',
+      resolve(sourceDir, 'scripts', 'fetch-wintun.ps1'),
+      '-OutDir',
+      binaryDir,
+    ],
+    { stdio: 'inherit', env: fetchEnvironment }
+  );
   if (fetch.error) throw fetch.error;
   if (fetch.status !== 0) process.exit(fetch.status ?? 1);
 }

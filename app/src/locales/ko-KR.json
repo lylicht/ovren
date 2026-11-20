@@ -2637,7 +2637,8 @@
     "manualDownloadFailed": "다운로드 페이지를 열 수 없습니다",
     "installFailed": "설치 실패",
     "restartFailed": "Ovren를 다시 시작할 수 없습니다",
-    "navigationNotice": "새 버전을 사용할 수 있습니다"
+    "navigationNotice": "새 버전을 사용할 수 있습니다",
+    "downloadLatest": "최신 설치 프로그램 다운로드"
   },
   "loading": {
     "starting": "디스크 정보를 읽는 중…",

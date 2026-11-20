@@ -178,6 +178,8 @@ fn browser_entry(
     is_directory: bool,
     is_symlink: bool,
 ) -> io::Result<FileBrowserEntry> {
+    let is_directory =
+        is_directory || (is_symlink && fs::metadata(&path).is_ok_and(|metadata| metadata.is_dir()));
     let metadata = fs::symlink_metadata(&path)?;
     let modified_at_ms = metadata
         .modified()
@@ -246,6 +248,30 @@ mod tests {
         assert!(listing.entries[0].is_directory);
         assert_eq!(listing.entries[1].name, "file.txt");
         assert_eq!(listing.entries[1].size, 8);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn directory_symlinks_are_navigable_but_not_searched_recursively() {
+        let temporary = tempfile::tempdir().unwrap();
+        let root = temporary.path().join("root");
+        let target = root.join("target");
+        fs::create_dir_all(&target).unwrap();
+        fs::write(target.join("needle.txt"), b"match").unwrap();
+        std::os::unix::fs::symlink(&target, root.join("linked")).unwrap();
+
+        let listing = list_directory(&root).unwrap();
+        let linked = listing
+            .entries
+            .iter()
+            .find(|entry| entry.name == "linked")
+            .unwrap();
+        assert!(linked.is_directory);
+        assert!(linked.is_symlink);
+
+        let result = search_directory(&root, "needle").unwrap();
+        assert_eq!(result.entries.len(), 1);
+        assert_eq!(result.entries[0].name, "needle.txt");
     }
 
     #[test]

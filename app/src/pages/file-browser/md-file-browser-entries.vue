@@ -4,7 +4,6 @@ import { useVirtualizer } from '@tanstack/vue-virtual';
 import { useI18n } from 'vue-i18n';
 
 import MdIcon from '@/components/icons/md-icon.vue';
-import { ICON_NAMES } from '@/lib/models/presentation/ui';
 import type { FileBrowserEntry } from '@/lib/models/filesystem/file-browser';
 import type { BrowserView } from '@/lib/utils/filesystem/file-browser';
 import { browserEntryIcon } from '@/lib/utils/filesystem/file-browser';

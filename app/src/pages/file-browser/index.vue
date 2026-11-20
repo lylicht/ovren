@@ -78,6 +78,13 @@ const previewBusy = ref(false);
 const importOpen = ref(false);
 const importPaths = ref<string[]>([]);
 const menu = ref<{ x: number; y: number } | null>(null);
+const mutationFailureMessages = {
+  alreadyExists: 'fileBrowser.errors.alreadyExists',
+  notFound: 'fileBrowser.errors.notFound',
+  permissionDenied: 'fileBrowser.errors.permissionDenied',
+  invalidInput: 'fileBrowser.errors.invalidInput',
+  failed: 'fileBrowser.errors.failed',
+} as const;
 let requestId = 0;
 let componentActive = true;
 let stopNativeDrop: (() => void) | null = null;
@@ -230,7 +237,7 @@ async function navigateAddress() {
 
 async function activate(entry: FileBrowserEntry) {
   if (busy.value) return;
-  if (entry.isDirectory && !entry.isSymlink) {
+  if (entry.isDirectory) {
     await loadDirectory(entry.path);
   } else {
     try {
@@ -309,7 +316,7 @@ function reportResult(report: FileMutationReport) {
     const failure = report.failed[0];
     errorMessage.value = t('fileBrowser.partialFailure', {
       count: report.failed.length,
-      reason: t('fileBrowser.errors.' + (failure?.reason ?? 'failed')),
+      reason: t(mutationFailureMessages[failure?.reason ?? 'failed']),
     });
   }
   if (count) statusMessage.value = t('fileBrowser.completedCount', { count });
@@ -885,15 +892,6 @@ onBeforeUnmount(() => {
           <Button v-if="canPreview" variant="outline" size="sm" :disabled="busy" @click="openPreview">
             {{ t('fileBrowser.previewText') }}
           </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            :disabled="busy"
-            @click="
-              FileManagerService.reveal(selectedEntry.path).catch(() => (errorMessage = t('common.operationFailed')))
-            "
-            >{{ t('common.showInFileManager') }}</Button
-          >
         </aside>
       </div>
 

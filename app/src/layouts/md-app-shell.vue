@@ -876,6 +876,7 @@ async function cancelDeepCleanup() {
       @check="checkForUpdates"
       @download="appUpdateStore.download()"
       @manual-download="appUpdateStore.openManualDownload()"
+      @latest-download="appUpdateStore.openLatestDownload()"
       @install="appUpdateStore.installDownloaded()"
       @restart="appUpdateStore.restartApplication()"
       @open-link="openExternalLink"

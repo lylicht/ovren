@@ -74,8 +74,14 @@ assertContains(cliManifest, 'name = "mangodisk"', 'CLI binary manifest');
 assertExists('public/ovren-icon.png');
 assertExists('public/ovren-mark.png');
 for (const filename of [
-  '32x32.png', '128x128.png', '128x128@2x.png', 'icon.icns',
-  'icon.ico', 'windows/icon.ico', 'tray-color.png', 'tray-template.png',
+  '32x32.png',
+  '128x128.png',
+  '128x128@2x.png',
+  'icon.icns',
+  'icon.ico',
+  'windows/icon.ico',
+  'tray-color.png',
+  'tray-template.png',
 ]) {
   assertExists(`src-tauri/icons/${filename}`);
 }

@@ -1,6 +1,7 @@
 import { invoke } from '@tauri-apps/api/core';
 import { getVersion } from '@tauri-apps/api/app';
 import { Update, type DownloadEvent } from '@tauri-apps/plugin-updater';
+import type { Platform } from '@tauri-apps/plugin-os';
 
 import {
   APP_DISTRIBUTION_IDS,
@@ -25,6 +26,18 @@ export class AppUpdateService {
 
   static currentVersion(): Promise<string> {
     return getVersion();
+  }
+
+  static latestInstallerUrl(platform: Platform): string {
+    const installer: Partial<Record<Platform, string>> = {
+      windows: 'Ovren-latest-windows-x86_64-setup.exe',
+      linux: 'Ovren-latest-linux-x86_64.AppImage',
+      macos: 'Ovren-latest-macos.dmg',
+    };
+    const filename = installer[platform];
+    return filename
+      ? `${PROJECT_LINKS.repository}/releases/latest/download/${encodeURIComponent(filename)}`
+      : `${PROJECT_LINKS.repository}/releases/latest`;
   }
 
   static check(distribution: AppDistribution, refresh: boolean): Promise<AppUpdateInfo | null> {

@@ -118,4 +118,16 @@ describe('AppUpdateService', () => {
     expect(native.close).toHaveBeenCalledOnce();
     await expect(AppUpdateService.download(() => undefined)).rejects.toThrow('No checked update');
   });
+
+  it('selects the latest installer for each supported desktop platform', () => {
+    expect(AppUpdateService.latestInstallerUrl('windows')).toBe(
+      'https://github.com/lylicht/ovren/releases/latest/download/Ovren-latest-windows-x86_64-setup.exe'
+    );
+    expect(AppUpdateService.latestInstallerUrl('linux')).toBe(
+      'https://github.com/lylicht/ovren/releases/latest/download/Ovren-latest-linux-x86_64.AppImage'
+    );
+    expect(AppUpdateService.latestInstallerUrl('macos')).toBe(
+      'https://github.com/lylicht/ovren/releases/latest/download/Ovren-latest-macos.dmg'
+    );
+  });
 });

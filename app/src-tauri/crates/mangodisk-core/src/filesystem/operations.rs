@@ -539,7 +539,10 @@ mod tests {
         .unwrap();
 
         assert!(report.failed.is_empty());
-        assert_eq!(fs::read(destination.join("sample.txt")).unwrap(), b"complete");
+        assert_eq!(
+            fs::read(destination.join("sample.txt")).unwrap(),
+            b"complete"
+        );
         let names = fs::read_dir(&destination)
             .unwrap()
             .map(|item| item.unwrap().file_name())

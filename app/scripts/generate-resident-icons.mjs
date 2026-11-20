@@ -38,11 +38,21 @@ try {
   // Windows shell tiles, Linux launcher icons, macOS Dock icons, and the NSIS
   // installer icon must all derive from one canonical source image.
   for (const name of [
-    '32x32.png', '64x64.png', '128x128.png', '128x128@2x.png',
-    'icon.png', 'icon.icns',
-    'Square30x30Logo.png', 'Square44x44Logo.png', 'Square71x71Logo.png',
-    'Square89x89Logo.png', 'Square107x107Logo.png', 'Square142x142Logo.png',
-    'Square150x150Logo.png', 'Square284x284Logo.png', 'Square310x310Logo.png',
+    '32x32.png',
+    '64x64.png',
+    '128x128.png',
+    '128x128@2x.png',
+    'icon.png',
+    'icon.icns',
+    'Square30x30Logo.png',
+    'Square44x44Logo.png',
+    'Square71x71Logo.png',
+    'Square89x89Logo.png',
+    'Square107x107Logo.png',
+    'Square142x142Logo.png',
+    'Square150x150Logo.png',
+    'Square284x284Logo.png',
+    'Square310x310Logo.png',
     'StoreLogo.png',
   ]) {
     copyFileSync(join(application, name), join(output, name));
@@ -59,9 +69,7 @@ try {
   // preserving all ICO image offsets and available resolution entries.
   const ico = readFileSync(join(application, 'icon.ico'));
   const count = ico.readUInt16LE(4);
-  const entries = Array.from({ length: count }, (_, index) =>
-    ico.subarray(6 + index * 16, 22 + index * 16)
-  );
+  const entries = Array.from({ length: count }, (_, index) => ico.subarray(6 + index * 16, 22 + index * 16));
   entries.sort((left, right) => (right[0] || 256) - (left[0] || 256));
   const orderedIco = Buffer.concat([ico.subarray(0, 6), ...entries, ico.subarray(6 + count * 16)]);
   writeFileSync(join(output, 'icon.ico'), orderedIco);

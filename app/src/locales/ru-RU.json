@@ -2637,7 +2637,8 @@
     "manualDownloadFailed": "Не удалось открыть страницу загрузки",
     "installFailed": "Ошибка установки",
     "restartFailed": "Не удалось перезапустить Ovren",
-    "navigationNotice": "Доступна новая версия"
+    "navigationNotice": "Доступна новая версия",
+    "downloadLatest": "Скачать последнюю версию установщика"
   },
   "loading": {
     "starting": "Чтение сведений о диске…",

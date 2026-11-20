@@ -7,6 +7,8 @@
 - Added native Rust create, rename, copy, move, and Trash operations with no-overwrite safety and staged copies.
 - Connected the explorer to storage analysis, large-file discovery, and duplicate-file tools.
 - Added localization and filesystem regression tests.
+- Keep folder navigation and directory links inside Ovren, and remove the system file-manager handoff from Explorer.
+- Add a platform-aware latest-installer download from About.
 
 ## 1.3.0 — 2026-11-18
 

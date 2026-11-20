@@ -2637,7 +2637,8 @@
     "manualDownloadFailed": "Der Download kann nicht geöffnet werden",
     "installFailed": "Installation fehlgeschlagen",
     "restartFailed": "Ovren kann nicht neu gestartet werden",
-    "navigationNotice": "Eine neue Version ist verfügbar"
+    "navigationNotice": "Eine neue Version ist verfügbar",
+    "downloadLatest": "Neueste Installationsdatei herunterladen"
   },
   "loading": {
     "starting": "Festplatteninformationen werden gelesen…",
