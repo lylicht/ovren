@@ -375,7 +375,18 @@ fn transfer_one(from: &Path, destination: &Path, mode: FileTransferMode) -> io::
         return Err(invalid("cannot place a directory inside itself"));
     }
     match mode {
-        FileTransferMode::Copy => copy_item(&from, &target, 0)?,
+        FileTransferMode::Copy => {
+            // Copy into a private sibling staging area. A crash, I/O failure,
+            // or a concurrent destination creation cannot expose half-written
+            // files or folders at the user-visible target.
+            let stage = tempfile::Builder::new()
+                .prefix(".ovren-copy-")
+                .tempdir_in(destination)?;
+            let staged = stage.path().join("entry");
+            copy_item(&from, &staged, 0)?;
+            rename_no_replace(&staged, &target)?;
+            // The TempDir removes only its now-empty private staging directory.
+        }
         // Cross-volume moves fail safely; no unverified copy-and-delete fallback.
         FileTransferMode::Move => rename_no_replace(&from, &target)?,
     }
@@ -510,6 +521,31 @@ mod tests {
         )
         .unwrap();
         assert_eq!(report.failed[0].reason, "alreadyExists");
+    }
+
+    #[test]
+    fn successful_copy_publishes_only_final_name_without_staging_residue() {
+        let temp = tempfile::tempdir().unwrap();
+        let source = temp.path().join("sample.txt");
+        let destination = temp.path().join("destination");
+        fs::write(&source, b"complete").unwrap();
+        fs::create_dir(&destination).unwrap();
+
+        let report = transfer_entries(
+            vec![source.to_string_lossy().into_owned()],
+            &destination,
+            FileTransferMode::Copy,
+        )
+        .unwrap();
+
+        assert!(report.failed.is_empty());
+        assert_eq!(fs::read(destination.join("sample.txt")).unwrap(), b"complete");
+        let names = fs::read_dir(&destination)
+            .unwrap()
+            .map(|item| item.unwrap().file_name())
+            .collect::<Vec<_>>();
+        assert_eq!(names, [std::ffi::OsString::from("sample.txt")]);
+        assert_eq!(fs::read(&source).unwrap(), b"complete");
     }
 
     #[test]
