@@ -64,18 +64,25 @@ assertEqual(tauriConfig.app?.windows?.[0]?.title, 'Ovren', 'main window title');
 assertEqual(linuxTauriConfig.app?.windows?.[0]?.title, 'Ovren', 'Linux main window title');
 assertContains(applicationShell, "APP_NAME = 'Ovren'", 'frontend product name');
 assertContains(applicationShell, "APP_PUBLISHER = 'Licht'", 'frontend publisher');
-assertContains(applicationShell, "APP_ICON_PATH = '/ovren-icon.svg'", 'frontend icon path');
+assertContains(applicationShell, "APP_ICON_PATH = '/ovren-icon.png'", 'frontend icon path');
 
 assertContains(tauriManifest, 'name = "mangodisk"', 'Tauri package manifest');
 assertContains(tauriManifest, 'name = "mangodisk_lib"', 'Tauri library manifest');
 assertContains(cliManifest, 'name = "mangodisk-cli"', 'CLI package manifest');
 assertContains(cliManifest, 'name = "mangodisk"', 'CLI binary manifest');
 
-assertExists('public/ovren-icon.svg');
+assertExists('public/ovren-icon.png');
+assertExists('public/ovren-mark.png');
+for (const filename of [
+  '32x32.png', '128x128.png', '128x128@2x.png', 'icon.icns',
+  'icon.ico', 'windows/icon.ico', 'tray-color.png', 'tray-template.png',
+]) {
+  assertExists(`src-tauri/icons/${filename}`);
+}
 assertExists('src/components/icons/md-icon-ovren.vue');
 
 assertContains(readme, '<h1 align="center">Ovren</h1>', 'README product name');
-assertContains(readme, 'app/public/ovren-icon.svg', 'README app icon');
+assertContains(readme, 'app/public/ovren-icon.png', 'README app icon');
 assertContains(indexHtml, 'Ovren', 'HTML application shell');
 assertContains(tauriLibrary, 'Ovren', 'Tauri library');
 assertContains(tauriMain, 'mangodisk_lib', 'Tauri entry point');

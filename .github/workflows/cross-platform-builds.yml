@@ -45,7 +45,13 @@ jobs:
       - name: Install dependencies
         run: pnpm --dir app install --frozen-lockfile
       - name: Run frontend tests
+        if: runner.os != 'macOS'
         run: pnpm --dir app test
+      # Hosted macOS runners are significantly slower in the mounted UI interaction suite.
+      # Keep the normal timeout on Windows/Linux and use an explicit bound only on macOS.
+      - name: Run frontend tests (macOS)
+        if: runner.os == 'macOS'
+        run: pnpm --dir app exec vitest run --testTimeout 15000
       - name: Set up Go
         uses: actions/setup-go@v7
         with:

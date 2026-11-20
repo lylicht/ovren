@@ -2,7 +2,7 @@ import { ICON_NAMES } from '@/lib/models/presentation/ui';
 
 export const APP_NAME = 'Ovren' as const;
 export const APP_PUBLISHER = 'Licht' as const;
-export const APP_ICON_PATH = '/ovren-icon.svg' as const;
+export const APP_ICON_PATH = '/ovren-icon.png' as const;
 export const APP_SHELL_EXPANDED_MIN_WIDTH_PX = 1100;
 
 export function isAppShellExpanded(viewportWidth: number): boolean {
