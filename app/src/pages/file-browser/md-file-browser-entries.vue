@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useVirtualizer } from '@tanstack/vue-virtual';
 import { useI18n } from 'vue-i18n';
 
@@ -60,6 +60,14 @@ onMounted(() => {
   resizeObserver.observe(viewport.value);
 });
 onBeforeUnmount(() => resizeObserver?.disconnect());
+watch(
+  () => props.selectedPaths.at(-1),
+  path => {
+    if (!path) return;
+    const index = props.entries.findIndex(entry => entry.path === path);
+    if (index >= 0) virtualizer.value.scrollToIndex(Math.floor(index / columns.value), { align: 'auto' });
+  }
+);
 
 function modified(entry: FileBrowserEntry) {
   return entry.modifiedAtMs === null ? '—' : FormatService.dateTime(entry.modifiedAtMs, locale.value);
