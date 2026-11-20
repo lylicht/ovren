@@ -330,7 +330,13 @@
       "permissionDenied": "权限不足",
       "invalidInput": "名称或选择无效",
       "failed": "操作失败"
-    }
+    },
+    "previewText": "预览文本",
+    "previewLimited": "仅显示文件前 64 KiB 内容。",
+    "previewFailed": "无法预览此文件",
+    "importFiles": "导入文件",
+    "importDescription": "将选中的 {count} 个文件或文件夹复制到当前文件夹？",
+    "copyHere": "复制到此处"
   },
   "systemMaintenance": {
     "title": "系统维护",
