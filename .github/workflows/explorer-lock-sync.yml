@@ -1,0 +1,37 @@
+name: Refresh Explorer Rust lockfile
+
+on:
+  push:
+    branches: [feat/native-file-explorer]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: explorer-lock-refresh
+  cancel-in-progress: true
+
+jobs:
+  lockfile:
+    if: github.repository == 'lylicht/ovren' && github.ref == 'refs/heads/feat/native-file-explorer'
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v2
+        with:
+          rust-src-dir: app
+      - name: Resolve Rust workspace dependencies with existing lockfile
+        working-directory: app
+        run: cargo metadata --manifest-path Cargo.toml --format-version 1 --locked > /dev/null || cargo metadata --manifest-path Cargo.toml --format-version 1 > /dev/null
+      - name: Commit lockfile change only
+        shell: bash
+        run: |
+          git add -- app/Cargo.lock
+          if git diff --cached --quiet; then
+            echo "Lockfile already synchronized."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "build(files): lock native Trash dependencies"
+          git push origin HEAD:refs/heads/feat/native-file-explorer
