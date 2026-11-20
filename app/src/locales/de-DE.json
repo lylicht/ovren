@@ -330,7 +330,13 @@
       "permissionDenied": "Zugriff verweigert",
       "invalidInput": "Ungültige Auswahl oder Name",
       "failed": "Vorgang fehlgeschlagen"
-    }
+    },
+    "previewText": "Textvorschau",
+    "previewLimited": "Die ersten 64 KiB dieser Datei werden angezeigt.",
+    "previewFailed": "Vorschau konnte nicht geladen werden",
+    "importFiles": "Dateien importieren",
+    "importDescription": "{count} ausgewählte Dateien oder Ordner in den aktuellen Ordner kopieren?",
+    "copyHere": "Hierher kopieren"
   },
   "systemMaintenance": {
     "title": "Systemwartung",
