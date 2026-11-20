@@ -320,9 +320,9 @@
     "linkKind": "پیوند",
     "folderKind": "پوشه",
     "fileKind": "فایل",
-    "createDescription": "ساخت مورد در پوشهٔ کنونی.",
+    "createDescription": "ساخت مورد در پوشهٔ کنونی",
     "create": "ساخت",
-    "renameDescription": "نام تازه‌ای برای این مورد انتخاب کنید.",
+    "renameDescription": "نام تازه‌ای برای این مورد انتخاب کنید",
     "trashDescription": "موارد انتخاب‌شده به زباله‌دان سیستم منتقل شوند؟",
     "errors": {
       "alreadyExists": "این نام از قبل وجود دارد",
@@ -332,7 +332,7 @@
       "failed": "عملیات ناموفق بود"
     },
     "previewText": "پیش‌نمایش متن",
-    "previewLimited": "۶۴ کیبی‌بایت آغاز فایل نشان داده می‌شود.",
+    "previewLimited": "۶۴ کیبی‌بایت آغاز فایل نشان داده می‌شود",
     "previewFailed": "نمایش فایل ممکن نشد",
     "importFiles": "وارد کردن فایل‌ها",
     "importDescription": "{count} فایل یا پوشه به پوشهٔ کنونی کپی شوند؟",
