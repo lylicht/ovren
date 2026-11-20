@@ -320,9 +320,9 @@
     "linkKind": "Verknüpfung",
     "folderKind": "Ordner",
     "fileKind": "Datei",
-    "createDescription": "Element im aktuellen Ordner erstellen.",
+    "createDescription": "Element im aktuellen Ordner erstellen",
     "create": "Erstellen",
-    "renameDescription": "Neuen Namen für dieses Element eingeben.",
+    "renameDescription": "Neuen Namen für dieses Element eingeben",
     "trashDescription": "Ausgewählte Elemente in den Papierkorb verschieben?",
     "errors": {
       "alreadyExists": "Name bereits vorhanden",
@@ -332,7 +332,7 @@
       "failed": "Vorgang fehlgeschlagen"
     },
     "previewText": "Textvorschau",
-    "previewLimited": "Die ersten 64 KiB dieser Datei werden angezeigt.",
+    "previewLimited": "Die ersten 64 KiB dieser Datei werden angezeigt",
     "previewFailed": "Vorschau konnte nicht geladen werden",
     "importFiles": "Dateien importieren",
     "importDescription": "{count} ausgewählte Dateien oder Ordner in den aktuellen Ordner kopieren?",
