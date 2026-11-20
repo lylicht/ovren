@@ -60,7 +60,7 @@ pub use filesystem::{
     FileBrowserEntry, FileBrowserListing, FileBrowserSearchResult, PermanentDeleteBatchResult,
     PermanentDeleteCandidate, PermanentDeleteFailure, ResolvedDirectory, ScanExclusionOptions,
     VolumeInfo, list_directory, search_directory, create_entry, rename_entry,
-    transfer_entries, trash_entries, FileTransferMode, FileMutationReport, FileMutationFailure,
+    transfer_entries, trash_entries, FileTransferMode, FileMutationReport, FileMutationFailure, FileTextPreview, preview_text,
 };
 pub use history::{
     ApplicationLeftoverOperationDetails, ApplicationUninstallOperationDetails,
