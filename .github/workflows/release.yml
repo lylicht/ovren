@@ -236,6 +236,8 @@ jobs:
         with:
           node-version: 24
       - name: Create signed updater manifest
+        env:
+          OVREN_RELEASE_TAG: ${{ needs.preflight.outputs.release_tag }}
         run: node scripts/create-updater-manifest.mjs
       - name: Write one checksum file for every release asset
         # Hash files only, by the base name they get on the release page.
