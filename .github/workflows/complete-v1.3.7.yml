@@ -1,0 +1,79 @@
+name: Complete validated Ovren v1.3.7 release
+
+on:
+  workflow_run:
+    workflows: ["Cross-platform builds"]
+    types: [completed]
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: ovren-v1.3.7-release-gate
+  cancel-in-progress: false
+
+jobs:
+  dispatch-validated-release:
+    if: >-
+      github.repository == 'lylicht/ovren' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      VALIDATED_SHA: ${{ github.event.workflow_run.head_sha }}
+      VALIDATED_RUN: ${{ github.event.workflow_run.id }}
+    steps:
+      - name: Check out current main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Verify full cross-platform validation and exact release revision
+        shell: bash
+        run: |
+          set -euo pipefail
+          current="$(gh api "repos/$GH_REPO/branches/main" --jq '.commit.sha')"
+          if [[ "$current" != "$VALIDATED_SHA" ]]; then
+            echo "main changed after the validated workflow; refusing to release stale code."
+            exit 0
+          fi
+          version="$(node -p "require('./package.json').version")"
+          if [[ "$version" != 1.3.7 ]]; then
+            echo "Not the v1.3.7 release candidate; skipping."
+            exit 0
+          fi
+          node scripts/release-preflight.mjs v1.3.7
+          jobs="$(gh api "repos/$GH_REPO/actions/runs/$VALIDATED_RUN/jobs?per_page=100")"
+          actual="$(printf '%s' "$jobs" | jq -c '[.jobs[] | select(.conclusion == "success") | .name] | sort')"
+          expected='["Build on macos-latest","Build on ubuntu-22.04","Build on windows-latest"]'
+          count="$(printf '%s' "$jobs" | jq -r '.total_count')"
+          if [[ "$count" != 3 || "$actual" != "$expected" ]]; then
+            echo "Full three-platform validation is not successful: $actual" >&2
+            exit 1
+          fi
+          if gh api "repos/$GH_REPO/releases/tags/v1.3.7" >/dev/null 2>&1; then
+            echo "Ovren v1.3.7 already published; nothing to do."
+            exit 0
+          fi
+          if gh api "repos/$GH_REPO/git/ref/tags/v1.3.7" >/dev/null 2>&1; then
+            echo "v1.3.7 tag already exists without a release; manual investigation is required." >&2
+            exit 1
+          fi
+          if gh api "repos/$GH_REPO/git/ref/heads/release/v1.3.7" >/dev/null 2>&1; then
+            echo "Release build branch already exists; avoiding a duplicate build."
+            exit 0
+          fi
+          current="$(gh api "repos/$GH_REPO/branches/main" --jq '.commit.sha')"
+          if [[ "$current" != "$VALIDATED_SHA" ]]; then
+            echo "main changed before release dispatch; refusing to publish stale code."
+            exit 0
+          fi
+          echo "Validated all three builds for $VALIDATED_SHA ($VALIDATED_RUN)."
+          gh api --method POST "repos/$GH_REPO/git/refs" \
+            -f ref=refs/heads/release/v1.3.7 -f sha="$VALIDATED_SHA"
+          gh workflow run release.yml --repo "$GH_REPO" --ref release/v1.3.7
+          echo "Dispatched the signed, cross-platform Ovren v1.3.7 release."

@@ -11,6 +11,7 @@ import { useStorageScopeStore } from './stores/storage-scope-store';
 import { OvrenNetService } from './lib/services/network/ovren-net-service';
 import { OvrenNetPreferencesService } from './lib/services/network/ovren-net-preferences-service';
 import { LoggerService } from './lib/services/diagnostics/logger-service';
+import { LOG_DOMAINS, LOG_EVENTS } from './lib/models/diagnostics/telemetry';
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -27,10 +28,19 @@ async function startApplication() {
   ];
   if (isStandaloneFileBrowserWindow) {
     startupTasks.push(appStore.initialize().then(() => useStorageScopeStore(pinia).initialize(appStore.disks)));
+    app.mount('#app');
+    void Promise.all(startupTasks).catch(error =>
+      LoggerService.warn(LOG_DOMAINS.storageScope, LOG_EVENTS.operationFailed, {
+        operation: 'standalone_file_browser_startup',
+        error,
+      })
+    );
+    return;
   }
+
   await Promise.all(startupTasks);
   app.mount('#app');
-  if (!isStandaloneFileBrowserWindow) void startOvrenNetOnLaunch();
+  void startOvrenNetOnLaunch();
 }
 
 async function startOvrenNetOnLaunch() {

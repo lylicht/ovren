@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.7 — 2026-11-21
+
+- Mount the separate file browser before loading disk and folder preferences so startup does not wait on storage discovery.
+
 ## 1.3.6 — 2026-11-20
 
 - Fixed opening the separate file browser window on Windows, macOS, and Linux.
