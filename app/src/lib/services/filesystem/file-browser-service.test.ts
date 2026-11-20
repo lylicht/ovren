@@ -48,7 +48,7 @@ describe('file browser service', () => {
     expect(invokeMock).toHaveBeenCalledWith('open_file_browser_entry', { path: '/home/owner/notes.txt' });
   });
 
-  it('obtains the current user's home from the native path adapter', async () => {
+  it('loads the current user home directory from the native path adapter', async () => {
     homeDirMock.mockResolvedValue('/home/owner');
     await expect(FileManagerService.homeDirectory()).resolves.toBe('/home/owner');
     expect(homeDirMock).toHaveBeenCalled();
