@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.4 — 2026-11-20
+
+- Added primary-button, scrolling, and double-click controls to the mouse settings on supported desktops.
+- Expanded mouse settings in Windows and GNOME, with review, apply, undo, and localized controls.
+
 ## 1.3.3 — 2026-11-20
 
 - Refined the desktop and tray icon with the approved flat Ovren artwork across Windows, macOS, and Linux.

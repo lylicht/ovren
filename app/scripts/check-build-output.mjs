@@ -59,12 +59,13 @@ const maximumLocaleGzipBytes = 60 * 1024;
 const localeChunkLimitOverrides = new Map([
   ['fr-fr', { bytes: 319 * 1024, gzipBytes: 64 * 1024 }],
   ['de-de', { bytes: 309 * 1024, gzipBytes: 65 * 1024 }],
-  ['es-es', { bytes: 310 * 1024, gzipBytes: 63 * 1024 }],
+  ['es-es', { bytes: 311 * 1024, gzipBytes: 63 * 1024 }],
   ['fa-ir', { bytes: 360 * 1024, gzipBytes: 68 * 1024 }],
   ['ja-jp', { bytes: 332 * 1024, gzipBytes: 64 * 1024 }],
   ['ko-kr', { bytes: maximumLocaleChunkBytes, gzipBytes: 61 * 1024 }],
   ['pt-br', { bytes: maximumLocaleChunkBytes, gzipBytes: 62 * 1024 }],
   ['ru-ru', { bytes: 400 * 1024, gzipBytes: 72 * 1024 }],
+  ['tr-tr', { bytes: maximumLocaleChunkBytes, gzipBytes: 61 * 1024 }],
 ]);
 
 function fail(message) {

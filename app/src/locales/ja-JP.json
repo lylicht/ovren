@@ -4443,6 +4443,15 @@
     "pointerSpeedDescription": "システムのポインター速度を 1〜20 で設定します",
     "pointerAcceleration": "ポインター加速",
     "pointerAccelerationDescription": "適応型の加速を使用するか、無効にします",
+    "primaryButton": "主ボタン",
+    "primaryLeft": "左",
+    "primaryRight": "右",
+    "naturalScroll": "ナチュラルスクロール",
+    "wheelScrollLines": "ホイールスクロール",
+    "wheelOff": "オフ",
+    "wheelPage": "1ページ",
+    "wheelLines": "{count}行",
+    "doubleClickTime": "ダブルクリック間隔",
     "reviewMouseChanges": "変更内容を確認",
     "undoMouseChanges": "前の変更を元に戻す",
     "mouseApplied": "ポインター設定を適用しました",
@@ -4450,10 +4459,8 @@
     "mouseAvailabilityTitle": "デスクトップの対応状況",
     "mouseAvailability": "Windows に対応しています。Linux では GNOME デスクトップで利用できます",
     "mouseReviewTitle": "ポインター設定を適用しますか？",
-    "mouseReviewDescription": "ポインター速度を {speed}/20 にし、加速を「{acceleration}」に設定します。この変更は 1 回元に戻せます",
-    "confirmMouseChanges": "設定を適用",
-    "accelerationEnabled": "有効",
-    "accelerationDisabled": "無効"
+    "mouseReviewDescription": "ポインター、ボタン、スクロールの変更を適用前に確認します。変更は一度取り消せます",
+    "confirmMouseChanges": "設定を適用"
   },
   "ovrenNet": {
     "title": "OvrenNET",

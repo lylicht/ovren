@@ -4443,6 +4443,15 @@
     "pointerSpeedDescription": "Choisissez une vitesse système comprise entre 1 et 20",
     "pointerAcceleration": "Accélération du pointeur",
     "pointerAccelerationDescription": "Utilisez l’accélération adaptative ou désactivez-la",
+    "primaryButton": "Bouton principal",
+    "primaryLeft": "Gauche",
+    "primaryRight": "Droite",
+    "naturalScroll": "Défilement naturel",
+    "wheelScrollLines": "Défilement de la molette",
+    "wheelOff": "Désactivé",
+    "wheelPage": "Une page",
+    "wheelLines": "{count} lignes",
+    "doubleClickTime": "Délai du double-clic",
     "reviewMouseChanges": "Vérifier les changements",
     "undoMouseChanges": "Annuler le changement précédent",
     "mouseApplied": "Réglages du pointeur appliqués",
@@ -4450,10 +4459,8 @@
     "mouseAvailabilityTitle": "Compatibilité du bureau",
     "mouseAvailability": "Windows est pris en charge. Sous Linux, les réglages sont disponibles avec GNOME",
     "mouseReviewTitle": "Appliquer les réglages du pointeur ?",
-    "mouseReviewDescription": "Régler la vitesse du pointeur sur {speed}/20 et l’accélération sur « {acceleration} ». Vous pourrez annuler une fois ce changement",
-    "confirmMouseChanges": "Appliquer les réglages",
-    "accelerationEnabled": "activée",
-    "accelerationDisabled": "désactivée"
+    "mouseReviewDescription": "Vérifiez les changements du pointeur, des boutons et du défilement avant de les appliquer. Vous pouvez les annuler une fois",
+    "confirmMouseChanges": "Appliquer les réglages"
   },
   "ovrenNet": {
     "title": "OvrenNET",

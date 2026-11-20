@@ -4443,6 +4443,15 @@
     "pointerSpeedDescription": "选择 1 到 20 的系统指针速度",
     "pointerAcceleration": "指针加速度",
     "pointerAccelerationDescription": "使用自适应加速度或将其关闭",
+    "primaryButton": "主按键",
+    "primaryLeft": "左键",
+    "primaryRight": "右键",
+    "naturalScroll": "自然滚动",
+    "wheelScrollLines": "滚轮滚动",
+    "wheelOff": "关闭",
+    "wheelPage": "一页",
+    "wheelLines": "{count} 行",
+    "doubleClickTime": "双击间隔",
     "reviewMouseChanges": "检查更改",
     "undoMouseChanges": "撤销上次更改",
     "mouseApplied": "已应用指针设置",
@@ -4450,10 +4459,8 @@
     "mouseAvailabilityTitle": "桌面支持",
     "mouseAvailability": "支持 Windows。Linux 控件可在 GNOME 桌面使用",
     "mouseReviewTitle": "应用指针设置？",
-    "mouseReviewDescription": "将指针速度设为 {speed}/20，并将加速度设为{acceleration}。应用后可撤销一次",
-    "confirmMouseChanges": "应用设置",
-    "accelerationEnabled": "开启",
-    "accelerationDisabled": "关闭"
+    "mouseReviewDescription": "应用前请检查指针、按键和滚动设置。更改可撤销一次",
+    "confirmMouseChanges": "应用设置"
   },
   "ovrenNet": {
     "title": "OvrenNET",

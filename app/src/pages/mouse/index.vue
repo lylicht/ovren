@@ -14,26 +14,50 @@ const { t } = useI18n({ useScope: 'global' });
 const current = ref<WyreMouseSettings | null>(null);
 const speed = ref(10);
 const acceleration = ref(true);
+const primaryButton = ref<'left' | 'right'>('left');
+const scrollLines = ref(3);
+const naturalScroll = ref(false);
+const doubleClickMs = ref(500);
+const scrollOptions = computed(() => {
+  const options = [0, 1, 2, 3, 4, 5, 10, 20, 50, 100, -1];
+  if (!options.includes(scrollLines.value)) options.push(scrollLines.value);
+  return options.sort((a, b) => (a === -1 ? 1 : b === -1 ? -1 : a - b));
+});
 const pending = ref(false);
 const busy = ref(false);
 const error = ref('');
 const notice = ref('');
 const undo = ref<WyreMouseSettings | null>(null);
 const supported = computed(() => current.value?.supported === true);
-const changed = computed(
-  () => supported.value && (speed.value !== current.value?.speed || acceleration.value !== current.value?.acceleration)
-);
+const changed = computed(() => {
+  const settings = current.value;
+  return (
+    settings?.supported === true &&
+    (speed.value !== settings.speed ||
+      acceleration.value !== settings.acceleration ||
+      (settings.primaryButton !== null && primaryButton.value !== settings.primaryButton) ||
+      (settings.scrollLines !== null && scrollLines.value !== settings.scrollLines) ||
+      (settings.naturalScroll !== null && naturalScroll.value !== settings.naturalScroll) ||
+      (settings.doubleClickMs !== null && doubleClickMs.value !== settings.doubleClickMs))
+  );
+});
+
+function setSettings(settings: WyreMouseSettings) {
+  current.value = settings;
+  if (settings.speed !== null) speed.value = settings.speed;
+  if (settings.acceleration !== null) acceleration.value = settings.acceleration;
+  if (settings.primaryButton !== null) primaryButton.value = settings.primaryButton;
+  if (settings.scrollLines !== null) scrollLines.value = settings.scrollLines;
+  if (settings.naturalScroll !== null) naturalScroll.value = settings.naturalScroll;
+  if (settings.doubleClickMs !== null) doubleClickMs.value = settings.doubleClickMs;
+}
 
 async function load() {
   busy.value = true;
   error.value = '';
   undo.value = null;
   try {
-    current.value = await WyreMouseService.read();
-    if (current.value.supported && current.value.speed !== null && current.value.acceleration !== null) {
-      speed.value = current.value.speed;
-      acceleration.value = current.value.acceleration;
-    }
+    setSettings(await WyreMouseService.read());
   } catch (cause) {
     error.value = cause instanceof Error ? cause.message : String(cause);
     LoggerService.warn('system-settings', 'pointer_settings_read_failed', { error: cause });
@@ -50,16 +74,19 @@ async function apply() {
   error.value = '';
   notice.value = '';
   try {
-    current.value = await WyreMouseService.apply({
-      supported: true,
-      speed: speed.value,
-      acceleration: acceleration.value,
-      accelerationProfile: null,
-      reason: null,
-    });
+    setSettings(
+      await WyreMouseService.apply({
+        ...previous,
+        speed: speed.value,
+        acceleration: acceleration.value,
+        accelerationProfile: previous.acceleration === acceleration.value ? previous.accelerationProfile : null,
+        primaryButton: previous.primaryButton === null ? null : primaryButton.value,
+        scrollLines: previous.scrollLines === null ? null : scrollLines.value,
+        naturalScroll: previous.naturalScroll === null ? null : naturalScroll.value,
+        doubleClickMs: previous.doubleClickMs === null ? null : doubleClickMs.value,
+      })
+    );
     undo.value = previous;
-    speed.value = current.value.speed ?? speed.value;
-    acceleration.value = current.value.acceleration ?? acceleration.value;
     notice.value = t('wyre.mouseApplied');
   } catch (cause) {
     error.value = cause instanceof Error ? cause.message : String(cause);
@@ -75,9 +102,7 @@ async function restore() {
   error.value = '';
   notice.value = '';
   try {
-    current.value = await WyreMouseService.apply(undo.value);
-    speed.value = current.value.speed ?? speed.value;
-    acceleration.value = current.value.acceleration ?? acceleration.value;
+    setSettings(await WyreMouseService.apply(undo.value));
     undo.value = null;
     notice.value = t('wyre.mouseRestored');
   } catch (cause) {
@@ -131,6 +156,81 @@ onMounted(() => void load());
             :disabled="!supported || busy"
           />
         </div>
+        <div class="mt-6 grid gap-5 border-t pt-5 sm:grid-cols-2">
+          <div v-if="current && current.primaryButton !== null">
+            <h3 class="m-0 text-sm font-medium text-foreground">{{ t('wyre.primaryButton') }}</h3>
+            <div class="mt-3 flex gap-2">
+              <Button
+                type="button"
+                :variant="primaryButton === 'left' ? 'default' : 'outline'"
+                :aria-pressed="primaryButton === 'left'"
+                :disabled="busy"
+                @click="primaryButton = 'left'"
+                >{{ t('wyre.primaryLeft') }}</Button
+              >
+              <Button
+                type="button"
+                :variant="primaryButton === 'right' ? 'default' : 'outline'"
+                :aria-pressed="primaryButton === 'right'"
+                :disabled="busy"
+                @click="primaryButton = 'right'"
+                >{{ t('wyre.primaryRight') }}</Button
+              >
+            </div>
+          </div>
+          <div v-if="current && current.naturalScroll !== null" class="flex items-center justify-between gap-4">
+            <label for="natural-scroll" class="text-sm font-medium text-foreground">{{
+              t('wyre.naturalScroll')
+            }}</label>
+            <input
+              id="natural-scroll"
+              v-model="naturalScroll"
+              type="checkbox"
+              role="switch"
+              class="size-5 accent-primary"
+              :disabled="busy"
+            />
+          </div>
+          <div v-if="current && current.scrollLines !== null">
+            <label for="wheel-lines" class="text-sm font-medium text-foreground">{{
+              t('wyre.wheelScrollLines')
+            }}</label>
+            <select
+              id="wheel-lines"
+              v-model.number="scrollLines"
+              class="mt-3 h-10 w-full rounded-md border bg-background px-3 text-sm text-foreground"
+              :disabled="busy"
+            >
+              <option v-for="lines in scrollOptions" :key="lines" :value="lines">
+                {{
+                  lines === -1
+                    ? t('wyre.wheelPage')
+                    : lines === 0
+                      ? t('wyre.wheelOff')
+                      : t('wyre.wheelLines', { count: lines })
+                }}
+              </option>
+            </select>
+          </div>
+          <div v-if="current && current.doubleClickMs !== null">
+            <label for="double-click-ms" class="text-sm font-medium text-foreground">{{
+              t('wyre.doubleClickTime')
+            }}</label>
+            <div class="mt-3 flex items-center gap-2">
+              <input
+                id="double-click-ms"
+                v-model.number="doubleClickMs"
+                class="h-10 w-full rounded-md border bg-background px-3 text-sm text-foreground"
+                type="number"
+                min="0"
+                max="5000"
+                step="25"
+                :disabled="busy"
+              />
+              <span class="text-sm text-muted-foreground">ms</span>
+            </div>
+          </div>
+        </div>
         <div class="mt-6 flex flex-wrap items-center gap-3">
           <Button :disabled="!changed || busy" @click="pending = true">{{ t('wyre.reviewMouseChanges') }}</Button>
           <Button v-if="undo" variant="outline" :disabled="busy" @click="restore">{{
@@ -152,14 +252,7 @@ onMounted(() => void load());
       <MdDialogContent size="compact">
         <MdDialogHeader>
           <DialogTitle>{{ t('wyre.mouseReviewTitle') }}</DialogTitle>
-          <DialogDescription>
-            {{
-              t('wyre.mouseReviewDescription', {
-                speed,
-                acceleration: acceleration ? t('wyre.accelerationEnabled') : t('wyre.accelerationDisabled'),
-              })
-            }}
-          </DialogDescription>
+          <DialogDescription>{{ t('wyre.mouseReviewDescription') }}</DialogDescription>
         </MdDialogHeader>
         <MdDialogFooter>
           <Button variant="outline" :disabled="busy" @click="pending = false">{{ t('common.cancel') }}</Button>

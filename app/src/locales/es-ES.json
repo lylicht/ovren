@@ -4443,6 +4443,15 @@
     "pointerSpeedDescription": "Elige una velocidad del puntero del sistema entre 1 y 20",
     "pointerAcceleration": "Aceleración del puntero",
     "pointerAccelerationDescription": "Usa aceleración adaptativa o desactívala",
+    "primaryButton": "Botón principal",
+    "primaryLeft": "Izquierdo",
+    "primaryRight": "Derecho",
+    "naturalScroll": "Desplazamiento natural",
+    "wheelScrollLines": "Desplazamiento de la rueda",
+    "wheelOff": "Desactivado",
+    "wheelPage": "Una página",
+    "wheelLines": "{count} líneas",
+    "doubleClickTime": "Intervalo de doble clic",
     "reviewMouseChanges": "Revisar cambios",
     "undoMouseChanges": "Deshacer el cambio anterior",
     "mouseApplied": "Se aplicó la configuración del puntero",
@@ -4450,10 +4459,8 @@
     "mouseAvailabilityTitle": "Compatibilidad del escritorio",
     "mouseAvailability": "Compatible con Windows. En Linux, los controles están disponibles en escritorios GNOME",
     "mouseReviewTitle": "¿Aplicar la configuración del puntero?",
-    "mouseReviewDescription": "Establecer la velocidad del puntero en {speed}/20 y la aceleración en {acceleration}. Puedes deshacer este cambio una vez",
-    "confirmMouseChanges": "Aplicar configuración",
-    "accelerationEnabled": "activada",
-    "accelerationDisabled": "desactivada"
+    "mouseReviewDescription": "Revisa los cambios del puntero, los botones y el desplazamiento antes de aplicarlos. Puedes deshacerlos una vez",
+    "confirmMouseChanges": "Aplicar configuración"
   },
   "ovrenNet": {
     "title": "OvrenNET",

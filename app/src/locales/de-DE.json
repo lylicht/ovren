@@ -4443,6 +4443,15 @@
     "pointerSpeedDescription": "Systemweite Zeigergeschwindigkeit von 1 bis 20 auswählen",
     "pointerAcceleration": "Zeigerbeschleunigung",
     "pointerAccelerationDescription": "Adaptive Beschleunigung verwenden oder ausschalten",
+    "primaryButton": "Primäre Maustaste",
+    "primaryLeft": "Links",
+    "primaryRight": "Rechts",
+    "naturalScroll": "Natürliches Scrollen",
+    "wheelScrollLines": "Mausrad-Scrollen",
+    "wheelOff": "Aus",
+    "wheelPage": "Eine Seite",
+    "wheelLines": "{count} Zeilen",
+    "doubleClickTime": "Doppelklickzeit",
     "reviewMouseChanges": "Änderungen prüfen",
     "undoMouseChanges": "Vorherige Änderung rückgängig machen",
     "mouseApplied": "Zeigereinstellungen übernommen",
@@ -4450,10 +4459,8 @@
     "mouseAvailabilityTitle": "Desktop-Unterstützung",
     "mouseAvailability": "Windows wird unterstützt. Unter Linux sind die Steuerelemente auf GNOME verfügbar",
     "mouseReviewTitle": "Zeigereinstellungen übernehmen?",
-    "mouseReviewDescription": "Zeigergeschwindigkeit auf {speed}/20 und Beschleunigung auf {acceleration} setzen. Diese Änderung kann einmal rückgängig gemacht werden",
-    "confirmMouseChanges": "Einstellungen übernehmen",
-    "accelerationEnabled": "aktiviert",
-    "accelerationDisabled": "aus"
+    "mouseReviewDescription": "Prüfe die Änderungen an Zeiger, Tasten und Bildlauf. Du kannst sie einmal rückgängig machen",
+    "confirmMouseChanges": "Einstellungen übernehmen"
   },
   "ovrenNet": {
     "title": "OvrenNET",

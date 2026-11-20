@@ -4443,6 +4443,15 @@
     "pointerSpeedDescription": "Выберите системную скорость указателя от 1 до 20",
     "pointerAcceleration": "Ускорение указателя",
     "pointerAccelerationDescription": "Включите адаптивное ускорение или отключите его",
+    "primaryButton": "Основная кнопка",
+    "primaryLeft": "Левая",
+    "primaryRight": "Правая",
+    "naturalScroll": "Естественная прокрутка",
+    "wheelScrollLines": "Прокрутка колёсиком",
+    "wheelOff": "Выкл",
+    "wheelPage": "Одна страница",
+    "wheelLines": "{count} строк",
+    "doubleClickTime": "Интервал двойного щелчка",
     "reviewMouseChanges": "Проверить изменения",
     "undoMouseChanges": "Отменить предыдущее изменение",
     "mouseApplied": "Настройки указателя применены",
@@ -4450,10 +4459,8 @@
     "mouseAvailabilityTitle": "Поддержка рабочего стола",
     "mouseAvailability": "Поддерживается Windows. В Linux настройки доступны в среде GNOME",
     "mouseReviewTitle": "Применить настройки указателя?",
-    "mouseReviewDescription": "Установить скорость указателя {speed}/20 и ускорение: {acceleration}. Это изменение можно отменить один раз",
-    "confirmMouseChanges": "Применить настройки",
-    "accelerationEnabled": "включено",
-    "accelerationDisabled": "выключено"
+    "mouseReviewDescription": "Проверьте изменения указателя, кнопок и прокрутки перед применением. Их можно отменить один раз",
+    "confirmMouseChanges": "Применить настройки"
   },
   "ovrenNet": {
     "title": "OvrenNET",

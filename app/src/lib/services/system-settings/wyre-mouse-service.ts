@@ -5,6 +5,10 @@ export interface WyreMouseSettings {
   speed: number | null;
   acceleration: boolean | null;
   accelerationProfile: string | null;
+  primaryButton: 'left' | 'right' | null;
+  scrollLines: number | null;
+  naturalScroll: boolean | null;
+  doubleClickMs: number | null;
   reason: string | null;
 }
 
@@ -18,6 +22,10 @@ export class WyreMouseService {
       speed: settings.speed,
       acceleration: settings.acceleration,
       accelerationProfile: settings.accelerationProfile,
+      primaryButton: settings.primaryButton,
+      scrollLines: settings.scrollLines,
+      naturalScroll: settings.naturalScroll,
+      doubleClickMs: settings.doubleClickMs,
     });
   }
 }

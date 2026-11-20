@@ -4443,6 +4443,15 @@
     "pointerSpeedDescription": "시스템 포인터 속도를 1~20으로 설정합니다",
     "pointerAcceleration": "포인터 가속",
     "pointerAccelerationDescription": "적응형 가속을 사용하거나 끕니다",
+    "primaryButton": "기본 버튼",
+    "primaryLeft": "왼쪽",
+    "primaryRight": "오른쪽",
+    "naturalScroll": "자연스러운 스크롤",
+    "wheelScrollLines": "휠 스크롤",
+    "wheelOff": "끔",
+    "wheelPage": "한 페이지",
+    "wheelLines": "{count}줄",
+    "doubleClickTime": "더블 클릭 시간",
     "reviewMouseChanges": "변경 사항 검토",
     "undoMouseChanges": "이전 변경 실행 취소",
     "mouseApplied": "포인터 설정을 적용했습니다",
@@ -4450,10 +4459,8 @@
     "mouseAvailabilityTitle": "데스크톱 지원",
     "mouseAvailability": "Windows를 지원합니다. Linux에서는 GNOME 데스크톱에서 사용할 수 있습니다",
     "mouseReviewTitle": "포인터 설정을 적용할까요?",
-    "mouseReviewDescription": "포인터 속도를 {speed}/20으로, 가속을 {acceleration}(으)로 설정합니다. 이 변경은 한 번 실행 취소할 수 있습니다",
-    "confirmMouseChanges": "설정 적용",
-    "accelerationEnabled": "사용",
-    "accelerationDisabled": "사용 안 함"
+    "mouseReviewDescription": "포인터, 버튼 및 스크롤 변경 사항을 적용 전에 확인하세요. 한 번 취소할 수 있습니다",
+    "confirmMouseChanges": "설정 적용"
   },
   "ovrenNet": {
     "title": "OvrenNET",

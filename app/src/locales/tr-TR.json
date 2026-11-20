@@ -4443,6 +4443,15 @@
     "pointerSpeedDescription": "Sistem işaretçi hızını 1 ile 20 arasında seçin",
     "pointerAcceleration": "İşaretçi ivmesi",
     "pointerAccelerationDescription": "Uyarlanabilir ivmeyi kullanın veya kapatın",
+    "primaryButton": "Birincil düğme",
+    "primaryLeft": "Sol",
+    "primaryRight": "Sağ",
+    "naturalScroll": "Doğal kaydırma",
+    "wheelScrollLines": "Tekerlek kaydırması",
+    "wheelOff": "Kapalı",
+    "wheelPage": "Bir sayfa",
+    "wheelLines": "{count} satır",
+    "doubleClickTime": "Çift tıklama aralığı",
     "reviewMouseChanges": "Değişiklikleri gözden geçir",
     "undoMouseChanges": "Önceki değişikliği geri al",
     "mouseApplied": "İşaretçi ayarları uygulandı",
@@ -4450,10 +4459,8 @@
     "mouseAvailabilityTitle": "Masaüstü desteği",
     "mouseAvailability": "Windows desteklenir. Linux denetimleri GNOME masaüstünde kullanılabilir",
     "mouseReviewTitle": "İşaretçi ayarları uygulansın mı?",
-    "mouseReviewDescription": "İşaretçi hızı {speed}/20, ivme {acceleration} olarak ayarlansın. Bu değişikliği bir kez geri alabilirsiniz",
-    "confirmMouseChanges": "Ayarları uygula",
-    "accelerationEnabled": "açık",
-    "accelerationDisabled": "kapalı"
+    "mouseReviewDescription": "İşaretçi, düğme ve kaydırma değişikliklerini uygulamadan önce inceleyin. Bir kez geri alabilirsiniz",
+    "confirmMouseChanges": "Ayarları uygula"
   },
   "ovrenNet": {
     "title": "OvrenNET",

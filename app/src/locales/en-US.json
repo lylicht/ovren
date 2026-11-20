@@ -4443,6 +4443,15 @@
     "pointerSpeedDescription": "Choose a system pointer speed from 1 to 20",
     "pointerAcceleration": "Pointer acceleration",
     "pointerAccelerationDescription": "Use adaptive acceleration or turn it off",
+    "primaryButton": "Primary button",
+    "primaryLeft": "Left",
+    "primaryRight": "Right",
+    "naturalScroll": "Natural scrolling",
+    "wheelScrollLines": "Wheel scrolling",
+    "wheelOff": "Off",
+    "wheelPage": "One page",
+    "wheelLines": "{count} lines",
+    "doubleClickTime": "Double-click time",
     "reviewMouseChanges": "Review changes",
     "undoMouseChanges": "Undo previous change",
     "mouseApplied": "Pointer settings applied",
@@ -4450,10 +4459,8 @@
     "mouseAvailabilityTitle": "Desktop support",
     "mouseAvailability": "Windows is supported. Linux controls are available on GNOME desktops",
     "mouseReviewTitle": "Apply pointer settings?",
-    "mouseReviewDescription": "Set pointer speed to {speed}/20 and set acceleration to {acceleration}. You can undo this change once",
-    "confirmMouseChanges": "Apply settings",
-    "accelerationEnabled": "enabled",
-    "accelerationDisabled": "off"
+    "mouseReviewDescription": "Review your pointer, button and scrolling changes before applying them. You can undo them once",
+    "confirmMouseChanges": "Apply settings"
   },
   "ovrenNet": {
     "title": "OvrenNET",

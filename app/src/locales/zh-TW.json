@@ -4443,6 +4443,15 @@
     "pointerSpeedDescription": "選擇 1 到 20 的系統指標速度",
     "pointerAcceleration": "指標加速度",
     "pointerAccelerationDescription": "使用自適應加速度或將其關閉",
+    "primaryButton": "主要按鈕",
+    "primaryLeft": "左鍵",
+    "primaryRight": "右鍵",
+    "naturalScroll": "自然捲動",
+    "wheelScrollLines": "滾輪捲動",
+    "wheelOff": "關閉",
+    "wheelPage": "一頁",
+    "wheelLines": "{count} 行",
+    "doubleClickTime": "雙擊間隔",
     "reviewMouseChanges": "檢查變更",
     "undoMouseChanges": "復原上次變更",
     "mouseApplied": "已套用指標設定",
@@ -4450,10 +4459,8 @@
     "mouseAvailabilityTitle": "桌面支援",
     "mouseAvailability": "支援 Windows。Linux 控制項可在 GNOME 桌面使用",
     "mouseReviewTitle": "要套用指標設定嗎？",
-    "mouseReviewDescription": "將指標速度設為 {speed}/20，並將加速度設為{acceleration}。套用後可復原一次",
-    "confirmMouseChanges": "套用設定",
-    "accelerationEnabled": "開啟",
-    "accelerationDisabled": "關閉"
+    "mouseReviewDescription": "套用前請檢查指標、按鈕與捲動設定。變更可復原一次",
+    "confirmMouseChanges": "套用設定"
   },
   "ovrenNet": {
     "title": "OvrenNET",

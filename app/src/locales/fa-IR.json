@@ -4443,6 +4443,15 @@
     "pointerSpeedDescription": "سرعت اشاره‌گر سیستم را از 1 تا 20 انتخاب کنید",
     "pointerAcceleration": "شتاب اشاره‌گر",
     "pointerAccelerationDescription": "از شتاب تطبیقی استفاده کنید یا آن را خاموش کنید",
+    "primaryButton": "دکمهٔ اصلی",
+    "primaryLeft": "چپ",
+    "primaryRight": "راست",
+    "naturalScroll": "پیمایش طبیعی",
+    "wheelScrollLines": "پیمایش چرخ",
+    "wheelOff": "خاموش",
+    "wheelPage": "یک صفحه",
+    "wheelLines": "{count} خط",
+    "doubleClickTime": "زمان دوبارکلیک",
     "reviewMouseChanges": "مرور تغییرات",
     "undoMouseChanges": "لغو تغییر قبلی",
     "mouseApplied": "تنظیمات اشاره‌گر اعمال شد",
@@ -4450,10 +4459,8 @@
     "mouseAvailabilityTitle": "پشتیبانی از دسکتاپ",
     "mouseAvailability": "ویندوز پشتیبانی می‌شود. کنترل‌های لینوکس در دسکتاپ‌های GNOME در دسترس هستند",
     "mouseReviewTitle": "تنظیمات اشاره‌گر اعمال شود؟",
-    "mouseReviewDescription": "سرعت اشاره‌گر را روی {speed}/20 و شتاب را روی {acceleration} تنظیم کنید. می‌توانید این تغییر را یک بار لغو کنید",
-    "confirmMouseChanges": "اعمال تنظیمات",
-    "accelerationEnabled": "فعال است",
-    "accelerationDisabled": "خاموش"
+    "mouseReviewDescription": "تغییرات اشاره‌گر، دکمه و پیمایش را پیش از اعمال مرور کنید. می‌توانید یک‌بار آن‌ها را لغو کنید",
+    "confirmMouseChanges": "اعمال تنظیمات"
   },
   "ovrenNet": {
     "title": "OvrenNET",
