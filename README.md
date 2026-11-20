@@ -6,7 +6,7 @@
 
 <p align="center">
   A calmer way to understand and manage your desktop.<br>
-  Made by Licht · Version 1.3.2
+  Made by Licht · Version 1.3.5
 </p>
 
 <p align="center">
@@ -22,7 +22,7 @@ Ovren is a desktop toolkit for Windows, macOS, and Linux. It brings storage insi
 - **Understand storage:** inspect disk usage, find large files and duplicates, and choose folders to scan.
 - **Review before cleanup:** preview selected changes, then choose what to remove.
 - **Manage your system:** work with startup items, installed apps, privacy cleanup, system maintenance, and operation history.
-- **Browse files:** navigate folders, search file and folder names recursively, and open items with their system app.
+- **Browse files:** navigate folders, search file and folder names recursively, open items with their system app, and move the browser into its own resizable window.
 - **Measure and manage networks:** run latency and speed checks, see which server handled a check, and configure OvrenNET adapter merging, traffic weights, speed limits, IPv6, MTU, and a loopback SOCKS5 proxy.
 - **Tune pointer controls:** adjust mouse speed and acceleration on supported Windows and GNOME systems.
 
