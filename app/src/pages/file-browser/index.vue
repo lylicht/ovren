@@ -474,7 +474,7 @@ function onKeydown(event: KeyboardEvent) {
     return;
   }
   const target = event.target;
-  const editing = target instanceof HTMLElement && Boolean(target.closest('input, textarea, [contenteditable="true"]'));
+  const editing = target instanceof HTMLElement && Boolean(target.closest('input, textarea, select, [role="menu"], [role="menuitem"], [role="combobox"], [contenteditable="true"]'));
   if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'l') {
     event.preventDefault();
     const input = document.querySelector<HTMLInputElement>('.file-browser-address input');
@@ -541,7 +541,6 @@ function enablePageShortcuts() {
 
 function disablePageShortcuts() {
   componentActive = false;
-  ++requestId;
   window.removeEventListener('keydown', onKeydown);
 }
 
@@ -569,7 +568,10 @@ onMounted(() => {
     });
 });
 
-onActivated(() => enablePageShortcuts());
+onActivated(() => {
+  enablePageShortcuts();
+  if (path.value && !busy.value) void refresh();
+});
 onDeactivated(() => {
   disablePageShortcuts();
   menu.value = null;
@@ -577,6 +579,7 @@ onDeactivated(() => {
 
 onBeforeUnmount(() => {
   disablePageShortcuts();
+  ++requestId;
   stopNativeDrop?.();
   stopNativeDrop = null;
 });
