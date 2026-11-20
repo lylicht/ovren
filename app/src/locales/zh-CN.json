@@ -320,9 +320,9 @@
     "linkKind": "链接",
     "folderKind": "文件夹",
     "fileKind": "文件",
-    "createDescription": "在当前文件夹中创建项目。",
+    "createDescription": "在当前文件夹中创建项目",
     "create": "创建",
-    "renameDescription": "为该项目选择新名称。",
+    "renameDescription": "为该项目选择新名称",
     "trashDescription": "将所选项目移至系统回收站？",
     "errors": {
       "alreadyExists": "名称已存在",
@@ -332,7 +332,7 @@
       "failed": "操作失败"
     },
     "previewText": "预览文本",
-    "previewLimited": "仅显示文件前 64 KiB 内容。",
+    "previewLimited": "仅显示文件前 64 KiB 内容",
     "previewFailed": "无法预览此文件",
     "importFiles": "导入文件",
     "importDescription": "将选中的 {count} 个文件或文件夹复制到当前文件夹？",
