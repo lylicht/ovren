@@ -1,0 +1,58 @@
+name: Format native file explorer branch
+
+on:
+  push:
+    branches: [feat/native-file-explorer]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: explorer-format-branch
+  cancel-in-progress: true
+
+jobs:
+  format:
+    if: github.repository == 'lylicht/ovren' && github.ref == 'refs/heads/feat/native-file-explorer'
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.13.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: app/pnpm-lock.yaml
+      - name: Install frontend formatting tools
+        run: pnpm --dir app install --frozen-lockfile
+      - uses: actions-rust-lang/setup-rust-toolchain@v2
+        with:
+          rust-src-dir: app
+      - name: Format Explorer files
+        working-directory: app
+        run: |
+          pnpm exec prettier --write \
+            src/pages/file-browser/index.vue \
+            src/pages/file-browser/md-file-browser-entries.vue \
+            src/lib/utils/filesystem/file-browser.ts \
+            src/lib/utils/filesystem/file-browser.test.ts \
+            src/lib/services/filesystem/file-manager-service.ts \
+            src/lib/services/filesystem/file-browser-service.test.ts \
+            src/lib/models/filesystem/file-browser.ts \
+            src/stores/storage-scope-store.ts \
+            src/layouts/md-app-shell.vue
+          cargo fmt --all
+      - name: Commit formatting only on the dedicated feature branch
+        shell: bash
+        run: |
+          git add -- app/src app/src-tauri
+          if git diff --cached --quiet; then
+            echo "All Explorer code is already formatted."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "style(files): align Explorer changes with formatting rules"
+          git push origin HEAD:refs/heads/feat/native-file-explorer
