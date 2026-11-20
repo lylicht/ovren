@@ -330,7 +330,13 @@
       "permissionDenied": "دسترسی مجاز نیست",
       "invalidInput": "نام یا انتخاب نامعتبر",
       "failed": "عملیات ناموفق بود"
-    }
+    },
+    "previewText": "پیش‌نمایش متن",
+    "previewLimited": "۶۴ کیبی‌بایت آغاز فایل نشان داده می‌شود.",
+    "previewFailed": "نمایش فایل ممکن نشد",
+    "importFiles": "وارد کردن فایل‌ها",
+    "importDescription": "{count} فایل یا پوشه به پوشهٔ کنونی کپی شوند؟",
+    "copyHere": "کپی در اینجا"
   },
   "systemMaintenance": {
     "title": "سیستم تعمیر و نگهداری",
