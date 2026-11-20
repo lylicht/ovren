@@ -155,7 +155,7 @@ pub fn mouse_get_settings() -> MouseSettings {
         if !is_gnome() {
             return unavailable("Mouse controls currently support GNOME desktops on Linux.".into());
         }
-        return gnome_mouse_settings().unwrap_or_else(|error| unavailable(error));
+        gnome_mouse_settings().unwrap_or_else(unavailable)
     }
     #[cfg(not(any(target_os = "windows", target_os = "linux")))]
     unavailable("Mouse controls are unavailable on this platform.".into())
@@ -203,7 +203,7 @@ pub fn mouse_apply_settings(
         let profile = acceleration_profile
             .unwrap_or_else(|| if acceleration { "adaptive" } else { "flat" }.into());
         let native_speed = format!("{:.2}", (f64::from(speed) / 10.0) - 1.0);
-        if let Err(error) = run(
+        run(
             "gsettings",
             &[
                 "set",
@@ -211,9 +211,7 @@ pub fn mouse_apply_settings(
                 "speed",
                 &native_speed,
             ],
-        ) {
-            return Err(error);
-        }
+        )?;
         if let Err(error) = run(
             "gsettings",
             &[
@@ -249,7 +247,7 @@ pub fn mouse_apply_settings(
                 ),
             });
         }
-        return gnome_mouse_settings();
+        gnome_mouse_settings()
     }
     #[cfg(not(any(target_os = "windows", target_os = "linux")))]
     {
