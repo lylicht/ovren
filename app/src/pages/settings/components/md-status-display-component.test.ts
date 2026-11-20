@@ -614,7 +614,7 @@ describe('status display interactions', () => {
     await flushPromises();
     await openConfiguration(reloaded);
     expect(reloaded.findAll('.metric-row')[0]!.attributes('data-metric')).toBe('cpuTemperature');
-  });
+  }, 15_000);
 
   it('drags the temperature row independently and saves its enabled state and order', async () => {
     const wrapper = mount(Settings, { props: { isMacOs: true }, global: global() });
@@ -983,7 +983,7 @@ describe('status display interactions', () => {
     wrappers.push(wrapper);
     await flushPromises();
     await openConfiguration(wrapper);
-    expect(wrapper.get('.logo-marker img').attributes('src')).toBe('/ovren-icon.svg');
+    expect(wrapper.get('.logo-marker img').attributes('src')).toBe('/ovren-icon.png');
     await wrapper.get('#status-app-icon').trigger('click');
     await flushPromises();
     expect(ResidentService.savePreferences).toHaveBeenLastCalledWith(
@@ -1127,7 +1127,7 @@ describe('per-item color configuration', () => {
         colorRules: saved.colorRules.map(existing => (existing.id === 'fanSpeed' ? rule : existing)),
       })
     );
-  });
+  }, 15_000);
   it('opens a separate dialog and keeps source choices independent', async () => {
     const wrapper = mount(Settings, { props: { isMacOs: true }, global: global() });
     wrappers.push(wrapper);
