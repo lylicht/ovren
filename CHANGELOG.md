@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.2 — 2026-11-20
+
+- Adopted the official orbital desktop icon across Windows, macOS, and Linux, including installers and native tray artwork.
+- Expanded the file browser into an Ovren-styled native file explorer with navigation history, virtualized details/grid views, selection, search, and keyboard shortcuts.
+- Added native Rust create, rename, copy, move, and Trash operations with no-overwrite safety and staged copies.
+- Connected the explorer to storage analysis, large-file discovery, and duplicate-file tools.
+- Added localization and filesystem regression tests.
+
 ## 1.3.0 — 2026-11-18
 
 - Added an Ovren file browser with folder navigation, recursive name search, and opening items in their system apps.

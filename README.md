@@ -6,7 +6,7 @@
 
 <p align="center">
   A calmer way to understand and manage your desktop.<br>
-  Made by Licht · Version 1.3.0
+  Made by Licht · Version 1.3.2
 </p>
 
 <p align="center">
