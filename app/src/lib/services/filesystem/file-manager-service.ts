@@ -1,6 +1,6 @@
 import { invoke } from '@tauri-apps/api/core';
 import { dirname, homeDir } from '@tauri-apps/api/path';
-import type { FileBrowserListing, FileBrowserSearchResult, FileMutationReport, FileTransferMode } from '@/lib/models/filesystem/file-browser';
+import type { FileBrowserListing, FileBrowserSearchResult, FileMutationReport, FileTransferMode, FileTextPreview } from '@/lib/models/filesystem/file-browser';
 
 /** Exposes native file-system item actions without leaking Tauri into pages. */
 export class FileManagerService {
@@ -18,6 +18,10 @@ export class FileManagerService {
 
   static searchBrowserDirectory(path: string, query: string): Promise<FileBrowserSearchResult> {
     return invoke<FileBrowserSearchResult>('search_file_browser_directory', { path, query });
+  }
+
+  static previewBrowserEntry(path: string): Promise<FileTextPreview> {
+    return invoke<FileTextPreview>('preview_file_browser_entry', { path });
   }
 
   static createBrowserEntry(parent: string, name: string, folder: boolean): Promise<string> {
