@@ -17,6 +17,8 @@ concurrency:
 
 jobs:
   integrate-explorer:
+    outputs:
+      target_sha: ${{ steps.prepare.outputs.target_sha }}
     if: >-
       github.repository == 'lylicht/ovren' &&
       github.event.workflow_run.event == 'pull_request' &&
@@ -57,6 +59,7 @@ jobs:
             gh api --method DELETE "repos/$GH_REPO/git/refs/heads/feat/native-file-explorer"
           fi
       - name: Prepare v1.3.2 metadata on main after successful merge
+        id: prepare
         shell: bash
         run: |
           set -euo pipefail
@@ -115,7 +118,9 @@ jobs:
           writeFileSync('CHANGELOG.md', header + release + changelog.slice(header.length));
           NODE
           if git diff --quiet; then
-            echo "Version already current; no duplicate CI run necessary."
+            echo "Version already current; revalidating the present main commit."
+            echo "target_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+            gh workflow run cross-platform-builds.yml --repo "$GH_REPO" --ref main
             exit 0
           fi
           git config user.name "github-actions[bot]"
@@ -126,23 +131,59 @@ jobs:
           # GITHUB_TOKEN pushes do not trigger normal push workflows. A workflow
           # dispatch is explicitly allowed, and tests the exact updated main.
           gh workflow run cross-platform-builds.yml --repo "$GH_REPO" --ref main
+          echo "target_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
   release-after-main-checks:
-    if: >-
-      github.repository == 'lylicht/ovren' &&
-      github.event.workflow_run.event == 'workflow_dispatch' &&
-      github.event.workflow_run.head_branch == 'main' &&
-      github.event.workflow_run.conclusion == 'success'
+    needs: [integrate-explorer]
+    if: needs.integrate-explorer.result == 'success'
     runs-on: ubuntu-latest
+    timeout-minutes: 150
     env:
       GH_TOKEN: ${{ github.token }}
       GH_REPO: ${{ github.repository }}
-      PASSED_HEAD: ${{ github.event.workflow_run.head_sha }}
+      PASSED_HEAD: ${{ needs.integrate-explorer.outputs.target_sha }}
     steps:
       - uses: actions/checkout@v4
         with:
           ref: main
           fetch-depth: 0
+      - name: Wait for complete Windows, Linux and macOS validation
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ -n "$PASSED_HEAD" ]] || { echo "Missing candidate SHA." >&2; exit 1; }
+          ready=false
+          # workflow_dispatch explicitly fires even for GITHUB_TOKEN, unlike
+          # an ordinary push. The exact commit and all three jobs must pass.
+          for attempt in $(seq 1 240); do
+            json="$(gh api "repos/$GH_REPO/actions/runs?branch=main&event=workflow_dispatch&per_page=100")"
+            run="$(printf '%s' "$json" | jq -r --arg sha "$PASSED_HEAD" '.workflow_runs[] | select(.name == "Cross-platform builds" and .head_sha == $sha) | .id' | head -n 1)"
+            if [[ -n "$run" ]]; then
+              status="$(gh api "repos/$GH_REPO/actions/runs/$run" --jq '.status')"
+              if [[ "$status" == completed ]]; then
+                conclusion="$(gh api "repos/$GH_REPO/actions/runs/$run" --jq '.conclusion')"
+                if [[ "$conclusion" != success ]]; then
+                  echo "Validation run $run failed or was cancelled: $conclusion" >&2
+                  exit 1
+                fi
+                jobs="$(gh api "repos/$GH_REPO/actions/runs/$run/jobs?per_page=100")"
+                count="$(printf '%s' "$jobs" | jq '.jobs | length')"
+                failed="$(printf '%s' "$jobs" | jq '[.jobs[] | select(.conclusion != "success")] | length')"
+                if [[ "$count" != 3 || "$failed" != 0 ]]; then
+                  echo "Validation run $run did not pass all three platform jobs." >&2
+                  exit 1
+                fi
+                ready=true
+                echo "Passed release candidate validation: $run"
+                break
+              fi
+            fi
+            if (( attempt % 10 == 0 )); then
+              echo "Waiting for release candidate CI: attempt $attempt"
+            fi
+            sleep 30
+          done
+          [[ "$ready" == true ]] || { echo "Timed out awaiting complete CI." >&2; exit 1; }
       - name: Dispatch signed release only for the checked main commit
         shell: bash
         run: |
@@ -151,12 +192,12 @@ jobs:
           current="$(git rev-parse origin/main)"
           [[ "$current" == "$PASSED_HEAD" ]] || {
             echo "main moved after CI; not publishing an unchecked commit."
-            exit 0
+            exit 1
           }
           version="$(node -p "require('./package.json').version")"
           [[ "$version" == "1.3.2" ]] || {
             echo "Not the v1.3.2 release candidate."
-            exit 0
+            exit 1
           }
           merged="$(gh api "repos/$GH_REPO/pulls/5" --jq '.merged')"
           [[ "$merged" == true ]] || { echo "Explorer PR is not merged." >&2; exit 1; }
@@ -173,7 +214,6 @@ jobs:
             exit 0
           fi
           git push origin "$current:refs/heads/release/v1.3.2"
-          # Dispatching via GITHUB_TOKEN is explicitly supported by GitHub and
-          # does trigger the normal release workflow. It will publish only after
-          # Windows, Linux and macOS signing/build steps pass.
+          # Release dispatch works with GITHUB_TOKEN and never skips the
+          # existing signing, artifact, checksum, and publishing gates.
           gh workflow run release.yml --repo "$GH_REPO" --ref release/v1.3.2
