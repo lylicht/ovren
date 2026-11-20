@@ -245,8 +245,74 @@ pub fn rename_entry(path: &Path, name: &str) -> io::Result<String> {
     if fs::symlink_metadata(&to).is_ok() {
         return Err(io::Error::from(ErrorKind::AlreadyExists));
     }
-    fs::rename(&from, &to)?;
+    rename_no_replace(&from, &to)?;
     Ok(current_platform().display_path(&to))
+}
+
+
+#[cfg(unix)]
+fn c_path(path: &Path) -> io::Result<std::ffi::CString> {
+    use std::os::unix::ffi::OsStrExt;
+    std::ffi::CString::new(path.as_os_str().as_bytes()).map_err(|_| invalid("invalid path"))
+}
+
+/// Refuse overwrites atomically, including if another process creates the
+/// destination between validation and rename. Unsupported filesystems fail closed.
+#[cfg(target_os = "linux")]
+fn rename_no_replace(from: &Path, to: &Path) -> io::Result<()> {
+    let from = c_path(from)?;
+    let to = c_path(to)?;
+    // SAFETY: both CStrings remain alive for the duration of renameat2.
+    let result = unsafe {
+        libc::syscall(
+            libc::SYS_renameat2,
+            libc::AT_FDCWD,
+            from.as_ptr(),
+            libc::AT_FDCWD,
+            to.as_ptr(),
+            libc::RENAME_NOREPLACE,
+        )
+    };
+    if result == -1 {
+        Err(io::Error::last_os_error())
+    } else {
+        Ok(())
+    }
+}
+
+#[cfg(target_os = "macos")]
+fn rename_no_replace(from: &Path, to: &Path) -> io::Result<()> {
+    let from = c_path(from)?;
+    let to = c_path(to)?;
+    // SAFETY: valid NUL-terminated path buffers are borrowed for the call only.
+    let result = unsafe { libc::renamex_np(from.as_ptr(), to.as_ptr(), libc::RENAME_EXCL) };
+    if result == -1 {
+        Err(io::Error::last_os_error())
+    } else {
+        Ok(())
+    }
+}
+
+#[cfg(windows)]
+fn rename_no_replace(from: &Path, to: &Path) -> io::Result<()> {
+    use std::os::windows::ffi::OsStrExt;
+    use windows_sys::Win32::Storage::FileSystem::MoveFileExW;
+
+    let from = from.as_os_str().encode_wide().chain(std::iter::once(0)).collect::<Vec<_>>();
+    let to = to.as_os_str().encode_wide().chain(std::iter::once(0)).collect::<Vec<_>>();
+    // SAFETY: both buffers are valid NUL-terminated UTF-16; 0 deliberately
+    // excludes MOVEFILE_REPLACE_EXISTING and MOVEFILE_COPY_ALLOWED.
+    let result = unsafe { MoveFileExW(from.as_ptr(), to.as_ptr(), 0) };
+    if result == 0 {
+        Err(io::Error::last_os_error())
+    } else {
+        Ok(())
+    }
+}
+
+#[cfg(not(any(target_os = "linux", target_os = "macos", windows)))]
+fn rename_no_replace(_from: &Path, _to: &Path) -> io::Result<()> {
+    Err(io::Error::from(ErrorKind::Unsupported))
 }
 
 fn transfer_one(from: &Path, destination: &Path, mode: FileTransferMode) -> io::Result<String> {
@@ -268,7 +334,7 @@ fn transfer_one(from: &Path, destination: &Path, mode: FileTransferMode) -> io::
     match mode {
         FileTransferMode::Copy => copy_item(&from, &target, 0)?,
         // Cross-volume moves fail safely; no unverified copy-and-delete fallback.
-        FileTransferMode::Move => fs::rename(&from, &target)?,
+        FileTransferMode::Move => rename_no_replace(&from, &target)?,
     }
     Ok(current_platform().display_path(&target))
 }
@@ -333,6 +399,18 @@ pub fn trash_entries(paths: Vec<String>) -> io::Result<FileMutationReport> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn rename_refuses_existing_target_without_changing_contents() {
+        let temp = tempfile::tempdir().unwrap();
+        let from = temp.path().join("from.txt");
+        let to = temp.path().join("to.txt");
+        fs::write(&from, "source").unwrap();
+        fs::write(&to, "destination").unwrap();
+        assert!(rename_entry(&from, "to.txt").is_err());
+        assert_eq!(fs::read_to_string(&from).unwrap(), "source");
+        assert_eq!(fs::read_to_string(&to).unwrap(), "destination");
+    }
 
     #[test]
     fn preview_is_bounded_and_rejects_binary_data() {
