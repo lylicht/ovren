@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-const tag = process.env.GITHUB_REF_NAME;
+const tag = process.env.OVREN_RELEASE_TAG || process.env.GITHUB_REF_NAME;
 const repository = process.env.GITHUB_REPOSITORY;
 if (!tag || !repository || !/^v?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/.test(tag)) {
   throw new Error('Expected a semantic-version GITHUB_REF_NAME and GITHUB_REPOSITORY.');
