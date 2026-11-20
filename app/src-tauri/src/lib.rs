@@ -294,6 +294,7 @@ pub fn run() {
             commands::file_manager::open_large_file_entry,
             commands::file_manager::open_duplicate_file_entry,
             commands::file_manager::list_file_browser_directory,
+            commands::file_manager::preview_file_browser_entry,
             commands::file_manager::create_file_browser_entry,
             commands::file_manager::rename_file_browser_entry,
             commands::file_manager::transfer_file_browser_entries,
