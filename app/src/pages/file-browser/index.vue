@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { computed, onActivated, onBeforeUnmount, onDeactivated, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import MdDestructiveActionDialog from '@/components/custom/md-destructive-action-dialog.vue';
@@ -518,9 +518,19 @@ watch(showHidden, () => {
   selectedPaths.value = selectedPaths.value.filter(path => visible.has(path));
 });
 
-onMounted(() => {
+function enablePageShortcuts() {
   componentActive = true;
   window.addEventListener('keydown', onKeydown);
+}
+
+function disablePageShortcuts() {
+  componentActive = false;
+  ++requestId;
+  window.removeEventListener('keydown', onKeydown);
+}
+
+onMounted(() => {
+  enablePageShortcuts();
   void NativeDragDropService.listen(onNativeDrop)
     .then(stop => {
       if (componentActive) stopNativeDrop = stop;
@@ -543,10 +553,14 @@ onMounted(() => {
     });
 });
 
+onActivated(() => enablePageShortcuts());
+onDeactivated(() => {
+  disablePageShortcuts();
+  menu.value = null;
+});
+
 onBeforeUnmount(() => {
-  componentActive = false;
-  ++requestId;
-  window.removeEventListener('keydown', onKeydown);
+  disablePageShortcuts();
   stopNativeDrop?.();
   stopNativeDrop = null;
 });
