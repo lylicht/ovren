@@ -320,9 +320,9 @@
     "linkKind": "Enlace",
     "folderKind": "Carpeta",
     "fileKind": "Archivo",
-    "createDescription": "Crear un elemento en la carpeta actual.",
+    "createDescription": "Crear un elemento en la carpeta actual",
     "create": "Crear",
-    "renameDescription": "Elige un nuevo nombre para este elemento.",
+    "renameDescription": "Elige un nuevo nombre para este elemento",
     "trashDescription": "¿Mover los elementos seleccionados a la papelera del sistema?",
     "errors": {
       "alreadyExists": "El nombre ya existe",
@@ -332,7 +332,7 @@
       "failed": "Operación fallida"
     },
     "previewText": "Vista previa del texto",
-    "previewLimited": "Se muestran los primeros 64 KiB del archivo.",
+    "previewLimited": "Se muestran los primeros 64 KiB del archivo",
     "previewFailed": "No se pudo previsualizar el archivo",
     "importFiles": "Importar archivos",
     "importDescription": "¿Copiar {count} archivos o carpetas en la carpeta actual?",
