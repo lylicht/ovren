@@ -320,9 +320,9 @@
     "linkKind": "Bağlantı",
     "folderKind": "Klasör",
     "fileKind": "Dosya",
-    "createDescription": "Geçerli klasörde öğe oluştur.",
+    "createDescription": "Geçerli klasörde öğe oluştur",
     "create": "Oluştur",
-    "renameDescription": "Bu öğe için yeni bir ad seçin.",
+    "renameDescription": "Bu öğe için yeni bir ad seçin",
     "trashDescription": "Seçilen öğeler sistem çöp kutusuna taşınsın mı?",
     "errors": {
       "alreadyExists": "Ad zaten var",
@@ -332,7 +332,7 @@
       "failed": "İşlem başarısız"
     },
     "previewText": "Metin önizlemesi",
-    "previewLimited": "Dosyanın ilk 64 KiB bölümü gösteriliyor.",
+    "previewLimited": "Dosyanın ilk 64 KiB bölümü gösteriliyor",
     "previewFailed": "Dosya önizlenemedi",
     "importFiles": "Dosyaları içe aktar",
     "importDescription": "Seçili {count} dosya veya klasör geçerli klasöre kopyalansın mı?",
