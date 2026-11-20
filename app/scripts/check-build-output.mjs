@@ -49,14 +49,22 @@ const maximumLocaleGzipBytes = 60 * 1024;
 // French, German and Spanish assets measure approximately 318 / 308 / 310 kB
 // raw and 63.2 / 63.8 / 61.7 kB gzip. Keep their measured allowances local;
 // application and existing locale budgets stay fixed.
+// The native file explorer adds 40+ localized commands, safety descriptions and
+// status messages to each supported locale. Measured CI sizes (raw/gzip) from
+// cross-platform run #72 on Linux: de 315358/65628, es 317098/<64512,
+// fr 325576/65000, fa <368640/69013, ja 338937/64532,
+// ko <311296/61918, pt <311296/62533, ru 408622/<72704.
+// Round only the affected locale-specific limits up to a KiB boundary.
+// Keep the shared 300 KiB application and 60 KiB locale budgets unchanged.
 const localeChunkLimitOverrides = new Map([
-  ['fr-fr', { bytes: 315 * 1024, gzipBytes: 63 * 1024 }],
-  ['de-de', { bytes: 305 * 1024, gzipBytes: 64 * 1024 }],
-  ['es-es', { bytes: 307 * 1024, gzipBytes: 63 * 1024 }],
-  ['fa-ir', { bytes: 360 * 1024, gzipBytes: 67 * 1024 }],
-  ['ja-jp', { bytes: 328 * 1024, gzipBytes: 63 * 1024 }],
-  ['pt-br', { bytes: maximumLocaleChunkBytes, gzipBytes: 61 * 1024 }],
-  ['ru-ru', { bytes: 396 * 1024, gzipBytes: 71 * 1024 }],
+  ['fr-fr', { bytes: 319 * 1024, gzipBytes: 64 * 1024 }],
+  ['de-de', { bytes: 309 * 1024, gzipBytes: 65 * 1024 }],
+  ['es-es', { bytes: 310 * 1024, gzipBytes: 63 * 1024 }],
+  ['fa-ir', { bytes: 360 * 1024, gzipBytes: 68 * 1024 }],
+  ['ja-jp', { bytes: 332 * 1024, gzipBytes: 64 * 1024 }],
+  ['ko-kr', { bytes: maximumLocaleChunkBytes, gzipBytes: 61 * 1024 }],
+  ['pt-br', { bytes: maximumLocaleChunkBytes, gzipBytes: 62 * 1024 }],
+  ['ru-ru', { bytes: 400 * 1024, gzipBytes: 71 * 1024 }],
 ]);
 
 function fail(message) {
