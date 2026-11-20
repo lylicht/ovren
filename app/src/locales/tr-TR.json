@@ -330,7 +330,13 @@
       "permissionDenied": "İzin reddedildi",
       "invalidInput": "Geçersiz ad veya seçim",
       "failed": "İşlem başarısız"
-    }
+    },
+    "previewText": "Metin önizlemesi",
+    "previewLimited": "Dosyanın ilk 64 KiB bölümü gösteriliyor.",
+    "previewFailed": "Dosya önizlenemedi",
+    "importFiles": "Dosyaları içe aktar",
+    "importDescription": "Seçili {count} dosya veya klasör geçerli klasöre kopyalansın mı?",
+    "copyHere": "Buraya kopyala"
   },
   "systemMaintenance": {
     "title": "Sistem bakımı",
