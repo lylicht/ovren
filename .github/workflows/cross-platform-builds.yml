@@ -58,6 +58,9 @@ jobs:
           go-version-file: app/ovrennet/go.mod
       - name: Run Rust tests
         run: pnpm --dir app rust:test
+      - name: Validate all project quality gates
+        if: runner.os == 'Linux'
+        run: pnpm --dir app check
       - name: Create temporary signing certificate for CI validation
         if: runner.os == 'Windows'
         timeout-minutes: 2
