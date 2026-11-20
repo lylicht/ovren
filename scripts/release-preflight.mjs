@@ -27,6 +27,16 @@ export function validateReleaseVersion({ tag, rootVersion, packageVersion, tauri
   return version;
 }
 
+export function validateFileBrowserWindowConfigs(configs) {
+  for (const [platform, config] of Object.entries(configs)) {
+    const window = config.app?.windows?.find(({ label }) => label === 'file-browser');
+    if (!window) throw new Error(`The ${platform} Tauri overlay is missing the file-browser window.`);
+    if (window.create !== false || window.url !== 'index.html?window=file-browser' || window.resizable !== true) {
+      throw new Error(`The ${platform} Tauri overlay has an invalid file-browser window configuration.`);
+    }
+  }
+}
+
 function main() {
   const tag = process.argv[2] || process.env.GITHUB_REF_NAME;
   const rootVersion = JSON.parse(readFileSync('package.json', 'utf8')).version;
@@ -36,7 +46,14 @@ function main() {
   const workspacePackage = cargoManifest.split(/^\[workspace\.package\]\s*$/m)[1]?.split(/^\[/m, 1)[0] ?? '';
   const cargoVersion = /^\s*version\s*=\s*"([^"]+)"/m.exec(workspacePackage)?.[1];
   const changelog = readFileSync('CHANGELOG.md', 'utf8');
+  const platformConfigs = Object.fromEntries(
+    ['windows', 'macos', 'linux'].map((platform) => [
+      platform,
+      JSON.parse(readFileSync(`app/src-tauri/tauri.${platform}.conf.json`, 'utf8')),
+    ])
+  );
   const version = validateReleaseVersion({ tag, rootVersion, packageVersion, tauriVersion, cargoVersion, changelog });
+  validateFileBrowserWindowConfigs(platformConfigs);
   const releaseTag = `v${version}`;
 
   if (process.env.GITHUB_OUTPUT) {

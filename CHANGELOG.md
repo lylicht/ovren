@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.6 — 2026-11-20
+
+- Fixed opening the separate file browser window on Windows, macOS, and Linux.
+
 ## 1.3.5 — 2026-11-20
 
 - Open the file browser in its own native, resizable window from the file browser page.

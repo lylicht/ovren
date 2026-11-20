@@ -18,6 +18,20 @@
           "x": 14,
           "y": 16
         }
+      },
+      {
+        "label": "file-browser",
+        "create": false,
+        "url": "index.html?window=file-browser",
+        "title": "Ovren",
+        "width": 1180,
+        "height": 800,
+        "minWidth": 900,
+        "minHeight": 600,
+        "center": true,
+        "visible": false,
+        "resizable": true,
+        "decorations": true
       }
     ]
   },

@@ -1,4 +1,6 @@
 const assert = require('node:assert/strict');
+const { readFileSync } = require('node:fs');
+const path = require('node:path');
 const { test } = require('node:test');
 
 test('accepts a release tag when root, app, Tauri, Cargo, and changelog versions agree', async () => {
@@ -79,4 +81,16 @@ test('rejects malformed Ovren tags', async () => {
     }),
     /Expected a v semantic-version tag/
   );
+});
+
+test('requires the lazy resizable file browser window in every platform Tauri overlay', async () => {
+  const { validateFileBrowserWindowConfigs } = await import('./release-preflight.mjs');
+  const configs = Object.fromEntries(
+    ['windows', 'macos', 'linux'].map((platform) => [
+      platform,
+      JSON.parse(readFileSync(path.join(__dirname, `../app/src-tauri/tauri.${platform}.conf.json`), 'utf8')),
+    ])
+  );
+
+  assert.doesNotThrow(() => validateFileBrowserWindowConfigs(configs));
 });
