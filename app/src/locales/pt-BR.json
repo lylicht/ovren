@@ -330,7 +330,13 @@
       "permissionDenied": "Permissão negada",
       "invalidInput": "Nome ou seleção inválidos",
       "failed": "Falha na operação"
-    }
+    },
+    "previewText": "Prévia de texto",
+    "previewLimited": "Exibindo os primeiros 64 KiB deste arquivo.",
+    "previewFailed": "Não foi possível visualizar este arquivo",
+    "importFiles": "Importar arquivos",
+    "importDescription": "Copiar {count} arquivos ou pastas para a pasta atual?",
+    "copyHere": "Copiar aqui"
   },
   "systemMaintenance": {
     "title": "Manutenção do Sistema",
