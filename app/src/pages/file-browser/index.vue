@@ -136,6 +136,7 @@ async function loadDirectory(target: string, mode: HistoryMode = 'push', index =
     } else if (historyIndex.value >= 0) {
       history.value[historyIndex.value] = listing.path;
     }
+    if (mode === 'push') storageScopes.rememberBrowserFolder(listing.path);
     if (listing.skippedCount) {
       statusMessage.value = t('fileBrowser.skippedItems', { count: listing.skippedCount });
     }
