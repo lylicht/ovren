@@ -320,9 +320,9 @@
     "linkKind": "リンク",
     "folderKind": "フォルダー",
     "fileKind": "ファイル",
-    "createDescription": "現在のフォルダーに項目を作成します。",
+    "createDescription": "現在のフォルダーに項目を作成します",
     "create": "作成",
-    "renameDescription": "新しい名前を入力してください。",
+    "renameDescription": "新しい名前を入力してください",
     "trashDescription": "選択した項目をシステムのゴミ箱に移動しますか？",
     "errors": {
       "alreadyExists": "同じ名前が存在します",
@@ -332,7 +332,7 @@
       "failed": "操作に失敗しました"
     },
     "previewText": "テキストをプレビュー",
-    "previewLimited": "このファイルの先頭 64 KiB を表示しています。",
+    "previewLimited": "このファイルの先頭 64 KiB を表示しています",
     "previewFailed": "ファイルをプレビューできません",
     "importFiles": "ファイルを取り込む",
     "importDescription": "選択した {count} 件を現在のフォルダーにコピーしますか？",
