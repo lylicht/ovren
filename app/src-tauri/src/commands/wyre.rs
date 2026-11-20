@@ -148,7 +148,7 @@ fn mbps(bytes: usize, elapsed: Duration) -> f64 {
 pub fn mouse_get_settings() -> MouseSettings {
     #[cfg(target_os = "windows")]
     {
-        return windows_mouse_settings().unwrap_or_else(|error| unavailable(error));
+        windows_mouse_settings().unwrap_or_else(unavailable)
     }
     #[cfg(target_os = "linux")]
     {
@@ -185,7 +185,7 @@ pub fn mouse_apply_settings(
 
     #[cfg(target_os = "windows")]
     {
-        return apply_windows_mouse_settings(speed, acceleration, acceleration_profile.as_deref());
+        apply_windows_mouse_settings(speed, acceleration, acceleration_profile.as_deref())
     }
     #[cfg(target_os = "linux")]
     {
