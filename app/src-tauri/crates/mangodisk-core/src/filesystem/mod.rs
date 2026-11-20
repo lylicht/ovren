@@ -7,7 +7,7 @@ pub use browser::{
     list_directory, search_directory, FileBrowserEntry, FileBrowserListing, FileBrowserSearchResult,
 };
 pub use scan_exclusions::ScanExclusionOptions;
-pub use operations::{create_entry, rename_entry, transfer_entries, trash_entries, FileTransferMode, FileMutationReport, FileMutationFailure};
+pub use operations::{create_entry, rename_entry, transfer_entries, trash_entries, FileTransferMode, FileMutationReport, FileMutationFailure, FileTextPreview, preview_text};
 mod directory_selection;
 pub(crate) mod metadata;
 mod models;
