@@ -1,10 +1,20 @@
-# Ovren application icons
+# Ovren desktop application icons
 
-The packaged Windows, Linux, and macOS icons are generated from the product mark at [`app/public/ovren-icon.svg`](../../public/ovren-icon.svg) with:
+The official rounded-square orbital icon for **Windows, macOS, and Linux** is
+[`app/public/ovren-desktop-icon.png`](../../public/ovren-desktop-icon.png).
+
+All desktop app, Windows Store, installer, Linux PNG, and macOS icons in this
+directory are generated from this single image by:
 
 ```sh
 cd app
-pnpm tauri icon public/ovren-icon.svg --output src-tauri/icons
+node scripts/generate-resident-icons.mjs
 ```
 
-The NSIS installer keeps its platform default artwork and uses Ovren's generated `.ico` file. Tray icons remain separate because their monochrome mask and color treatment follow each operating system's tray conventions.
+The build runs this generator automatically, so native icons cannot revert to the
+previous design when a new installer is produced. The NSIS installer and
+uninstaller use `icon.ico`, and Windows also ships `windows/icon.ico`.
+
+The color and monochrome **system-tray** icons remain separate because the tray
+uses platform-specific sizing and masking, not the Dock/taskbar launcher icon.
+Android and iOS resources are intentionally outside this desktop-only change.

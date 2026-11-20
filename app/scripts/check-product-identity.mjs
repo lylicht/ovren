@@ -72,10 +72,11 @@ assertContains(cliManifest, 'name = "mangodisk-cli"', 'CLI package manifest');
 assertContains(cliManifest, 'name = "mangodisk"', 'CLI binary manifest');
 
 assertExists('public/ovren-icon.svg');
+assertExists('public/ovren-desktop-icon.png');
 assertExists('src/components/icons/md-icon-ovren.vue');
 
 assertContains(readme, '<h1 align="center">Ovren</h1>', 'README product name');
-assertContains(readme, 'app/public/ovren-icon.svg', 'README app icon');
+assertContains(readme, 'app/public/ovren-desktop-icon.png', 'README app icon');
 assertContains(indexHtml, 'Ovren', 'HTML application shell');
 assertContains(tauriLibrary, 'Ovren', 'Tauri library');
 assertContains(tauriMain, 'mangodisk_lib', 'Tauri entry point');

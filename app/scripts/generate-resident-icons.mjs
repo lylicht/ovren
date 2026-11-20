@@ -11,6 +11,9 @@ import { execFileSync } from 'node:child_process';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const source = readFileSync(join(root, 'public/ovren-icon.svg'), 'utf8');
+// The desktop app icon is the approved rounded-square orbital artwork.
+// Keep the monochrome tray symbol separate for native menu-bar conventions.
+const desktopSource = join(root, 'public/ovren-desktop-icon.png');
 if (!source.includes('id="ovren-mark"')) {
   throw new Error('The Ovren mark changed; review the tray icon source before regenerating.');
 }
@@ -36,8 +39,15 @@ try {
   generate(templateSource, join(temporary, 'template'), [36]);
   generate(colorSource, join(temporary, 'color'), [64]);
   const application = join(temporary, 'application');
-  generate(colorSource, application);
-  for (const name of ['32x32.png', '64x64.png', '128x128.png', '128x128@2x.png', 'icon.png', 'icon.icns']) {
+  generate(desktopSource, application);
+  for (const name of [
+    '32x32.png', '64x64.png', '128x128.png', '128x128@2x.png',
+    'icon.png', 'icon.icns',
+    'Square30x30Logo.png', 'Square44x44Logo.png', 'Square71x71Logo.png',
+    'Square89x89Logo.png', 'Square107x107Logo.png', 'Square142x142Logo.png',
+    'Square150x150Logo.png', 'Square284x284Logo.png', 'Square310x310Logo.png',
+    'StoreLogo.png',
+  ]) {
     copyFileSync(join(application, name), join(output, name));
   }
   copyFileSync(join(temporary, 'template/36x36.png'), join(output, 'tray-template.png'));
@@ -53,7 +63,7 @@ try {
   const orderedIco = Buffer.concat([ico.subarray(0, 6), ...entries, ico.subarray(6 + count * 16)]);
   writeFileSync(join(output, 'icon.ico'), orderedIco);
   writeFileSync(join(output, 'windows/icon.ico'), orderedIco);
-  console.log('Generated Ovren application and tray icons.');
+  console.log('Generated Ovren desktop application and tray icons.');
 } finally {
   rmSync(temporary, { recursive: true, force: true });
 }
