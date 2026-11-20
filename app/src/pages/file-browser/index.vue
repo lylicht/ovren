@@ -20,10 +20,12 @@ import type {
   FileBrowserSearchResult,
   FileMutationReport,
   FileTransferMode,
+  FileTextPreview,
 } from '@/lib/models/filesystem/file-browser';
 import { ICON_NAMES } from '@/lib/models/presentation/ui';
 import { FileManagerService } from '@/lib/services/filesystem/file-manager-service';
 import { FolderSelectionService } from '@/lib/services/storage/folder-selection-service';
+import { NativeDragDropService, type NativeDragDropEvent } from '@/lib/services/shell/native-drag-drop-service';
 import { FormatService } from '@/lib/services/presentation/format-service';
 import { ByteSizeService } from '@/lib/services/settings/byte-size-service';
 import { browserName, browserSelectionRange, sortBrowserEntries, type BrowserSort, type BrowserView } from '@/lib/utils/filesystem/file-browser';
@@ -65,9 +67,14 @@ const renameOpen = ref(false);
 const renameName = ref('');
 const trashOpen = ref(false);
 const detailsOpen = ref(false);
+const preview = ref<FileTextPreview | null>(null);
+const previewBusy = ref(false);
+const importOpen = ref(false);
+const importPaths = ref<string[]>([]);
 const menu = ref<{ x: number; y: number } | null>(null);
 let requestId = 0;
 let componentActive = true;
+let stopNativeDrop: (() => void) | null = null;
 
 const rawEntries = computed(() => searchResult.value?.entries ?? entries.value);
 const visibleEntries = computed(() =>
@@ -87,6 +94,10 @@ const selectedEntry = computed(() => (selectedEntries.value.length === 1 ? selec
 const canBack = computed(() => historyIndex.value > 0);
 const canForward = computed(() => historyIndex.value >= 0 && historyIndex.value < history.value.length - 1);
 const canPaste = computed(() => Boolean(path.value && clipboard.value?.paths.length));
+const canPreview = computed(() =>
+  Boolean(selectedEntry.value && !selectedEntry.value.isDirectory && !selectedEntry.value.isSymlink &&
+    /\.(txt|md|json|toml|ya?ml|xml|ini|log|csv|rs|tsx?|jsx?|py|go|java|kt|swift|html|css|sh)$/iu.test(selectedEntry.value.name))
+);
 const recentFolders = computed(() => storageScopes.recentFolders.filter(folder => folder !== path.value).slice(0, 6));
 const analysisPath = computed(() =>
   selectedEntry.value?.isDirectory && !selectedEntry.value.isSymlink ? selectedEntry.value.path : path.value
@@ -370,8 +381,76 @@ function openContext(entry: FileBrowserEntry, event: MouseEvent) {
   };
 }
 
+async function openPreview() {
+  const entry = selectedEntry.value;
+  if (!entry || !canPreview.value || busy.value) return;
+  preview.value = null;
+  detailsOpen.value = true;
+  previewBusy.value = true;
+  try {
+    preview.value = await FileManagerService.previewBrowserEntry(entry.path);
+  } catch {
+    errorMessage.value = t('fileBrowser.previewFailed');
+  } finally {
+    previewBusy.value = false;
+  }
+}
+
+function startDrag(entry: FileBrowserEntry, event: DragEvent) {
+  const paths = selectedPaths.value.includes(entry.path) ? selectedPaths.value : [entry.path];
+  if (!selectedPaths.value.includes(entry.path)) selectedPaths.value = [entry.path];
+  event.dataTransfer?.setData('application/x-ovren-files', JSON.stringify(paths));
+  if (event.dataTransfer) event.dataTransfer.effectAllowed = 'copyMove';
+}
+
+async function dropOn(entry: FileBrowserEntry, event: DragEvent) {
+  if (!entry.isDirectory || entry.isSymlink || !event.dataTransfer || busy.value) return;
+  const encoded = event.dataTransfer.getData('application/x-ovren-files');
+  if (!encoded) return;
+  let paths: string[];
+  try {
+    const value: unknown = JSON.parse(encoded);
+    if (!Array.isArray(value) || !value.every(item => typeof item === 'string')) return;
+    paths = value;
+  } catch {
+    return;
+  }
+  const mode: FileTransferMode = event.ctrlKey || event.altKey ? 'copy' : 'move';
+  await mutate(async () => reportResult(await inBatches(paths, batch =>
+    FileManagerService.transferBrowserEntries(batch, entry.path, mode))));
+}
+
+function onNativeDrop(event: NativeDragDropEvent) {
+  if (!componentActive || busy.value || !path.value || event.type !== 'drop') return;
+  const paths = [...new Set(event.paths)].filter(source => source && source !== path.value);
+  if (!paths.length) return;
+  importPaths.value = paths;
+  importOpen.value = true;
+}
+
+async function pickImport() {
+  if (busy.value || !path.value) return;
+  try {
+    const selected = await FileManagerService.pickBrowserFiles();
+    if (!selected.length) return;
+    importPaths.value = selected;
+    importOpen.value = true;
+  } catch {
+    errorMessage.value = t('common.operationFailed');
+  }
+}
+
+async function confirmImport() {
+  const paths = [...importPaths.value];
+  importOpen.value = false;
+  importPaths.value = [];
+  if (!paths.length || !path.value) return;
+  await mutate(async () => reportResult(await inBatches(paths, batch =>
+    FileManagerService.transferBrowserEntries(batch, path.value, 'copy'))));
+}
+
 function onKeydown(event: KeyboardEvent) {
-  if (createOpen.value || renameOpen.value || trashOpen.value || detailsOpen.value) return;
+  if (createOpen.value || renameOpen.value || trashOpen.value || detailsOpen.value || importOpen.value) return;
   if (event.key === 'Escape') {
     menu.value = null;
     selectedPaths.value = [];
@@ -441,6 +520,12 @@ watch(showHidden, () => {
 onMounted(() => {
   componentActive = true;
   window.addEventListener('keydown', onKeydown);
+  void NativeDragDropService.listen(onNativeDrop)
+    .then(stop => {
+      if (componentActive) stopNativeDrop = stop;
+      else stop();
+    })
+    .catch(() => undefined);
   void FileManagerService.homeDirectory()
     .then(async home => {
       if (!componentActive) return;
@@ -461,6 +546,8 @@ onBeforeUnmount(() => {
   componentActive = false;
   ++requestId;
   window.removeEventListener('keydown', onKeydown);
+  stopNativeDrop?.();
+  stopNativeDrop = null;
 });
 </script>
 
@@ -510,6 +597,10 @@ onBeforeUnmount(() => {
           <Button variant="outline" size="sm" :disabled="busy || !path" @click="openCreate(false)">
             <MdIcon :name="ICON_NAMES.file" :size="15" />
             {{ t('fileBrowser.newFile') }}
+          </Button>
+          <Button variant="ghost" size="sm" :disabled="busy || !path" @click="pickImport">
+            <MdIcon :name="ICON_NAMES.download" :size="15" />
+            {{ t('fileBrowser.importFiles') }}
           </Button>
           <Button variant="ghost" size="sm" :disabled="busy || selectedCount !== 1" @click="openRename">
             {{ t('fileBrowser.rename') }}
@@ -646,6 +737,8 @@ onBeforeUnmount(() => {
             @select="select"
             @activate="activate"
             @context="openContext"
+            @drag-start="startDrag"
+            @drop-on="dropOn"
           />
         </section>
 
@@ -663,6 +756,9 @@ onBeforeUnmount(() => {
             <dd>{{ selectedEntry.modifiedAtMs === null ? '—' : FormatService.dateTime(selectedEntry.modifiedAtMs, locale) }}</dd>
           </dl>
           <Button variant="outline" size="sm" :disabled="busy" @click="activate(selectedEntry)">{{ t('common.open') }}</Button>
+          <Button v-if="canPreview" variant="outline" size="sm" :disabled="busy" @click="openPreview">
+            {{ t('fileBrowser.previewText') }}
+          </Button>
           <Button variant="ghost" size="sm" :disabled="busy" @click="FileManagerService.reveal(selectedEntry.path).catch(() => errorMessage = t('common.operationFailed'))">{{ t('common.showInFileManager') }}</Button>
         </aside>
       </div>
@@ -687,7 +783,8 @@ onBeforeUnmount(() => {
         <button role="menuitem" type="button" @click="copyOrCut('move')">{{ t('fileBrowser.cut') }}</button>
         <button role="menuitem" type="button" :disabled="selectedCount !== 1" @click="openRename">{{ t('fileBrowser.rename') }}</button>
         <button role="menuitem" type="button" @click="prepareTrash">{{ t('fileBrowser.moveToTrash') }}</button>
-        <button role="menuitem" type="button" :disabled="selectedCount !== 1" @click="detailsOpen = true; menu = null">{{ t('fileBrowser.properties') }}</button>
+        <button role="menuitem" type="button" :disabled="selectedCount !== 1" @click="detailsOpen = true; preview = null; menu = null">{{ t('fileBrowser.properties') }}</button>
+        <button v-if="canPreview" role="menuitem" type="button" @click="openPreview(); menu = null">{{ t('fileBrowser.previewText') }}</button>
       </div>
     </div>
 
@@ -737,16 +834,37 @@ onBeforeUnmount(() => {
     />
 
     <Dialog :open="detailsOpen" @update:open="detailsOpen = $event">
-      <MdDialogContent>
+      <MdDialogContent size="wide">
         <MdDialogHeader>
           <DialogTitle>{{ t('fileBrowser.properties') }}</DialogTitle>
           <DialogDescription>{{ selectedEntry?.name ?? '' }}</DialogDescription>
         </MdDialogHeader>
         <div class="file-browser-dialog-body">
           <p dir="auto">{{ selectedEntry?.path }}</p>
+          <p v-if="previewBusy" role="status">{{ t('loading.processing') }}</p>
+          <template v-if="preview">
+            <pre class="file-browser-text-preview" dir="auto">{{ preview.text }}</pre>
+            <p v-if="preview.truncated" class="file-browser-message">{{ t('fileBrowser.previewLimited') }}</p>
+          </template>
         </div>
         <MdDialogFooter>
           <Button variant="outline" @click="detailsOpen = false">{{ t('common.close') }}</Button>
+        </MdDialogFooter>
+      </MdDialogContent>
+    </Dialog>
+
+    <Dialog :open="importOpen" @update:open="importOpen = $event">
+      <MdDialogContent>
+        <MdDialogHeader>
+          <DialogTitle>{{ t('fileBrowser.importFiles') }}</DialogTitle>
+          <DialogDescription>{{ t('fileBrowser.importDescription', { count: importPaths.length }) }}</DialogDescription>
+        </MdDialogHeader>
+        <div class="file-browser-dialog-body">
+          <p dir="auto">{{ path }}</p>
+        </div>
+        <MdDialogFooter>
+          <Button variant="outline" type="button" @click="importOpen = false">{{ t('common.cancel') }}</Button>
+          <Button type="button" @click="confirmImport">{{ t('fileBrowser.copyHere') }}</Button>
         </MdDialogFooter>
       </MdDialogContent>
     </Dialog>
@@ -801,6 +919,7 @@ onBeforeUnmount(() => {
 .file-browser-context button:disabled { opacity: .45; }
 .file-browser-dialog-body { display: flex; flex-direction: column; gap: 14px; padding: 12px var(--layout-dialog-body-inline-padding); }
 .file-browser-dialog-body :deep(.md-dialog-footer) { margin: 0 calc(-1 * var(--layout-dialog-body-inline-padding)) -12px; }
+.file-browser-text-preview { max-height: 45vh; max-width: 100%; overflow: auto; padding: 12px; border-radius: 8px; background: var(--muted); white-space: pre-wrap; overflow-wrap: anywhere; font: 12px/1.5 ui-monospace, monospace; }
 @container file-browser (max-width: 1050px) {
  .file-browser-main { grid-template-columns: 155px minmax(0,1fr); }
  .file-browser-main:has(.file-browser-details) { grid-template-columns: 135px minmax(0,1fr); }
