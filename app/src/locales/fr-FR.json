@@ -330,7 +330,13 @@
       "permissionDenied": "Permission refusée",
       "invalidInput": "Sélection ou nom invalide",
       "failed": "Échec de l’opération"
-    }
+    },
+    "previewText": "Aperçu du texte",
+    "previewLimited": "Affichage des 64 premiers Kio de ce fichier.",
+    "previewFailed": "Impossible de prévisualiser ce fichier",
+    "importFiles": "Importer des fichiers",
+    "importDescription": "Copier {count} fichiers ou dossiers sélectionnés dans le dossier actuel ?",
+    "copyHere": "Copier ici"
   },
   "systemMaintenance": {
     "title": "Maintenance du système",
