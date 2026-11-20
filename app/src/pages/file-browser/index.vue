@@ -474,7 +474,13 @@ function onKeydown(event: KeyboardEvent) {
     return;
   }
   const target = event.target;
-  const editing = target instanceof HTMLElement && Boolean(target.closest('input, textarea, select, [role="menu"], [role="menuitem"], [role="combobox"], [contenteditable="true"]'));
+  const editing =
+    target instanceof HTMLElement &&
+    Boolean(
+      target.closest(
+        'input, textarea, select, [role="menu"], [role="menuitem"], [role="combobox"], [contenteditable="true"]'
+      )
+    );
   if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'l') {
     event.preventDefault();
     const input = document.querySelector<HTMLInputElement>('.file-browser-address input');
