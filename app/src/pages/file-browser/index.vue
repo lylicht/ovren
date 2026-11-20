@@ -66,7 +66,6 @@ const renameName = ref('');
 const trashOpen = ref(false);
 const detailsOpen = ref(false);
 const menu = ref<{ x: number; y: number } | null>(null);
-const addressInput = ref<HTMLInputElement | null>(null);
 let requestId = 0;
 let componentActive = true;
 
@@ -271,8 +270,12 @@ async function mutate(action: () => Promise<void>) {
     errorMessage.value = t('common.operationFailed');
   } finally {
     busy.value = false;
-    // Native mutations can change the directory even after a partial failure.
+    // A partial native mutation may have changed directory contents. Keep the result
+    // message visible after refreshing, including when a batch has failures.
+    const feedback = { error: errorMessage.value, status: statusMessage.value };
     await refresh();
+    if (feedback.error) errorMessage.value = feedback.error;
+    if (feedback.status) statusMessage.value = feedback.status;
   }
 }
 
@@ -378,8 +381,9 @@ function onKeydown(event: KeyboardEvent) {
   const editing = target instanceof HTMLElement && Boolean(target.closest('input, textarea, [contenteditable="true"]'));
   if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'l') {
     event.preventDefault();
-    addressInput.value?.focus();
-    addressInput.value?.select();
+    const input = document.querySelector<HTMLInputElement>('.file-browser-address input');
+    input?.focus();
+    input?.select();
     return;
   }
   if (editing || busy.value) return;
@@ -438,10 +442,15 @@ onMounted(() => {
   componentActive = true;
   window.addEventListener('keydown', onKeydown);
   void FileManagerService.homeDirectory()
-    .then(home => {
+    .then(async home => {
       if (!componentActive) return;
       homePath.value = home;
-      return loadDirectory(storageScopes.recentFolders[0] || home);
+      const recent = storageScopes.recentFolders[0];
+      if (recent) {
+        await loadDirectory(recent);
+        if (path.value) return;
+      }
+      await loadDirectory(home);
     })
     .catch(() => {
       errorMessage.value = t('fileBrowser.directoryError');
