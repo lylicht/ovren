@@ -1,9 +1,14 @@
 pub(crate) mod atomic_replace;
 mod browser;
 pub(crate) mod exclusion_paths;
+mod operations;
 mod scan_exclusions;
 pub use browser::{
     list_directory, search_directory, FileBrowserEntry, FileBrowserListing, FileBrowserSearchResult,
+};
+pub use operations::{
+    create_entry, preview_text, rename_entry, transfer_entries, trash_entries, FileMutationFailure,
+    FileMutationReport, FileTextPreview, FileTransferMode,
 };
 pub use scan_exclusions::ScanExclusionOptions;
 mod directory_selection;

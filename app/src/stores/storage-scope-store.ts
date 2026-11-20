@@ -176,6 +176,12 @@ export const useStorageScopeStore = defineStore('storage-scope', {
       const selection = this.selectedPaths[scopeId];
       return Array.isArray(selection) ? (selection[0] ?? '') : (selection ?? '');
     },
+    rememberBrowserFolder(path: string) {
+      const normalized = PathUtils.display(path);
+      if (!normalized || this.recentFolders[0] === normalized) return;
+      this.recentFolders = StorageScopePreferenceUtils.addRecentFolder(this.recentFolders, normalized);
+      this.persist();
+    },
     select(scopeId: StorageScopeId, path: string, disks: readonly VolumeInfo[]) {
       const normalized = PathUtils.display(path);
       if (!normalized) return;

@@ -5,9 +5,12 @@ import { FileManagerService } from './file-manager-service';
 
 const invokeMock = vi.hoisted(() => vi.fn());
 const dirnameMock = vi.hoisted(() => vi.fn());
+const homeDirMock = vi.hoisted(() => vi.fn());
+const dialogOpenMock = vi.hoisted(() => vi.fn());
 
 vi.mock('@tauri-apps/api/core', () => ({ invoke: invokeMock }));
-vi.mock('@tauri-apps/api/path', () => ({ dirname: dirnameMock }));
+vi.mock('@tauri-apps/api/path', () => ({ dirname: dirnameMock, homeDir: homeDirMock }));
+vi.mock('@tauri-apps/plugin-dialog', () => ({ open: dialogOpenMock }));
 
 describe('file browser service', () => {
   beforeEach(() => invokeMock.mockReset());
@@ -43,6 +46,72 @@ describe('file browser service', () => {
 
     await expect(FileManagerService.openBrowserEntry('/home/owner/notes.txt')).resolves.toBeUndefined();
     expect(invokeMock).toHaveBeenCalledWith('open_file_browser_entry', { path: '/home/owner/notes.txt' });
+  });
+
+  it('loads the current user home directory from the native path adapter', async () => {
+    homeDirMock.mockResolvedValue('/home/owner');
+    await expect(FileManagerService.homeDirectory()).resolves.toBe('/home/owner');
+    expect(homeDirMock).toHaveBeenCalled();
+  });
+
+  it('selects external files without exposing the dialog plugin to the page', async () => {
+    dialogOpenMock.mockResolvedValue(['/external/a.txt', '/external/b.txt']);
+    await expect(FileManagerService.pickBrowserFiles('Import')).resolves.toEqual([
+      '/external/a.txt',
+      '/external/b.txt',
+    ]);
+    expect(dialogOpenMock).toHaveBeenCalledWith({
+      directory: false,
+      multiple: true,
+      title: 'Import',
+    });
+    dialogOpenMock.mockResolvedValue(null);
+    await expect(FileManagerService.pickBrowserFiles()).resolves.toEqual([]);
+  });
+
+  it('loads a bounded text preview from Rust', async () => {
+    invokeMock.mockResolvedValue({ text: 'sample', truncated: false });
+    await expect(FileManagerService.previewBrowserEntry('/home/owner/sample.txt')).resolves.toEqual({
+      text: 'sample',
+      truncated: false,
+    });
+    expect(invokeMock).toHaveBeenCalledWith('preview_file_browser_entry', { path: '/home/owner/sample.txt' });
+  });
+
+  it('creates and renames through guarded Rust commands', async () => {
+    invokeMock.mockResolvedValue('/home/owner/created.txt');
+    await FileManagerService.createBrowserEntry('/home/owner', 'created.txt', false);
+    expect(invokeMock).toHaveBeenCalledWith('create_file_browser_entry', {
+      parent: '/home/owner',
+      name: 'created.txt',
+      folder: false,
+    });
+    await FileManagerService.renameBrowserEntry('/home/owner/created.txt', 'renamed.txt');
+    expect(invokeMock).toHaveBeenCalledWith('rename_file_browser_entry', {
+      path: '/home/owner/created.txt',
+      name: 'renamed.txt',
+    });
+  });
+
+  it('preserves per-item copy, move and trash results from native commands', async () => {
+    const report = { completed: ['/home/owner/item'], failed: [] };
+    invokeMock.mockResolvedValue(report);
+    await expect(FileManagerService.transferBrowserEntries(['/home/owner/item'], '/tmp', 'copy')).resolves.toEqual(
+      report
+    );
+    expect(invokeMock).toHaveBeenCalledWith('transfer_file_browser_entries', {
+      paths: ['/home/owner/item'],
+      destination: '/tmp',
+      mode: 'copy',
+    });
+    await FileManagerService.transferBrowserEntries(['/home/owner/item'], '/tmp', 'move');
+    expect(invokeMock).toHaveBeenCalledWith('transfer_file_browser_entries', {
+      paths: ['/home/owner/item'],
+      destination: '/tmp',
+      mode: 'move',
+    });
+    await FileManagerService.trashBrowserEntries(['/home/owner/item']);
+    expect(invokeMock).toHaveBeenCalledWith('trash_file_browser_entries', { paths: ['/home/owner/item'] });
   });
 
   it('resolves a directory parent through the platform path service', async () => {

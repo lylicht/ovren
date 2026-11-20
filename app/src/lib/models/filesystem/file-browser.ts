@@ -21,3 +21,21 @@ export interface FileBrowserSearchResult {
   skippedCount: number;
   truncated: boolean;
 }
+
+/** Rust-owned browser mutation contract. Batch failures never overwrite targets. */
+export type FileTransferMode = 'copy' | 'move';
+
+export interface FileMutationFailure {
+  path: string;
+  reason: 'alreadyExists' | 'notFound' | 'permissionDenied' | 'invalidInput' | 'failed';
+}
+
+export interface FileMutationReport {
+  completed: string[];
+  failed: FileMutationFailure[];
+}
+
+export interface FileTextPreview {
+  text: string;
+  truncated: boolean;
+}
