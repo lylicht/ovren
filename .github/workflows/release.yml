@@ -3,12 +3,15 @@ name: Build and publish Ovren
 on:
   push:
     tags: ["v*"]
+    branches: ["release/v*"]
 
 permissions:
   contents: read
 
 jobs:
   preflight:
+    outputs:
+      release_tag: ${{ steps.release_version.outputs.release_tag }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,7 +21,8 @@ jobs:
       - name: Test release metadata validation
         run: node --test scripts/test-release-preflight.cjs
       - name: Validate release tag, app versions, and changelog
-        run: node scripts/release-preflight.mjs
+        id: release_version
+        run: node scripts/release-preflight.mjs "${GITHUB_REF_NAME#release/}"
 
   windows:
     needs: [preflight]
@@ -100,7 +104,7 @@ jobs:
             if ($LASTEXITCODE -ne 0) { throw "Windows signing failed: $($file.Name)" }
             $signature = Get-AuthenticodeSignature $file.FullName
             if ($signature.Status -ne 'Valid' -or $signature.SignerCertificate.Thumbprint -ne $env:WINDOWS_CERTIFICATE_THUMBPRINT) { throw "Windows signature verification failed: $($file.Name)" }
-            $version = $env:GITHUB_REF_NAME -replace '^v', ''
+            $version = '${{ needs.preflight.outputs.release_tag }}' -replace '^v', ''
             pnpm exec tauri signer sign --app-version $version $file.FullName
             if ($LASTEXITCODE -ne 0 -or -not (Test-Path "$($file.FullName).sig")) { throw "Updater signature generation failed: $($file.Name)" }
           }
@@ -239,7 +243,14 @@ jobs:
           cd release && find . -type f ! -name SHA256SUMS -print0 | xargs -0 sha256sum | sed -E 's#^([0-9a-f]+ [ *])\./(.*/)?#\1#' > SHA256SUMS
       - uses: softprops/action-gh-release@v2
         with:
-          name: Ovren ${{ github.ref_name }}
+          tag_name: ${{ needs.preflight.outputs.release_tag }}
+          target_commitish: ${{ github.sha }}
+          name: Ovren ${{ needs.preflight.outputs.release_tag }}
           files: |
             release/**
           body_path: CHANGELOG.md
+      - name: Remove temporary release branch after publishing
+        if: github.ref_type == 'branch'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api --method DELETE "repos/$GITHUB_REPOSITORY/git/refs/heads/$GITHUB_REF_NAME"
