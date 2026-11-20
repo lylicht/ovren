@@ -85,7 +85,7 @@ function modified(entry: FileBrowserEntry) {
     >
       <div
         v-for="group in visibleRows"
-        :key="group.row.index"
+        :key="String(group.row.index)"
         class="browser-virtual-row"
         :style="{
           height: height + 'px',
