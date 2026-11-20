@@ -67,7 +67,7 @@ jobs:
           fi
           gh api "repos/$GH_REPO/actions/runs?branch=$branch&per_page=100" \
             --jq '.workflow_runs[] | select(.name == "Cross-platform builds" and (.status == "in_progress" or .status == "queued")) | [.id, .head_sha] | @tsv' |
-            while IFS=\t' read -r run sha; do
+            while read -r run sha; do
               if [[ "$sha" == "$current" ]]; then
                 echo "Keeping current CI run $run."
                 continue
