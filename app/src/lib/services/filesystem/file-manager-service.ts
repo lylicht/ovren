@@ -1,9 +1,13 @@
 import { invoke } from '@tauri-apps/api/core';
-import { dirname } from '@tauri-apps/api/path';
+import { dirname, homeDir } from '@tauri-apps/api/path';
 import type { FileBrowserListing, FileBrowserSearchResult, FileMutationReport, FileTransferMode } from '@/lib/models/filesystem/file-browser';
 
 /** Exposes native file-system item actions without leaking Tauri into pages. */
 export class FileManagerService {
+  static homeDirectory(): Promise<string> {
+    return homeDir();
+  }
+
   static parentDirectory(path: string): Promise<string> {
     return dirname(path);
   }
