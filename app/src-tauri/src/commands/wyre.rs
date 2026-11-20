@@ -387,8 +387,7 @@ fn apply_gnome_mouse_settings(
     let previous_natural_scroll = previous
         .natural_scroll
         .ok_or("Could not read the current scroll direction.")?;
-    let profile =
-        acceleration_profile.unwrap_or_else(|| if acceleration { "adaptive" } else { "flat" });
+    let profile = acceleration_profile.unwrap_or(if acceleration { "adaptive" } else { "flat" });
     let mut changes = vec![
         (
             "speed".to_string(),
