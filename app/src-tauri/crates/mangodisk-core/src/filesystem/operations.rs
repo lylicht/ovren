@@ -1,0 +1,361 @@
+//! User-initiated file manager operations. These never elevate or overwrite.
+use std::{
+    collections::HashSet,
+    fs::{self, File, OpenOptions},
+    io::{self, ErrorKind},
+    path::{Path, PathBuf},
+};
+
+use mangodisk_platform::{current_platform, Platform};
+use serde::{Deserialize, Serialize};
+
+const MAX_BATCH: usize = 128;
+const MAX_DEPTH: usize = 256;
+
+#[derive(Debug, Clone, Copy, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub enum FileTransferMode {
+    Copy,
+    Move,
+}
+
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct FileMutationFailure {
+    pub path: String,
+    pub reason: &'static str,
+}
+
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct FileMutationReport {
+    pub completed: Vec<String>,
+    pub failed: Vec<FileMutationFailure>,
+}
+
+fn invalid(message: &'static str) -> io::Error {
+    io::Error::new(ErrorKind::InvalidInput, message)
+}
+
+fn validate_name(name: &str) -> io::Result<()> {
+    if name.trim().is_empty()
+        || name != name.trim()
+        || name == "."
+        || name == ".."
+        || name.chars().any(|c| c.is_control() || c == '/' || c == '\\' || c == ':')
+        || Path::new(name)
+            .file_name()
+            .is_none_or(|file| file.to_string_lossy() != name)
+    {
+        return Err(invalid("invalid file name"));
+    }
+    // Windows reserves device basenames even with an extension.
+    let stem = name.split('.').next().unwrap_or("").to_ascii_uppercase();
+    if matches!(stem.as_str(), "CON" | "PRN" | "AUX" | "NUL")
+        || (stem.len() == 4
+            && (stem.starts_with("COM") || stem.starts_with("LPT"))
+            && stem.as_bytes()[3].is_ascii_digit()
+            && stem.as_bytes()[3] != b'0')
+        || name.ends_with('.')
+    {
+        return Err(invalid("reserved file name"));
+    }
+    Ok(())
+}
+
+fn directory(path: &Path) -> io::Result<PathBuf> {
+    if !path.is_absolute() {
+        return Err(invalid("expected absolute directory"));
+    }
+    let path = fs::canonicalize(path)?;
+    if !fs::metadata(&path)?.is_dir() {
+        return Err(invalid("expected directory"));
+    }
+    Ok(path)
+}
+
+fn source(path: &Path) -> io::Result<PathBuf> {
+    if !path.is_absolute() {
+        return Err(invalid("expected absolute source"));
+    }
+    let parent = path.parent().ok_or_else(|| invalid("cannot mutate volume root"))?;
+    let parent = directory(parent)?;
+    let name = path.file_name().ok_or_else(|| invalid("cannot mutate volume root"))?;
+    if name == "." || name == ".." {
+        return Err(invalid("invalid source"));
+    }
+    let source = parent.join(name);
+    fs::symlink_metadata(&source)?;
+    // A mistaken selection must not move/trash the entire user home.
+    for key in ["HOME", "USERPROFILE"] {
+        if let Some(home) = std::env::var_os(key) {
+            if let (Ok(candidate), Ok(home)) = (fs::canonicalize(&source), fs::canonicalize(home)) {
+                if candidate == home {
+                    return Err(invalid("cannot mutate home directory"));
+                }
+            }
+        }
+    }
+    Ok(source)
+}
+
+fn no_links(path: &Path, depth: usize) -> io::Result<()> {
+    if depth > MAX_DEPTH {
+        return Err(invalid("directory nesting limit exceeded"));
+    }
+    let metadata = fs::symlink_metadata(path)?;
+    if metadata.file_type().is_symlink() {
+        return Err(invalid("links are not copied or moved"));
+    }
+    if metadata.is_dir() {
+        for child in fs::read_dir(path)? {
+            no_links(&child?.path(), depth + 1)?;
+        }
+    } else if !metadata.is_file() {
+        return Err(invalid("unsupported filesystem item"));
+    }
+    Ok(())
+}
+
+fn copy_item(from: &Path, to: &Path, depth: usize) -> io::Result<()> {
+    if depth > MAX_DEPTH {
+        return Err(invalid("directory nesting limit exceeded"));
+    }
+    let metadata = fs::symlink_metadata(from)?;
+    if metadata.file_type().is_symlink() {
+        return Err(invalid("links are not copied"));
+    }
+    if metadata.is_dir() {
+        fs::create_dir(to)?;
+        let result = (|| {
+            for child in fs::read_dir(from)? {
+                let child = child?;
+                copy_item(&child.path(), &to.join(child.file_name()), depth + 1)?;
+            }
+            fs::set_permissions(to, metadata.permissions())?;
+            Ok(())
+        })();
+        if result.is_err() {
+            let _ = fs::remove_dir_all(to);
+        }
+        result
+    } else if metadata.is_file() {
+        let mut input = File::open(from)?;
+        let mut output = OpenOptions::new().write(true).create_new(true).open(to)?;
+        let result = (|| {
+            io::copy(&mut input, &mut output)?;
+            output.sync_all()?;
+            fs::set_permissions(to, metadata.permissions())?;
+            Ok(())
+        })();
+        if result.is_err() {
+            drop(output);
+            let _ = fs::remove_file(to);
+        }
+        result
+    } else {
+        Err(invalid("unsupported filesystem item"))
+    }
+}
+
+fn reason(error: &io::Error) -> &'static str {
+    match error.kind() {
+        ErrorKind::AlreadyExists => "alreadyExists",
+        ErrorKind::NotFound => "notFound",
+        ErrorKind::PermissionDenied => "permissionDenied",
+        ErrorKind::InvalidInput => "invalidInput",
+        _ => "failed",
+    }
+}
+
+fn selected(paths: &[String]) -> io::Result<()> {
+    if paths.is_empty() || paths.len() > MAX_BATCH {
+        return Err(invalid("invalid file selection size"));
+    }
+    let mut unique = HashSet::new();
+    for path in paths {
+        if !unique.insert(path) {
+            return Err(invalid("duplicate file selection"));
+        }
+    }
+    Ok(())
+}
+
+pub fn create_entry(parent: &Path, name: &str, folder: bool) -> io::Result<String> {
+    validate_name(name)?;
+    let parent = directory(parent)?;
+    let target = parent.join(name);
+    if folder {
+        fs::create_dir(&target)?;
+    } else {
+        OpenOptions::new().write(true).create_new(true).open(&target)?;
+    }
+    Ok(current_platform().display_path(&target))
+}
+
+pub fn rename_entry(path: &Path, name: &str) -> io::Result<String> {
+    validate_name(name)?;
+    let from = source(path)?;
+    let to = from.parent().ok_or_else(|| invalid("invalid source"))?.join(name);
+    if from == to {
+        return Err(invalid("source and target are identical"));
+    }
+    if fs::symlink_metadata(&to).is_ok() {
+        return Err(io::Error::from(ErrorKind::AlreadyExists));
+    }
+    fs::rename(&from, &to)?;
+    Ok(current_platform().display_path(&to))
+}
+
+fn transfer_one(from: &Path, destination: &Path, mode: FileTransferMode) -> io::Result<String> {
+    let from = source(from)?;
+    no_links(&from, 0)?;
+    let target = destination.join(from.file_name().ok_or_else(|| invalid("missing source name"))?);
+    if from == target || fs::symlink_metadata(&target).is_ok() {
+        return Err(io::Error::from(ErrorKind::AlreadyExists));
+    }
+    if fs::symlink_metadata(&from)?.is_dir() && destination.starts_with(&from) {
+        return Err(invalid("cannot place a directory inside itself"));
+    }
+    match mode {
+        FileTransferMode::Copy => copy_item(&from, &target, 0)?,
+        // Cross-volume moves fail safely; no unverified copy-and-delete fallback.
+        FileTransferMode::Move => fs::rename(&from, &target)?,
+    }
+    Ok(current_platform().display_path(&target))
+}
+
+pub fn transfer_entries(
+    paths: Vec<String>,
+    destination: &Path,
+    mode: FileTransferMode,
+) -> io::Result<FileMutationReport> {
+    selected(&paths)?;
+    let destination = directory(destination)?;
+    let mut report = FileMutationReport {
+        completed: Vec::new(),
+        failed: Vec::new(),
+    };
+    for original in paths {
+        match transfer_one(Path::new(&original), &destination, mode) {
+            Ok(target) => report.completed.push(target),
+            Err(error) => {
+                log::warn!(
+                    "file_browser_transfer_failed source={} destination={} error={error}",
+                    original,
+                    destination.display()
+                );
+                report.failed.push(FileMutationFailure {
+                    path: original,
+                    reason: reason(&error),
+                });
+            }
+        }
+    }
+    Ok(report)
+}
+
+pub fn trash_entries(paths: Vec<String>) -> io::Result<FileMutationReport> {
+    selected(&paths)?;
+    let mut report = FileMutationReport {
+        completed: Vec::new(),
+        failed: Vec::new(),
+    };
+    for original in paths {
+        match source(Path::new(&original)) {
+            Ok(path) => match trash::delete(&path) {
+                Ok(()) => report.completed.push(original),
+                Err(error) => {
+                    log::warn!("file_browser_trash_failed path={} error={error}", path.display());
+                    report.failed.push(FileMutationFailure {
+                        path: original,
+                        reason: "failed",
+                    });
+                }
+            },
+            Err(error) => report.failed.push(FileMutationFailure {
+                path: original,
+                reason: reason(&error),
+            }),
+        }
+    }
+    Ok(report)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn creates_renames_and_prevents_overwriting() {
+        let temp = tempfile::tempdir().unwrap();
+        let file = create_entry(temp.path(), "notes.txt", false).unwrap();
+        assert!(Path::new(&file).is_file());
+        assert!(create_entry(temp.path(), "notes.txt", false).is_err());
+        let renamed = rename_entry(Path::new(&file), "renamed.txt").unwrap();
+        assert!(Path::new(&renamed).is_file());
+        assert!(!Path::new(&file).exists());
+        assert!(rename_entry(Path::new(&renamed), "../escape").is_err());
+    }
+
+    #[test]
+    fn copies_nested_directories_without_overwriting() {
+        let temp = tempfile::tempdir().unwrap();
+        let source = temp.path().join("source");
+        let target = temp.path().join("target");
+        fs::create_dir_all(source.join("deep")).unwrap();
+        fs::create_dir(&target).unwrap();
+        fs::write(source.join("deep/file.txt"), "original").unwrap();
+        let report = transfer_entries(
+            vec![source.to_string_lossy().into_owned()],
+            &target,
+            FileTransferMode::Copy,
+        )
+        .unwrap();
+        assert!(report.failed.is_empty());
+        assert_eq!(fs::read(target.join("source/deep/file.txt")).unwrap(), b"original");
+        let report = transfer_entries(
+            vec![source.to_string_lossy().into_owned()],
+            &target,
+            FileTransferMode::Copy,
+        )
+        .unwrap();
+        assert_eq!(report.failed[0].reason, "alreadyExists");
+    }
+
+    #[test]
+    fn moving_into_descendant_and_parent_name_traversal_are_denied() {
+        let temp = tempfile::tempdir().unwrap();
+        let parent = temp.path().join("a");
+        let child = parent.join("b");
+        fs::create_dir_all(&child).unwrap();
+        let report = transfer_entries(
+            vec![parent.to_string_lossy().into_owned()],
+            &child,
+            FileTransferMode::Move,
+        )
+        .unwrap();
+        assert_eq!(report.failed[0].reason, "invalidInput");
+        assert!(create_entry(&parent, "..", true).is_err());
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn copy_rejects_symlinks_instead_of_following_them() {
+        use std::os::unix::fs::symlink;
+        let temp = tempfile::tempdir().unwrap();
+        let src = temp.path().join("src");
+        let dest = temp.path().join("dest");
+        fs::create_dir(&src).unwrap();
+        fs::create_dir(&dest).unwrap();
+        symlink(temp.path(), src.join("loop")).unwrap();
+        let result = transfer_entries(
+            vec![src.to_string_lossy().into_owned()],
+            &dest,
+            FileTransferMode::Copy,
+        )
+        .unwrap();
+        assert_eq!(result.failed[0].reason, "invalidInput");
+        assert!(!dest.join("src").exists());
+    }
+}
