@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   prune:
@@ -51,3 +52,26 @@ jobs:
           4|feat/official-orbital-desktop-icon|merged
           5|feat/native-file-explorer|merged
           BRANCHES
+      - name: Cancel superseded Explorer CI runs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          branch=feat/native-file-explorer
+          current="$(gh api "repos/$GH_REPO/branches/$branch" --jq '.commit.sha' 2>/dev/null || true)"
+          if [[ -z "$current" ]]; then
+            echo "Explorer task branch already removed."
+            exit 0
+          fi
+          gh api "repos/$GH_REPO/actions/runs?branch=$branch&per_page=100" \
+            --jq '.workflow_runs[] | select(.name == "Cross-platform builds" and (.status == "in_progress" or .status == "queued")) | [.id, .head_sha] | @tsv' |
+            while IFS=\t' read -r run sha; do
+              if [[ "$sha" == "$current" ]]; then
+                echo "Keeping current CI run $run."
+                continue
+              fi
+              gh api --method POST "repos/$GH_REPO/actions/runs/$run/cancel" >/dev/null 2>&1 || true
+              echo "Requested cancellation of obsolete CI run $run."
+            done
