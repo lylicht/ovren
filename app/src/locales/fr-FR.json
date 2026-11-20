@@ -336,7 +336,10 @@
     "previewFailed": "Impossible de prévisualiser ce fichier",
     "importFiles": "Importer des fichiers",
     "importDescription": "Copier {count} fichiers ou dossiers sélectionnés dans le dossier actuel ?",
-    "copyHere": "Copier ici"
+    "copyHere": "Copier ici",
+    "favorites": "Favoris",
+    "addFavorite": "Ajouter aux favoris",
+    "removeFavorite": "Retirer des favoris"
   },
   "systemMaintenance": {
     "title": "Maintenance du système",
@@ -1809,7 +1812,8 @@
       "documents": "Documents",
       "pictures": "Photos",
       "videos": "Vidéos",
-      "music": "Musique"
+      "music": "Musique",
+      "desktop": "Bureau"
     }
   },
   "scanScope": {

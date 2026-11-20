@@ -1,6 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import type { FileBrowserEntry } from '@/lib/models/filesystem/file-browser';
-import { browserEntryIcon, browserName, browserSelectionRange, sortBrowserEntries } from './file-browser';
+import {
+  browserEntryIcon,
+  browserName,
+  browserSelectionRange,
+  MAX_BROWSER_FAVORITES,
+  parseBrowserFavorites,
+  sortBrowserEntries,
+} from './file-browser';
 
 const item = (name: string, size: number, modifiedAtMs: number | null, isDirectory = false): FileBrowserEntry => ({
   name,
@@ -54,5 +61,13 @@ describe('file explorer presentation', () => {
     expect(browserEntryIcon(item('folder', 0, 0, true))).toBe('folder');
     expect(browserName('C:\\Users\\Owner\\Documents')).toBe('Documents');
     expect(browserName('/')).toBe('/');
+  });
+
+  it('validates and bounds saved favorite paths', () => {
+    expect(parseBrowserFavorites(['/one', '/one/', null, 4, '/two'])).toEqual(['/one', '/two']);
+    expect(
+      parseBrowserFavorites(Array.from({ length: MAX_BROWSER_FAVORITES + 1 }, (_, index) => `/${index}`))
+    ).toHaveLength(MAX_BROWSER_FAVORITES);
+    expect(parseBrowserFavorites({ path: '/invalid' })).toEqual([]);
   });
 });

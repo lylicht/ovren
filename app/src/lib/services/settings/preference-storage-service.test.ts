@@ -68,6 +68,14 @@ describe('PreferenceStorageService', () => {
     expect(await PreferenceStorageService.loadSettings()).toBeNull();
   });
 
+  it('persists file browser favorites separately from other settings', async () => {
+    const favorites = ['/Users/example/Projects', '/Users/example/Downloads'];
+    await PreferenceStorageService.saveFileBrowserFavorites(favorites);
+
+    expect(await PreferenceStorageService.loadFileBrowserFavorites()).toEqual(favorites);
+    expect(await PreferenceStorageService.loadStorageScopePreferences()).toBeNull();
+  });
+
   it('persists the read-failure alert choice with the app settings', async () => {
     const settings = { ...AppSettingsUtils.defaults(), hideCleanupReadFailureAlerts: true };
     await PreferenceStorageService.saveSettings(settings);

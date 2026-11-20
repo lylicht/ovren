@@ -336,7 +336,10 @@
     "previewFailed": "Não foi possível visualizar este arquivo",
     "importFiles": "Importar arquivos",
     "importDescription": "Copiar {count} arquivos ou pastas para a pasta atual?",
-    "copyHere": "Copiar aqui"
+    "copyHere": "Copiar aqui",
+    "favorites": "Favoritos",
+    "addFavorite": "Adicionar aos favoritos",
+    "removeFavorite": "Remover dos favoritos"
   },
   "systemMaintenance": {
     "title": "Manutenção do Sistema",
@@ -1809,7 +1812,8 @@
       "documents": "Documentos",
       "pictures": "Imagens",
       "videos": "Vídeos",
-      "music": "Músicas"
+      "music": "Músicas",
+      "desktop": "Área de Trabalho"
     }
   },
   "scanScope": {

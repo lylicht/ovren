@@ -16,6 +16,7 @@ const SETTINGS_KEYS = {
   storageScopePreferences: 'storageScopePreferences',
   customCleanupPreferences: 'customCleanupPreferences',
   scanExclusionPreferences: 'scanExclusionPreferences',
+  fileBrowserFavorites: 'fileBrowserFavorites',
   /** Read only during one-way migration to scanExclusionPreferences. */
   storageScanPreferences: 'storageScanPreferences',
   largeFilePreferences: 'largeFilePreferences',
@@ -97,6 +98,14 @@ export class PreferenceStorageService {
 
   static saveStorageScopePreferences(preferences: StorageScopePreferences): Promise<void> {
     return this.write(SETTINGS_KEYS.storageScopePreferences, preferences);
+  }
+
+  static loadFileBrowserFavorites(): Promise<unknown | null> {
+    return this.read(SETTINGS_KEYS.fileBrowserFavorites);
+  }
+
+  static saveFileBrowserFavorites(paths: string[]): Promise<void> {
+    return this.write(SETTINGS_KEYS.fileBrowserFavorites, paths);
   }
 
   static clearStorageScopePreferences(): Promise<void> {

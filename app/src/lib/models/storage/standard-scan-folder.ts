@@ -1,4 +1,5 @@
 export const STANDARD_SCAN_FOLDER_IDS = {
+  desktop: 'desktop',
   downloads: 'downloads',
   documents: 'documents',
   pictures: 'pictures',

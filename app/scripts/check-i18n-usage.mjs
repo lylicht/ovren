@@ -65,7 +65,7 @@ const dynamicKeyGroups = {
   ],
   errors: commandErrorCodes,
   errorTitles: commandErrorCodes,
-  'folderPicker.standardFolders': ['downloads', 'documents', 'pictures', 'videos', 'music'],
+  'folderPicker.standardFolders': ['desktop', 'downloads', 'documents', 'pictures', 'videos', 'music'],
   // The Explorer receives these stable machine reasons from the Rust mutation API.
   'fileBrowser.errors': ['alreadyExists', 'notFound', 'permissionDenied', 'invalidInput', 'failed'],
   fileCategories: ['all', 'video', 'audio', 'document', 'installer', 'archive', 'image', 'aiModel', 'other'],

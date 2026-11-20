@@ -336,7 +336,10 @@
     "previewFailed": "Vorschau konnte nicht geladen werden",
     "importFiles": "Dateien importieren",
     "importDescription": "{count} ausgewählte Dateien oder Ordner in den aktuellen Ordner kopieren?",
-    "copyHere": "Hierher kopieren"
+    "copyHere": "Hierher kopieren",
+    "favorites": "Favoriten",
+    "addFavorite": "Zu Favoriten hinzufügen",
+    "removeFavorite": "Aus Favoriten entfernen"
   },
   "systemMaintenance": {
     "title": "Systemwartung",
@@ -1809,7 +1812,8 @@
       "documents": "Dokumente",
       "pictures": "Bilder",
       "videos": "Videos",
-      "music": "Musik"
+      "music": "Musik",
+      "desktop": "Desktop"
     }
   },
   "scanScope": {

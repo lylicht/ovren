@@ -336,7 +336,10 @@
     "previewFailed": "Dosya önizlenemedi",
     "importFiles": "Dosyaları içe aktar",
     "importDescription": "Seçili {count} dosya veya klasör geçerli klasöre kopyalansın mı?",
-    "copyHere": "Buraya kopyala"
+    "copyHere": "Buraya kopyala",
+    "favorites": "Sık Kullanılanlar",
+    "addFavorite": "Sık Kullanılanlara Ekle",
+    "removeFavorite": "Sık Kullanılanlardan Kaldır"
   },
   "systemMaintenance": {
     "title": "Sistem bakımı",
@@ -1809,7 +1812,8 @@
       "documents": "Belgeler",
       "pictures": "Resimler",
       "videos": "Videolar",
-      "music": "Müzik"
+      "music": "Müzik",
+      "desktop": "Masaüstü"
     }
   },
   "scanScope": {

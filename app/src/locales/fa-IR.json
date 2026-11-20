@@ -336,7 +336,10 @@
     "previewFailed": "نمایش فایل ممکن نشد",
     "importFiles": "وارد کردن فایل‌ها",
     "importDescription": "{count} فایل یا پوشه به پوشهٔ کنونی کپی شوند؟",
-    "copyHere": "کپی در اینجا"
+    "copyHere": "کپی در اینجا",
+    "favorites": "موارد دلخواه",
+    "addFavorite": "افزودن به موارد دلخواه",
+    "removeFavorite": "حذف از موارد دلخواه"
   },
   "systemMaintenance": {
     "title": "سیستم تعمیر و نگهداری",
@@ -1809,7 +1812,8 @@
       "documents": "اسناد",
       "pictures": "عکس ها",
       "videos": "فیلم های ویدئویی",
-      "music": "موسیقی موسیقی"
+      "music": "موسیقی موسیقی",
+      "desktop": "دسکتاپ"
     }
   },
   "scanScope": {

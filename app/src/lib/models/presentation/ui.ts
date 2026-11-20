@@ -36,6 +36,7 @@ export const ICON_NAMES = {
   sidebarCollapse: 'panelLeftClose',
   sidebarExpand: 'panelLeftOpen',
   refresh: 'refresh',
+  star: 'star',
   home: 'home',
   search: 'search',
   grid: 'grid',

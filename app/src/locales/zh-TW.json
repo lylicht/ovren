@@ -336,7 +336,10 @@
     "previewFailed": "無法預覽此檔案",
     "importFiles": "匯入檔案",
     "importDescription": "將選取的 {count} 個檔案或資料夾複製到目前資料夾？",
-    "copyHere": "複製到此處"
+    "copyHere": "複製到此處",
+    "favorites": "收藏夾",
+    "addFavorite": "加入收藏夾",
+    "removeFavorite": "從收藏夾移除"
   },
   "systemMaintenance": {
     "title": "系統維護",
@@ -1809,7 +1812,8 @@
       "documents": "檔案",
       "pictures": "圖片",
       "videos": "影片",
-      "music": "音樂"
+      "music": "音樂",
+      "desktop": "桌面"
     }
   },
   "scanScope": {

@@ -336,7 +336,10 @@
     "previewFailed": "Не удалось показать файл",
     "importFiles": "Импорт файлов",
     "importDescription": "Скопировать {count} выбранных файлов или папок в текущую папку?",
-    "copyHere": "Копировать сюда"
+    "copyHere": "Копировать сюда",
+    "favorites": "Избранное",
+    "addFavorite": "Добавить в избранное",
+    "removeFavorite": "Удалить из избранного"
   },
   "systemMaintenance": {
     "title": "Техническое обслуживание системы",
@@ -1809,7 +1812,8 @@
       "documents": "Документы",
       "pictures": "Изображения",
       "videos": "Видео",
-      "music": "Музыка"
+      "music": "Музыка",
+      "desktop": "Рабочий стол"
     }
   },
   "scanScope": {

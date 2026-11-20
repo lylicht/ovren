@@ -64,7 +64,7 @@ const localeChunkLimitOverrides = new Map([
   ['ja-jp', { bytes: 332 * 1024, gzipBytes: 64 * 1024 }],
   ['ko-kr', { bytes: maximumLocaleChunkBytes, gzipBytes: 61 * 1024 }],
   ['pt-br', { bytes: maximumLocaleChunkBytes, gzipBytes: 62 * 1024 }],
-  ['ru-ru', { bytes: 400 * 1024, gzipBytes: 71 * 1024 }],
+  ['ru-ru', { bytes: 400 * 1024, gzipBytes: 72 * 1024 }],
 ]);
 
 function fail(message) {

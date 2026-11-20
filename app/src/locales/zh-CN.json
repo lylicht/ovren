@@ -336,7 +336,10 @@
     "previewFailed": "无法预览此文件",
     "importFiles": "导入文件",
     "importDescription": "将选中的 {count} 个文件或文件夹复制到当前文件夹？",
-    "copyHere": "复制到此处"
+    "copyHere": "复制到此处",
+    "favorites": "收藏夹",
+    "addFavorite": "添加到收藏夹",
+    "removeFavorite": "从收藏夹中移除"
   },
   "systemMaintenance": {
     "title": "系统维护",
@@ -1809,7 +1812,8 @@
       "documents": "文档",
       "pictures": "图片",
       "videos": "视频",
-      "music": "音乐"
+      "music": "音乐",
+      "desktop": "桌面"
     }
   },
   "scanScope": {

@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const pathMocks = vi.hoisted(() => ({
   audioDir: vi.fn(),
+  desktopDir: vi.fn(),
   documentDir: vi.fn(),
   downloadDir: vi.fn(),
   pictureDir: vi.fn(),
@@ -11,6 +12,7 @@ const pathMocks = vi.hoisted(() => ({
 
 vi.mock('@tauri-apps/api/path', () => ({
   audioDir: pathMocks.audioDir,
+  desktopDir: pathMocks.desktopDir,
   documentDir: pathMocks.documentDir,
   downloadDir: pathMocks.downloadDir,
   pictureDir: pathMocks.pictureDir,
@@ -33,6 +35,7 @@ describe('StandardScanFolderService', () => {
     pathMocks.pictureDir.mockResolvedValue('/Users/test/Pictures');
     pathMocks.videoDir.mockResolvedValue('/Users/test/Movies');
     pathMocks.audioDir.mockResolvedValue('/Users/test/Music');
+    pathMocks.desktopDir.mockResolvedValue('/Users/test/Desktop');
     pathMocks.resolveDirectories.mockImplementation(async (paths: string[]) =>
       paths.map(path => ({ requestedPath: path, path }))
     );
@@ -42,6 +45,7 @@ describe('StandardScanFolderService', () => {
     const folders = await StandardScanFolderService.listAvailable();
 
     expect(folders.map(folder => folder.id)).toEqual([
+      STANDARD_SCAN_FOLDER_IDS.desktop,
       STANDARD_SCAN_FOLDER_IDS.downloads,
       STANDARD_SCAN_FOLDER_IDS.documents,
       STANDARD_SCAN_FOLDER_IDS.pictures,
@@ -59,6 +63,7 @@ describe('StandardScanFolderService', () => {
     const folders = await StandardScanFolderService.listAvailable();
 
     expect(folders.map(folder => folder.id)).toEqual([
+      STANDARD_SCAN_FOLDER_IDS.desktop,
       STANDARD_SCAN_FOLDER_IDS.downloads,
       STANDARD_SCAN_FOLDER_IDS.documents,
       STANDARD_SCAN_FOLDER_IDS.music,
@@ -87,7 +92,7 @@ describe('StandardScanFolderService', () => {
       }))
     );
     expect(await StandardScanFolderService.listAvailable()).toEqual([
-      { id: 'downloads', path: '\\\\server\\share\\folder' },
+      { id: 'desktop', path: '\\\\server\\share\\folder' },
     ]);
   });
 });

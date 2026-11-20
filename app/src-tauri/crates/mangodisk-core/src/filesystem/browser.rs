@@ -43,8 +43,7 @@ pub struct FileBrowserSearchResult {
 
 pub fn list_directory(path: &Path) -> io::Result<FileBrowserListing> {
     let root = validated_directory(path)?;
-    let (mut entries, skipped_count) = read_entries(&root)?;
-    sort_entries(&mut entries);
+    let (entries, skipped_count) = read_entries(&root)?;
 
     Ok(FileBrowserListing {
         path: current_platform().display_path(&root),
@@ -237,17 +236,26 @@ mod tests {
     }
 
     #[test]
-    fn directory_listing_places_folders_before_files() {
+    fn directory_listing_returns_entry_metadata() {
         let temporary = tempfile::tempdir().unwrap();
         fs::create_dir(temporary.path().join("folder")).unwrap();
         fs::write(temporary.path().join("file.txt"), b"contents").unwrap();
 
         let listing = list_directory(temporary.path()).unwrap();
 
-        assert_eq!(listing.entries[0].name, "folder");
-        assert!(listing.entries[0].is_directory);
-        assert_eq!(listing.entries[1].name, "file.txt");
-        assert_eq!(listing.entries[1].size, 8);
+        let folder = listing
+            .entries
+            .iter()
+            .find(|entry| entry.name == "folder")
+            .unwrap();
+        assert!(folder.is_directory);
+        let file = listing
+            .entries
+            .iter()
+            .find(|entry| entry.name == "file.txt")
+            .unwrap();
+        assert!(!file.is_directory);
+        assert_eq!(file.size, 8);
     }
 
     #[cfg(unix)]

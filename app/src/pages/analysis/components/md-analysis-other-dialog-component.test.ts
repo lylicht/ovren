@@ -3,6 +3,7 @@
 import { flushPromises, mount } from '@vue/test-utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { i18n } from '@/i18n';
+import { FormatService } from '@/lib/services/presentation/format-service';
 import { LANGUAGE_IDS } from '@/lib/models/settings/settings';
 import type { DirectoryEntryInfo } from '@/lib/models/storage/analysis';
 import MdAnalysisOtherDialog from './md-analysis-other-dialog.vue';
@@ -251,7 +252,7 @@ describe('analysis other details', () => {
         await wrapper.get('.other-status button').trigger('click');
         await flushPromises();
       }
-      expect(wrapper.text()).toContain('2,000');
+      expect(wrapper.text()).toContain(FormatService.integer(2000));
       expect(wrapper.findAll('.other-entry').length).toBeLessThanOrEqual(60);
       const viewport = wrapper.get('.other-body');
       for (const index of [1980, 0, 1000, 300]) {

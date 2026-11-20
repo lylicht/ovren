@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { FileBrowserListing, FileBrowserSearchResult } from '@/lib/models/filesystem/file-browser';
 import { FileManagerService } from './file-manager-service';
@@ -12,6 +12,7 @@ vi.mock('@tauri-apps/api/path', () => ({ dirname: dirnameMock, homeDir: homeDirM
 
 describe('file browser service', () => {
   beforeEach(() => invokeMock.mockReset());
+  afterEach(() => vi.useRealTimers());
 
   it('requests a directory listing from the native boundary', async () => {
     const listing: FileBrowserListing = { path: '/home/owner', entries: [], skippedCount: 0 };
@@ -19,6 +20,33 @@ describe('file browser service', () => {
 
     await expect(FileManagerService.listBrowserDirectory('/home/owner')).resolves.toEqual(listing);
     expect(invokeMock).toHaveBeenCalledWith('list_file_browser_directory', { path: '/home/owner' });
+  });
+
+  it('reuses recent small directory listings and refreshes them on demand', async () => {
+    const listing: FileBrowserListing = { path: '/home/cache-check', entries: [], skippedCount: 0 };
+    invokeMock.mockResolvedValue(listing);
+
+    await FileManagerService.listBrowserDirectory('/home/cache-check');
+    await FileManagerService.listBrowserDirectory('/home/cache-check/');
+    expect(invokeMock).toHaveBeenCalledOnce();
+
+    await FileManagerService.listBrowserDirectory('/home/cache-check', true);
+    expect(invokeMock).toHaveBeenCalledTimes(2);
+
+    await FileManagerService.listBrowserDirectory('/home/cache-check');
+    expect(invokeMock).toHaveBeenCalledTimes(2);
+  });
+
+  it('expires cached directory listings after two seconds', async () => {
+    const listing: FileBrowserListing = { path: '/home/cache-expiry', entries: [], skippedCount: 0 };
+    invokeMock.mockResolvedValue(listing);
+    vi.useFakeTimers();
+
+    await FileManagerService.listBrowserDirectory('/home/cache-expiry');
+    vi.advanceTimersByTime(2001);
+    await FileManagerService.listBrowserDirectory('/home/cache-expiry');
+
+    expect(invokeMock).toHaveBeenCalledTimes(2);
   });
 
   it('passes the current folder and query to recursive search', async () => {
@@ -74,6 +102,16 @@ describe('file browser service', () => {
       path: '/home/owner/created.txt',
       name: 'renamed.txt',
     });
+  });
+
+  it('invalidates directory listings around filesystem mutations', async () => {
+    const listing: FileBrowserListing = { path: '/home/cache-mutation', entries: [], skippedCount: 0 };
+    invokeMock.mockResolvedValue(listing);
+    await FileManagerService.listBrowserDirectory('/home/cache-mutation');
+    await FileManagerService.createBrowserEntry('/home/cache-mutation', 'new.txt', false);
+    await FileManagerService.listBrowserDirectory('/home/cache-mutation');
+
+    expect(invokeMock).toHaveBeenCalledTimes(3);
   });
 
   it('preserves per-item copy, move and trash results from native commands', async () => {

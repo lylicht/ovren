@@ -8,6 +8,7 @@ vi.mock('@tauri-apps/plugin-os', () => ({ platform: () => 'macos' }));
 
 import { i18n } from '@/i18n';
 import { LANGUAGE_IDS } from '@/lib/models/settings/settings';
+import { FormatService } from '@/lib/services/presentation/format-service';
 
 import MdAnalysisFolderPane from './md-analysis-folder-pane.vue';
 
@@ -35,7 +36,7 @@ describe('analysis folder pane', () => {
     expect(wrapper.find('.md-help-action').exists()).toBe(false);
     await wrapper.setProps({ truncated: true });
     const header = wrapper.get('header');
-    expect(header.get('p').text()).toBe('100 folders · 4,997 files');
+    expect(header.get('p').text()).toBe(`100 folders · ${FormatService.integer(4997)} files`);
     expect(header.get('.md-help-action').attributes('aria-label')).toBe('Showing up to 100 largest items');
     expect(header.element.children[1]?.contains(header.get('.md-help-action').element)).toBe(true);
   });

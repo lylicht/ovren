@@ -3,7 +3,7 @@ import {
   type StandardScanFolder,
   type StandardScanFolderId,
 } from '@/lib/models/storage/standard-scan-folder';
-import { audioDir, documentDir, downloadDir, pictureDir, videoDir } from '@tauri-apps/api/path';
+import { audioDir, desktopDir, documentDir, downloadDir, pictureDir, videoDir } from '@tauri-apps/api/path';
 
 import { FolderSelectionService } from '@/lib/services/storage/folder-selection-service';
 import * as PathUtils from '@/lib/utils/filesystem/path';
@@ -14,6 +14,7 @@ interface StandardScanFolderDefinition {
 }
 
 const standardFolderDefinitions: readonly StandardScanFolderDefinition[] = [
+  { id: STANDARD_SCAN_FOLDER_IDS.desktop, resolvePath: desktopDir },
   { id: STANDARD_SCAN_FOLDER_IDS.downloads, resolvePath: downloadDir },
   { id: STANDARD_SCAN_FOLDER_IDS.documents, resolvePath: documentDir },
   { id: STANDARD_SCAN_FOLDER_IDS.pictures, resolvePath: pictureDir },

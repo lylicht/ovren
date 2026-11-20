@@ -2,7 +2,7 @@
  * Regenerate the native Ovren desktop and system-tray assets from the approved
  * orbital artwork. Called before packaging so no legacy icon returns on build.
  */
-import { existsSync, mkdtempSync, readFileSync, writeFileSync, mkdirSync, copyFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, readFileSync, writeFileSync, mkdirSync, copyFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -11,18 +11,15 @@ import { execFileSync } from 'node:child_process';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const appSource = join(root, 'public/ovren-icon.png');
 const markSource = join(root, 'public/ovren-mark.png');
+const markTemplateSource = join(root, 'public/ovren-mark-mono.png');
 const output = join(root, 'src-tauri/icons');
 const cli = join(root, 'node_modules/@tauri-apps/cli/tauri.js');
 const pngSignature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
-for (const source of [appSource, markSource]) {
+for (const source of [appSource, markSource, markTemplateSource]) {
   if (!readFileSync(source).subarray(0, 8).equals(pngSignature)) {
     throw new Error(`Invalid Ovren icon source: ${source}`);
   }
 }
-if (!existsSync(join(output, 'tray-template.png'))) {
-  throw new Error('The approved monochrome tray template is missing.');
-}
-
 function generate(input, directory, sizes = []) {
   execFileSync(
     process.execPath,
@@ -61,6 +58,9 @@ try {
   const colorTray = join(temporary, 'color-tray');
   generate(markSource, colorTray, [64]);
   copyFileSync(join(colorTray, '64x64.png'), join(output, 'tray-color.png'));
+  const templateTray = join(temporary, 'template-tray');
+  generate(markTemplateSource, templateTray, [64]);
+  copyFileSync(join(templateTray, '64x64.png'), join(output, 'tray-template.png'));
   // tray-template.png is a checked-in monochrome mask of the orbital mark.
   // It must not be replaced with a colored PNG on macOS or Linux.
 

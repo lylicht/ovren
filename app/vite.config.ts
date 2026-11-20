@@ -38,7 +38,7 @@ export default defineConfig({
             {
               // Keep stateless icon data independent from the application entry.
               name: 'icons',
-              test: /\/node_modules\/(?:@lucide\/vue|@tabler\/icons-vue|simple-icons)\//u,
+              test: /\/node_modules\/(?:@tabler\/icons-vue|simple-icons)\//u,
             },
             {
               // Explicit runtime boundaries keep upgrades within the parse-size budget.
@@ -59,6 +59,7 @@ export default defineConfig({
               // Locale resources are intentionally available offline, but
               // each language can remain an independent parse unit instead
               // of inflating the application-state chunk.
+              debugName: 'locale',
               name: localeChunkName,
               test: moduleId => localeChunkName(moduleId) !== null,
               // Each project-owned locale module has exactly one compiled
@@ -93,7 +94,7 @@ export default defineConfig({
     // Pre-bundle dependencies used by the first interactive frame. Vite can
     // discover them lazily, but that discovery otherwise extends the visible
     // startup screen on the first Tauri development launch.
-    include: ['@lucide/vue', '@vueuse/core', 'pinia', 'reka-ui', 'vue', 'vue-i18n'],
+    include: ['@vueuse/core', 'pinia', 'reka-ui', 'vue', 'vue-i18n'],
   },
   server: {
     host: '127.0.0.1',

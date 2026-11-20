@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.3 — 2026-11-20
+
+- Refined the desktop and tray icon with the approved flat Ovren artwork across Windows, macOS, and Linux.
+- Added Desktop and standard user folders to the in-app explorer, with persistent favorites and roomier spacing.
+- Reduced repeated directory reads with a bounded short-lived cache, and removed a duplicate native listing sort.
+- Localized new explorer locations and favorite actions in every supported language.
+
 ## 1.3.2 — 2026-11-20
 
 - Adopted the official orbital desktop icon across Windows, macOS, and Linux, including installers and native tray artwork.

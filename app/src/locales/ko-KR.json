@@ -336,7 +336,10 @@
     "previewFailed": "파일을 미리 볼 수 없습니다",
     "importFiles": "파일 가져오기",
     "importDescription": "선택한 {count}개 파일 또는 폴더를 현재 폴더에 복사할까요?",
-    "copyHere": "여기에 복사"
+    "copyHere": "여기에 복사",
+    "favorites": "즐겨찾기",
+    "addFavorite": "즐겨찾기에 추가",
+    "removeFavorite": "즐겨찾기에서 제거"
   },
   "systemMaintenance": {
     "title": "시스템 유지 관리",
@@ -1809,7 +1812,8 @@
       "documents": "문서",
       "pictures": "사진",
       "videos": "동영상",
-      "music": "음악"
+      "music": "음악",
+      "desktop": "바탕 화면"
     }
   },
   "scanScope": {

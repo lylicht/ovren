@@ -336,7 +336,10 @@
     "previewFailed": "Could not preview this file",
     "importFiles": "Import files",
     "importDescription": "Copy {count} selected files or folders into the current folder?",
-    "copyHere": "Copy here"
+    "copyHere": "Copy here",
+    "favorites": "Favorites",
+    "addFavorite": "Add to favorites",
+    "removeFavorite": "Remove from favorites"
   },
   "systemMaintenance": {
     "title": "System Maintenance",
@@ -1809,7 +1812,8 @@
       "documents": "Documents",
       "pictures": "Pictures",
       "videos": "Videos",
-      "music": "Music"
+      "music": "Music",
+      "desktop": "Desktop"
     }
   },
   "scanScope": {

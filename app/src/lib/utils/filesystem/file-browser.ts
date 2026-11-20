@@ -1,5 +1,6 @@
 import type { FileBrowserEntry } from '@/lib/models/filesystem/file-browser';
 import { ICON_NAMES, type IconName } from '@/lib/models/presentation/ui';
+import * as PathUtils from '@/lib/utils/filesystem/path';
 
 export type BrowserSort = 'name' | 'size' | 'modified';
 export type BrowserView = 'details' | 'grid';
@@ -10,6 +11,14 @@ const VIDEO_TYPES = new Set(['mp4', 'mkv', 'mov', 'avi', 'webm']);
 const ARCHIVE_TYPES = new Set(['zip', '7z', 'rar', 'tar', 'gz', 'bz2', 'xz']);
 const CODE_TYPES = new Set(['rs', 'ts', 'tsx', 'js', 'jsx', 'py', 'go', 'java', 'kt', 'swift', 'html', 'css', 'sh']);
 const TEXT_TYPES = new Set(['txt', 'md', 'json', 'toml', 'yaml', 'yml', 'xml', 'ini', 'log', 'csv']);
+export const MAX_BROWSER_FAVORITES = 40;
+
+export function parseBrowserFavorites(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  return PathUtils.uniquePaths(
+    value.filter((path): path is string => typeof path === 'string').map(PathUtils.display)
+  ).slice(-MAX_BROWSER_FAVORITES);
+}
 
 export function browserEntryIcon(entry: FileBrowserEntry): IconName {
   if (entry.isSymlink) return ICON_NAMES.external;

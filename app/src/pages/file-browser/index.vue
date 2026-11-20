@@ -22,20 +22,24 @@ import type {
   FileTransferMode,
   FileTextPreview,
 } from '@/lib/models/filesystem/file-browser';
-import { ICON_NAMES } from '@/lib/models/presentation/ui';
+import type { StandardScanFolderId } from '@/lib/models/storage/standard-scan-folder';
+import { ICON_NAMES, type IconName } from '@/lib/models/presentation/ui';
 import { FileManagerService } from '@/lib/services/filesystem/file-manager-service';
+import { PreferenceStorageService } from '@/lib/services/settings/preference-storage-service';
 import { NativeDragDropService, type NativeDragDropEvent } from '@/lib/services/shell/native-drag-drop-service';
 import { FormatService } from '@/lib/services/presentation/format-service';
 import { ByteSizeService } from '@/lib/services/settings/byte-size-service';
 import {
   browserName,
   browserSelectionRange,
+  parseBrowserFavorites,
   sortBrowserEntries,
   type BrowserSort,
   type BrowserView,
 } from '@/lib/utils/filesystem/file-browser';
 import { useStorageScopeStore } from '@/stores/storage-scope-store';
 import { useAppStore } from '@/stores/app-store';
+import * as PathUtils from '@/lib/utils/filesystem/path';
 
 import MdFileBrowserEntries from './md-file-browser-entries.vue';
 
@@ -77,6 +81,8 @@ const previewBusy = ref(false);
 const importOpen = ref(false);
 const importPaths = ref<string[]>([]);
 const menu = ref<{ x: number; y: number } | null>(null);
+const favoritePaths = ref<string[]>([]);
+const favoritesLoaded = ref(false);
 const mutationFailureMessages = {
   alreadyExists: 'fileBrowser.errors.alreadyExists',
   notFound: 'fileBrowser.errors.notFound',
@@ -117,25 +123,39 @@ const canPreview = computed(() =>
   )
 );
 const recentFolders = computed(() => storageScopes.recentFolders.filter(folder => folder !== path.value).slice(0, 6));
+const favoriteKeys = computed(() => new Set(favoritePaths.value.map(PathUtils.comparisonKey)));
+const currentPathFavorite = computed(() => favoriteKeys.value.has(PathUtils.comparisonKey(path.value)));
+const selectedEntryFavorite = computed(() =>
+  selectedEntry.value ? favoriteKeys.value.has(PathUtils.comparisonKey(selectedEntry.value.path)) : false
+);
 const analysisPath = computed(() =>
   selectedEntry.value?.isDirectory && !selectedEntry.value.isSymlink ? selectedEntry.value.path : path.value
 );
 
 type HistoryMode = 'push' | 'replace' | 'index';
 
+const standardFolderIcons: Record<StandardScanFolderId, IconName> = {
+  desktop: ICON_NAMES.home,
+  downloads: ICON_NAMES.download,
+  documents: ICON_NAMES.fileText,
+  pictures: ICON_NAMES.fileImage,
+  videos: ICON_NAMES.fileVideo,
+  music: ICON_NAMES.fileAudio,
+};
+
 function clearMessages() {
   errorMessage.value = '';
   statusMessage.value = '';
 }
 
-async function loadDirectory(target: string, mode: HistoryMode = 'push', index = -1) {
+async function loadDirectory(target: string, mode: HistoryMode = 'push', index = -1, forceRefresh = false) {
   if (!target.trim()) return;
   const request = ++requestId;
   busy.value = true;
   menu.value = null;
   clearMessages();
   try {
-    const listing = await FileManagerService.listBrowserDirectory(target);
+    const listing = await FileManagerService.listBrowserDirectory(target, forceRefresh);
     if (request !== requestId || !componentActive) return;
     path.value = listing.path;
     address.value = listing.path;
@@ -194,7 +214,22 @@ async function refresh() {
   if (searchResult.value && query.value.trim()) {
     await search();
   } else {
-    await loadDirectory(path.value, 'replace');
+    await loadDirectory(path.value, 'replace', -1, true);
+  }
+}
+
+async function toggleFavorite(target: string) {
+  if (!favoritesLoaded.value || !target) return;
+  const key = PathUtils.comparisonKey(target);
+  const next = favoriteKeys.value.has(key)
+    ? favoritePaths.value.filter(favorite => PathUtils.comparisonKey(favorite) !== key)
+    : parseBrowserFavorites([...favoritePaths.value, PathUtils.display(target)]);
+  try {
+    await PreferenceStorageService.saveFileBrowserFavorites(next);
+    favoritePaths.value = next;
+    menu.value = null;
+  } catch {
+    errorMessage.value = t('common.operationFailed');
   }
 }
 
@@ -536,6 +571,16 @@ function disablePageShortcuts() {
 
 onMounted(() => {
   enablePageShortcuts();
+  void PreferenceStorageService.loadFileBrowserFavorites()
+    .then(saved => {
+      favoritePaths.value = parseBrowserFavorites(saved);
+    })
+    .finally(() => {
+      favoritesLoaded.value = true;
+    })
+    .catch(() => {
+      favoritesLoaded.value = true;
+    });
   void NativeDragDropService.listen(onNativeDrop)
     .then(stop => {
       if (componentActive) stopNativeDrop = stop;
@@ -618,6 +663,16 @@ onBeforeUnmount(() => {
         <form class="file-browser-address" @submit.prevent="navigateAddress">
           <Input ref="addressInput" v-model="address" :aria-label="t('fileBrowser.address')" :disabled="busy" />
         </form>
+        <Button
+          variant="ghost"
+          size="icon"
+          :disabled="busy || !path || !favoritesLoaded"
+          :aria-label="t(currentPathFavorite ? 'fileBrowser.removeFavorite' : 'fileBrowser.addFavorite')"
+          :aria-pressed="currentPathFavorite"
+          @click="toggleFavorite(path)"
+        >
+          <MdIcon :name="ICON_NAMES.star" :size="17" />
+        </Button>
         <Button
           variant="ghost"
           size="icon"
@@ -739,6 +794,17 @@ onBeforeUnmount(() => {
               {{ t('fileBrowser.home') }}
             </button>
             <button
+              v-for="folder in storageScopes.standardFolders"
+              :key="folder.id"
+              class="file-browser-side-link"
+              type="button"
+              :disabled="busy"
+              @click="loadDirectory(folder.path)"
+            >
+              <MdIcon :name="standardFolderIcons[folder.id]" :size="16" />
+              <span>{{ t(`folderPicker.standardFolders.${folder.id}`) }}</span>
+            </button>
+            <button
               v-for="volume in appStore.disks"
               :key="volume.mountPoint"
               class="file-browser-side-link"
@@ -749,6 +815,28 @@ onBeforeUnmount(() => {
               <MdIcon :name="ICON_NAMES.hardDrive" :size="16" />
               <span dir="auto">{{ volume.name }}</span>
             </button>
+          </div>
+          <div v-if="favoritePaths.length" class="file-browser-side-section">
+            <strong>{{ t('fileBrowser.favorites') }}</strong>
+            <div
+              v-for="favorite in favoritePaths"
+              :key="PathUtils.comparisonKey(favorite)"
+              class="file-browser-favorite"
+            >
+              <button class="file-browser-side-link" type="button" :disabled="busy" @click="loadDirectory(favorite)">
+                <MdIcon :name="ICON_NAMES.star" :size="16" />
+                <span dir="auto">{{ browserName(favorite) }}</span>
+              </button>
+              <button
+                class="file-browser-favorite-remove"
+                type="button"
+                :disabled="busy"
+                :aria-label="t('fileBrowser.removeFavorite') + ': ' + browserName(favorite)"
+                @click="toggleFavorite(favorite)"
+              >
+                <MdIcon :name="ICON_NAMES.close" :size="14" />
+              </button>
+            </div>
           </div>
           <div v-if="recentFolders.length" class="file-browser-side-section">
             <strong>{{ t('fileBrowser.recentFolders') }}</strong>
@@ -870,6 +958,7 @@ onBeforeUnmount(() => {
     <div v-if="menu" class="file-browser-context-overlay" @click="menu = null" @contextmenu.prevent="menu = null">
       <div class="file-browser-context" role="menu" :style="{ left: menu.x + 'px', top: menu.y + 'px' }" @click.stop>
         <button
+          v-if="selectedEntry?.isDirectory"
           role="menuitem"
           type="button"
           :disabled="!selectedEntry"
@@ -879,6 +968,14 @@ onBeforeUnmount(() => {
           "
         >
           {{ t('common.open') }}
+        </button>
+        <button
+          role="menuitem"
+          type="button"
+          :disabled="!selectedEntry || !favoritesLoaded"
+          @click="selectedEntry && toggleFavorite(selectedEntry.path)"
+        >
+          {{ t(selectedEntryFavorite ? 'fileBrowser.removeFavorite' : 'fileBrowser.addFavorite') }}
         </button>
         <button role="menuitem" type="button" @click="copyOrCut('copy')">{{ t('common.copy') }}</button>
         <button role="menuitem" type="button" @click="copyOrCut('move')">{{ t('fileBrowser.cut') }}</button>
@@ -1001,7 +1098,7 @@ onBeforeUnmount(() => {
   display: flex;
   min-height: 0;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   height: 100%;
 }
 .file-browser-nav,
@@ -1010,7 +1107,7 @@ onBeforeUnmount(() => {
   display: flex;
   min-width: 0;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 .file-browser-nav {
   padding: 4px 2px;
@@ -1094,7 +1191,7 @@ onBeforeUnmount(() => {
   min-height: 0;
   overflow: hidden;
   border: 1px solid var(--border);
-  border-radius: 9px;
+  border-radius: 12px;
 }
 .file-browser-main:has(.file-browser-details) {
   grid-template-columns: 165px minmax(0, 1fr) 220px;
@@ -1102,8 +1199,8 @@ onBeforeUnmount(() => {
 .file-browser-sidebar {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  padding: 12px 8px;
+  gap: 18px;
+  padding: 16px 10px;
   overflow-y: auto;
   border-right: 1px solid var(--border);
   @apply bg-muted/20;
@@ -1112,22 +1209,22 @@ onBeforeUnmount(() => {
   display: flex;
   min-width: 0;
   flex-direction: column;
-  gap: 3px;
+  gap: 5px;
 }
 .file-browser-side-section > strong {
-  padding: 6px 8px;
+  padding: 7px 10px;
   font-size: var(--font-content-secondary);
   @apply text-muted-foreground;
 }
 .file-browser-side-link {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   width: 100%;
   min-width: 0;
   border: 0;
-  border-radius: 6px;
-  padding: 7px 8px;
+  border-radius: 8px;
+  padding: 8px 10px;
   text-align: start;
   font-size: var(--font-content-secondary);
   @apply bg-transparent text-foreground;
@@ -1145,6 +1242,29 @@ onBeforeUnmount(() => {
 .file-browser-side-link:hover,
 .file-browser-side-link:focus-visible {
   @apply bg-muted;
+}
+.file-browser-favorite {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 2px;
+}
+.file-browser-favorite > .file-browser-side-link {
+  flex: 1;
+}
+.file-browser-favorite-remove {
+  display: grid;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 0;
+  border-radius: 7px;
+  @apply bg-transparent text-muted-foreground;
+}
+.file-browser-favorite-remove:hover:not(:disabled),
+.file-browser-favorite-remove:focus-visible {
+  @apply bg-muted text-foreground;
 }
 .file-browser-results {
   display: flex;
