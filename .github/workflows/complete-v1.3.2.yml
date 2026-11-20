@@ -1,6 +1,6 @@
 name: Complete validated Ovren v1.3.2 release
 
-# One-time, SHA-pinned handoff. Do not merge or publish a failed CI run.
+# Runs only after the complete, green main-branch platform matrix.
 on:
   workflow_run:
     workflows: ["Cross-platform builds"]
@@ -8,7 +8,6 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
   actions: write
 
 concurrency:
@@ -16,204 +15,65 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  integrate-explorer:
-    outputs:
-      target_sha: ${{ steps.prepare.outputs.target_sha }}
+  dispatch-validated-release:
     if: >-
       github.repository == 'lylicht/ovren' &&
-      github.event.workflow_run.event == 'pull_request' &&
-      github.event.workflow_run.head_repository.full_name == 'lylicht/ovren' &&
-      github.event.workflow_run.head_branch == 'feat/native-file-explorer' &&
-      github.event.workflow_run.head_sha == 'bbfa562d9681049216b2268d6fb0c3dd85a3e131' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'main' &&
       github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ github.token }}
       GH_REPO: ${{ github.repository }}
-      EXPECTED_HEAD: bbfa562d9681049216b2268d6fb0c3dd85a3e131
+      VALIDATED_SHA: ${{ github.event.workflow_run.head_sha }}
+      VALIDATED_RUN: ${{ github.event.workflow_run.id }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out current main
+        uses: actions/checkout@v4
         with:
           ref: main
           fetch-depth: 0
-      - name: Merge the exact CI-validated Explorer commit
+      - name: Verify full cross-platform validation and exact release revision
         shell: bash
         run: |
           set -euo pipefail
-          merged="$(gh api "repos/$GH_REPO/pulls/5" --jq '.merged')"
-          head="$(gh api "repos/$GH_REPO/pulls/5" --jq '.head.sha')"
-          if [[ "$head" != "$EXPECTED_HEAD" ]]; then
-            echo "PR head has moved; refusing to merge an unvalidated commit." >&2
-            exit 1
-          fi
-          if [[ "$merged" != true ]]; then
-            gh api --method PUT "repos/$GH_REPO/pulls/5/merge" \
-              -f merge_method=squash \
-              -f sha="$EXPECTED_HEAD" \
-              -f commit_title="feat(files): integrate native Ovren Explorer (#5)"
-          fi
-          merged="$(gh api "repos/$GH_REPO/pulls/5" --jq '.merged')"
-          [[ "$merged" == true ]] || { echo "Explorer PR was not merged." >&2; exit 1; }
-          branch_head="$(gh api "repos/$GH_REPO/branches/feat/native-file-explorer" --jq '.commit.sha' 2>/dev/null || true)"
-          if [[ "$branch_head" == "$EXPECTED_HEAD" ]]; then
-            gh api --method DELETE "repos/$GH_REPO/git/refs/heads/feat/native-file-explorer"
-          fi
-      - name: Prepare v1.3.2 metadata on main after successful merge
-        id: prepare
-        shell: bash
-        run: |
-          set -euo pipefail
-          git fetch origin main
-          git checkout -B main origin/main
-          node --input-type=module <<'NODE'
-          import { readFileSync, writeFileSync } from 'node:fs';
-
-          const read = (path) => readFileSync(path, 'utf8');
-          const update = (path, before, after) => {
-            const source = read(path);
-            const count = source.split(before).length - 1;
-            if (count !== 1) {
-              throw new Error(path + ': expected one version marker, found ' + count);
-            }
-            writeFileSync(path, source.replace(before, after));
-          };
-
-          const currentVersion = JSON.parse(read('package.json')).version;
-          if (currentVersion === '1.3.2') {
-            console.log('Ovren v1.3.2 metadata already prepared.');
-            process.exit(0);
-          }
-          if (currentVersion !== '1.3.0') {
-            throw new Error('Unexpected release base: ' + currentVersion);
-          }
-
-          update('package.json', '"version": "1.3.0"', '"version": "1.3.2"');
-          update('app/package.json', '"version": "1.3.0"', '"version": "1.3.2"');
-          update('app/src-tauri/tauri.conf.json', '"version": "1.3.0"', '"version": "1.3.2"');
-          update('app/Cargo.toml', 'version = "1.3.0"', 'version = "1.3.2"');
-          for (const name of [
-            'mangodisk', 'mangodisk-cli', 'mangodisk-core', 'mangodisk-platform',
-            'mangodisk-privileged', 'mangodisk-privileged-protocol', 'xtask'
-          ]) {
-            update(
-              'app/Cargo.lock',
-              '[[package]]\nname = "' + name + '"\nversion = "1.3.0"',
-              '[[package]]\nname = "' + name + '"\nversion = "1.3.2"'
-            );
-          }
-          update('README.md', 'Made by Licht · Version 1.3.0', 'Made by Licht · Version 1.3.2');
-          const changelog = read('CHANGELOG.md');
-          const header = '# Changelog\n\n';
-          if (!changelog.startsWith(header)) throw new Error('Unexpected changelog header.');
-          const release = [
-            '## 1.3.2 — 2026-11-20',
-            '',
-            '- Adopted the official orbital desktop icon across Windows, macOS, and Linux, including installers and native tray artwork.',
-            '- Expanded the file browser into an Ovren-styled native file explorer with navigation history, virtualized details/grid views, selection, search, and keyboard shortcuts.',
-            '- Added native Rust create, rename, copy, move, and Trash operations with no-overwrite safety and staged copies.',
-            '- Connected the explorer to storage analysis, large-file discovery, and duplicate-file tools.',
-            '- Added localization and focused filesystem regression tests.',
-            '',
-          ].join('\n');
-          writeFileSync('CHANGELOG.md', header + release + changelog.slice(header.length));
-          NODE
-          if git diff --quiet; then
-            echo "Version already current; revalidating the present main commit."
-            echo "target_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-            gh workflow run cross-platform-builds.yml --repo "$GH_REPO" --ref main
+          current="$(gh api "repos/$GH_REPO/branches/main" --jq '.commit.sha')"
+          if [[ "$current" != "$VALIDATED_SHA" ]]; then
+            echo "main changed after the validated workflow; refusing to release stale code."
             exit 0
           fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add package.json app/package.json app/src-tauri/tauri.conf.json app/Cargo.toml app/Cargo.lock README.md CHANGELOG.md
-          git commit -m "release: prepare Ovren v1.3.2"
-          git push origin main
-          # GITHUB_TOKEN pushes do not trigger normal push workflows. A workflow
-          # dispatch is explicitly allowed, and tests the exact updated main.
-          gh workflow run cross-platform-builds.yml --repo "$GH_REPO" --ref main
-          echo "target_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-
-  release-after-main-checks:
-    needs: [integrate-explorer]
-    if: needs.integrate-explorer.result == 'success'
-    runs-on: ubuntu-latest
-    timeout-minutes: 150
-    env:
-      GH_TOKEN: ${{ github.token }}
-      GH_REPO: ${{ github.repository }}
-      PASSED_HEAD: ${{ needs.integrate-explorer.outputs.target_sha }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: main
-          fetch-depth: 0
-      - name: Wait for complete Windows, Linux and macOS validation
-        shell: bash
-        run: |
-          set -euo pipefail
-          [[ -n "$PASSED_HEAD" ]] || { echo "Missing candidate SHA." >&2; exit 1; }
-          ready=false
-          # workflow_dispatch explicitly fires even for GITHUB_TOKEN, unlike
-          # an ordinary push. The exact commit and all three jobs must pass.
-          for attempt in $(seq 1 240); do
-            json="$(gh api "repos/$GH_REPO/actions/runs?branch=main&event=workflow_dispatch&per_page=100")"
-            run="$(printf '%s' "$json" | jq -r --arg sha "$PASSED_HEAD" '.workflow_runs[] | select(.name == "Cross-platform builds" and .head_sha == $sha) | .id' | head -n 1)"
-            if [[ -n "$run" ]]; then
-              status="$(gh api "repos/$GH_REPO/actions/runs/$run" --jq '.status')"
-              if [[ "$status" == completed ]]; then
-                conclusion="$(gh api "repos/$GH_REPO/actions/runs/$run" --jq '.conclusion')"
-                if [[ "$conclusion" != success ]]; then
-                  echo "Validation run $run failed or was cancelled: $conclusion" >&2
-                  exit 1
-                fi
-                jobs="$(gh api "repos/$GH_REPO/actions/runs/$run/jobs?per_page=100")"
-                count="$(printf '%s' "$jobs" | jq '.jobs | length')"
-                failed="$(printf '%s' "$jobs" | jq '[.jobs[] | select(.conclusion != "success")] | length')"
-                if [[ "$count" != 3 || "$failed" != 0 ]]; then
-                  echo "Validation run $run did not pass all three platform jobs." >&2
-                  exit 1
-                fi
-                ready=true
-                echo "Passed release candidate validation: $run"
-                break
-              fi
-            fi
-            if (( attempt % 10 == 0 )); then
-              echo "Waiting for release candidate CI: attempt $attempt"
-            fi
-            sleep 30
-          done
-          [[ "$ready" == true ]] || { echo "Timed out awaiting complete CI." >&2; exit 1; }
-      - name: Dispatch signed release only for the checked main commit
-        shell: bash
-        run: |
-          set -euo pipefail
-          git fetch origin main
-          current="$(git rev-parse origin/main)"
-          [[ "$current" == "$PASSED_HEAD" ]] || {
-            echo "main moved after CI; not publishing an unchecked commit."
-            exit 1
-          }
           version="$(node -p "require('./package.json').version")"
-          [[ "$version" == "1.3.2" ]] || {
-            echo "Not the v1.3.2 release candidate."
+          if [[ "$version" != 1.3.2 ]]; then
+            echo "Not the v1.3.2 release candidate; skipping."
+            exit 0
+          fi
+          node scripts/release-preflight.mjs v1.3.2
+          for number in 4 5; do
+            merged="$(gh api "repos/$GH_REPO/pulls/$number" --jq '.merged')"
+            [[ "$merged" == true ]] || { echo "PR #$number was not merged." >&2; exit 1; }
+          done
+          jobs="$(gh api "repos/$GH_REPO/actions/runs/$VALIDATED_RUN/jobs?per_page=100")"
+          actual="$(printf '%s' "$jobs" | jq -c '[.jobs[] | select(.conclusion == "success") | .name] | sort')"
+          expected='["Build on macos-latest","Build on ubuntu-22.04","Build on windows-latest"]'
+          count="$(printf '%s' "$jobs" | jq -r '.total_count')"
+          if [[ "$count" != 3 || "$actual" != "$expected" ]]; then
+            echo "Full three-platform validation is not successful: $actual" >&2
             exit 1
-          }
-          merged="$(gh api "repos/$GH_REPO/pulls/5" --jq '.merged')"
-          [[ "$merged" == true ]] || { echo "Explorer PR is not merged." >&2; exit 1; }
+          fi
           if gh api "repos/$GH_REPO/releases/tags/v1.3.2" >/dev/null 2>&1; then
-            echo "v1.3.2 was already published; nothing to repeat."
+            echo "Ovren v1.3.2 already published; nothing to do."
             exit 0
           fi
-          if git ls-remote --exit-code --tags origin refs/tags/v1.3.2 >/dev/null 2>&1; then
-            echo "Release tag exists but release is absent; manual inspection required." >&2
+          if gh api "repos/$GH_REPO/git/ref/tags/v1.3.2" >/dev/null 2>&1; then
+            echo "v1.3.2 tag already exists without a release; manual investigation is required." >&2
             exit 1
           fi
-          if git ls-remote --exit-code --heads origin refs/heads/release/v1.3.2 >/dev/null 2>&1; then
-            echo "Release build branch already exists; avoiding duplicate dispatch."
+          if gh api "repos/$GH_REPO/git/ref/heads/release/v1.3.2" >/dev/null 2>&1; then
+            echo "Release build branch already exists; avoiding a duplicate build."
             exit 0
           fi
-          git push origin "$current:refs/heads/release/v1.3.2"
-          # Release dispatch works with GITHUB_TOKEN and never skips the
-          # existing signing, artifact, checksum, and publishing gates.
+          echo "Validated all three builds for $VALIDATED_SHA ($VALIDATED_RUN)."
+          gh api --method POST "repos/$GH_REPO/git/refs" \
+            -f ref=refs/heads/release/v1.3.2 -f sha="$VALIDATED_SHA"
           gh workflow run release.yml --repo "$GH_REPO" --ref release/v1.3.2
+          echo "Dispatched the signed, cross-platform Ovren v1.3.2 release."
