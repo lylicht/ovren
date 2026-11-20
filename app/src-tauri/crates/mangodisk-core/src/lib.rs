@@ -59,7 +59,8 @@ pub use filesystem::{
     metadata::diagnostic_path, DirectorySelectionOutcome, DirectorySelectionService,
     FileBrowserEntry, FileBrowserListing, FileBrowserSearchResult, PermanentDeleteBatchResult,
     PermanentDeleteCandidate, PermanentDeleteFailure, ResolvedDirectory, ScanExclusionOptions,
-    VolumeInfo, list_directory, search_directory,
+    VolumeInfo, list_directory, search_directory, create_entry, rename_entry,
+    transfer_entries, trash_entries, FileTransferMode, FileMutationReport, FileMutationFailure,
 };
 pub use history::{
     ApplicationLeftoverOperationDetails, ApplicationUninstallOperationDetails,
