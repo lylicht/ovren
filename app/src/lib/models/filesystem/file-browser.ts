@@ -34,3 +34,8 @@ export interface FileMutationReport {
   completed: string[];
   failed: FileMutationFailure[];
 }
+
+export interface FileTextPreview {
+  text: string;
+  truncated: boolean;
+}
