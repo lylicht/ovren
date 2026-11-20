@@ -193,60 +193,25 @@ pub fn mouse_apply_settings(
             return Err("Mouse controls currently support GNOME desktops on Linux.".into());
         }
         let previous = gnome_mouse_settings()?;
-        let previous_speed = previous
-            .speed
-            .ok_or("Could not read the current pointer speed.")?;
+        let previous_speed = previous.speed.ok_or("Could not read the current pointer speed.")?;
         let previous_profile = previous
             .acceleration_profile
             .as_deref()
             .ok_or("Could not read the current acceleration profile.")?;
-        let profile = acceleration_profile
-            .unwrap_or_else(|| if acceleration { "adaptive" } else { "flat" }.into());
+        let profile = acceleration_profile.unwrap_or_else(|| {
+            if acceleration { "adaptive" } else { "flat" }.into()
+        });
         let native_speed = format!("{:.2}", (f64::from(speed) / 10.0) - 1.0);
-        if let Err(error) = run(
-            "gsettings",
-            &[
-                "set",
-                "org.gnome.desktop.peripherals.mouse",
-                "speed",
-                &native_speed,
-            ],
-        ) {
+        if let Err(error) = run("gsettings", &["set", "org.gnome.desktop.peripherals.mouse", "speed", &native_speed]) {
             return Err(error);
         }
-        if let Err(error) = run(
-            "gsettings",
-            &[
-                "set",
-                "org.gnome.desktop.peripherals.mouse",
-                "accel-profile",
-                &profile,
-            ],
-        ) {
+        if let Err(error) = run("gsettings", &["set", "org.gnome.desktop.peripherals.mouse", "accel-profile", &profile]) {
             let rollback_speed = format!("{:.2}", (f64::from(previous_speed) / 10.0) - 1.0);
-            let rollback_speed_result = run(
-                "gsettings",
-                &[
-                    "set",
-                    "org.gnome.desktop.peripherals.mouse",
-                    "speed",
-                    &rollback_speed,
-                ],
-            );
-            let rollback_profile_result = run(
-                "gsettings",
-                &[
-                    "set",
-                    "org.gnome.desktop.peripherals.mouse",
-                    "accel-profile",
-                    previous_profile,
-                ],
-            );
+            let rollback_speed_result = run("gsettings", &["set", "org.gnome.desktop.peripherals.mouse", "speed", &rollback_speed]);
+            let rollback_profile_result = run("gsettings", &["set", "org.gnome.desktop.peripherals.mouse", "accel-profile", previous_profile]);
             return Err(match (rollback_speed_result, rollback_profile_result) {
                 (Ok(_), Ok(_)) => error,
-                _ => format!(
-                    "{error} Settings could not be fully restored; reload the current values."
-                ),
+                _ => format!("{error} Settings could not be fully restored; reload the current values."),
             });
         }
         return gnome_mouse_settings();
@@ -263,18 +228,8 @@ fn windows_mouse_settings() -> Result<MouseSettings, String> {
     let script = format!(
         "{WINDOWS_MOUSE_TYPE}; $m=Get-ItemProperty 'HKCU:\\Control Panel\\Mouse'; @{{supported=$true;speed=[int]$m.MouseSensitivity;acceleration=([int]$m.MouseSpeed -gt 0);accelerationProfile=([string][int]$m.MouseSpeed);reason=$null}} | ConvertTo-Json -Compress"
     );
-    let output = run(
-        "powershell.exe",
-        &[
-            "-NoLogo",
-            "-NoProfile",
-            "-NonInteractive",
-            "-Command",
-            &script,
-        ],
-    )?;
-    serde_json::from_str(&output)
-        .map_err(|error| format!("Windows returned invalid pointer settings: {error}"))
+    let output = run("powershell.exe", &["-NoLogo", "-NoProfile", "-NonInteractive", "-Command", &script])?;
+    serde_json::from_str(&output).map_err(|error| format!("Windows returned invalid pointer settings: {error}"))
 }
 
 #[cfg(target_os = "windows")]
@@ -289,18 +244,8 @@ fn apply_windows_mouse_settings(
     let script = format!(
         "{WINDOWS_MOUSE_TYPE}; $m=Get-ItemProperty 'HKCU:\\Control Panel\\Mouse'; $oldSpeed=[int]$m.MouseSensitivity; $oldAccel=[int]$m.MouseSpeed; $t1=[int]$m.MouseThreshold1; $t2=[int]$m.MouseThreshold2; $ok1=[WyreMouse]::SystemParametersInfo(0x0071,0,[IntPtr]{speed},3); $v=[int[]]@($t1,$t2,{acceleration_value}); $ok2=[WyreMouse]::SystemParametersInfoArray(0x0004,0,$v,3); if(-not ($ok1 -and $ok2)) {{ [void][WyreMouse]::SystemParametersInfo(0x0071,0,[IntPtr]$oldSpeed,3); $old=[int[]]@($t1,$t2,$oldAccel); [void][WyreMouse]::SystemParametersInfoArray(0x0004,0,$old,3); throw 'Windows rejected the pointer settings' }}; @{{supported=$true;speed={speed};acceleration=$({acceleration_value} -gt 0);accelerationProfile='{acceleration_value}';reason=$null}} | ConvertTo-Json -Compress"
     );
-    let output = run(
-        "powershell.exe",
-        &[
-            "-NoLogo",
-            "-NoProfile",
-            "-NonInteractive",
-            "-Command",
-            &script,
-        ],
-    )?;
-    serde_json::from_str(&output)
-        .map_err(|error| format!("Windows returned invalid pointer settings: {error}"))
+    let output = run("powershell.exe", &["-NoLogo", "-NoProfile", "-NonInteractive", "-Command", &script])?;
+    serde_json::from_str(&output).map_err(|error| format!("Windows returned invalid pointer settings: {error}"))
 }
 
 #[cfg(target_os = "linux")]
@@ -311,22 +256,12 @@ fn is_gnome() -> bool {
 
 #[cfg(target_os = "linux")]
 fn gnome_mouse_settings() -> Result<MouseSettings, String> {
-    let speed = run(
-        "gsettings",
-        &["get", "org.gnome.desktop.peripherals.mouse", "speed"],
-    )?
-    .parse::<f64>()
-    .map_err(|error| format!("GNOME returned an invalid pointer speed: {error}"))?;
-    let profile = run(
-        "gsettings",
-        &[
-            "get",
-            "org.gnome.desktop.peripherals.mouse",
-            "accel-profile",
-        ],
-    )?
-    .trim_matches('\'')
-    .to_string();
+    let speed = run("gsettings", &["get", "org.gnome.desktop.peripherals.mouse", "speed"])?
+        .parse::<f64>()
+        .map_err(|error| format!("GNOME returned an invalid pointer speed: {error}"))?;
+    let profile = run("gsettings", &["get", "org.gnome.desktop.peripherals.mouse", "accel-profile"])?
+        .trim_matches('\'')
+        .to_string();
     Ok(MouseSettings {
         supported: true,
         speed: Some(((speed + 1.0) * 10.0).round().clamp(1.0, 20.0) as u8),
