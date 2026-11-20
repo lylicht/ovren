@@ -320,9 +320,9 @@
     "linkKind": "Lien",
     "folderKind": "Dossier",
     "fileKind": "Fichier",
-    "createDescription": "Créer un élément dans le dossier actuel.",
+    "createDescription": "Créer un élément dans le dossier actuel",
     "create": "Créer",
-    "renameDescription": "Choisir un nouveau nom pour cet élément.",
+    "renameDescription": "Choisir un nouveau nom pour cet élément",
     "trashDescription": "Placer les éléments sélectionnés dans la corbeille du système ?",
     "errors": {
       "alreadyExists": "Nom déjà utilisé",
@@ -332,7 +332,7 @@
       "failed": "Échec de l’opération"
     },
     "previewText": "Aperçu du texte",
-    "previewLimited": "Affichage des 64 premiers Kio de ce fichier.",
+    "previewLimited": "Affichage des 64 premiers Kio de ce fichier",
     "previewFailed": "Impossible de prévisualiser ce fichier",
     "importFiles": "Importer des fichiers",
     "importDescription": "Copier {count} fichiers ou dossiers sélectionnés dans le dossier actuel ?",
