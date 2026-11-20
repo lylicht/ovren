@@ -330,7 +330,13 @@
       "permissionDenied": "Permission denied",
       "invalidInput": "Invalid selection or name",
       "failed": "Operation failed"
-    }
+    },
+    "previewText": "Preview text",
+    "previewLimited": "Showing the first 64 KiB of this file.",
+    "previewFailed": "Could not preview this file",
+    "importFiles": "Import files",
+    "importDescription": "Copy {count} selected files or folders into the current folder?",
+    "copyHere": "Copy here"
   },
   "systemMaintenance": {
     "title": "System Maintenance",
