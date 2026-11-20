@@ -1,5 +1,5 @@
 /**
- * Derive compact system-surface icons from the approved public vector artwork.
+ * Derive desktop and system-tray icons from the approved PNG artwork.
  * Run with `node scripts/generate-resident-icons.mjs`; Tauri supplies the rasterizer
  * and ICO encoder, so icon maintenance needs no extra image-tool dependency.
  */
@@ -10,14 +10,12 @@ import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
-const source = readFileSync(join(root, 'public/ovren-icon.svg'), 'utf8');
-// The desktop app icon is the approved rounded-square orbital artwork.
-// Keep the monochrome tray symbol separate for native menu-bar conventions.
+// The rounded-square tile is for native launchers and installers.
 const desktopSource = join(root, 'public/ovren-desktop-icon.png');
-if (!source.includes('id="ovren-mark"')) {
-  throw new Error('The Ovren mark changed; review the tray icon source before regenerating.');
-}
-const template = `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="16 76 480 360"><g fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="34"><path d="M256 256c-45-80-109-128-165-83-54 44-43 126 20 166 57 36 119 9 145-83"/><path d="M256 256c45-80 109-128 165-83 54 44 43 126-20 166-57 36-119 9-145-83"/></g></svg>`;
+// The transparent orbital artwork supplies the color tray variant and the
+// native monochrome template has its own alpha mask.
+const colorSource = join(root, 'public/ovren-orbital-mark.png');
+const templateSource = join(root, 'public/ovren-tray-template.png');
 const temporary = mkdtempSync(join(tmpdir(), 'ovren-icons-'));
 const output = join(root, 'src-tauri/icons');
 const cli = join(root, 'node_modules/@tauri-apps/cli/tauri.js');
@@ -32,10 +30,6 @@ function generate(input, directory, sizes = []) {
   );
 }
 try {
-  const colorSource = join(temporary, 'color.svg');
-  const templateSource = join(temporary, 'template.svg');
-  writeFileSync(colorSource, source);
-  writeFileSync(templateSource, template);
   generate(templateSource, join(temporary, 'template'), [36]);
   generate(colorSource, join(temporary, 'color'), [64]);
   const application = join(temporary, 'application');

@@ -73,6 +73,8 @@ assertContains(cliManifest, 'name = "mangodisk"', 'CLI binary manifest');
 
 assertExists('public/ovren-icon.svg');
 assertExists('public/ovren-desktop-icon.png');
+assertExists('public/ovren-orbital-mark.png');
+assertExists('public/ovren-tray-template.png');
 assertExists('src/components/icons/md-icon-ovren.vue');
 
 assertContains(readme, '<h1 align="center">Ovren</h1>', 'README product name');
