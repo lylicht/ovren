@@ -415,7 +415,7 @@ fn apply_gnome_mouse_settings(
             previous_natural_scroll.to_string(),
         ));
     }
-    let mut applied = Vec::new();
+    let mut applied: Vec<(String, String)> = Vec::new();
     for (key, value, old_value) in changes {
         if let Err(error) = run(
             "gsettings",
