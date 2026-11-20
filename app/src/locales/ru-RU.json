@@ -320,9 +320,9 @@
     "linkKind": "Ссылка",
     "folderKind": "Папка",
     "fileKind": "Файл",
-    "createDescription": "Создать элемент в текущей папке.",
+    "createDescription": "Создать элемент в текущей папке",
     "create": "Создать",
-    "renameDescription": "Введите новое имя.",
+    "renameDescription": "Введите новое имя",
     "trashDescription": "Переместить выбранные элементы в корзину системы?",
     "errors": {
       "alreadyExists": "Имя уже занято",
@@ -332,7 +332,7 @@
       "failed": "Ошибка операции"
     },
     "previewText": "Просмотр текста",
-    "previewLimited": "Показаны первые 64 КиБ файла.",
+    "previewLimited": "Показаны первые 64 КиБ файла",
     "previewFailed": "Не удалось показать файл",
     "importFiles": "Импорт файлов",
     "importDescription": "Скопировать {count} выбранных файлов или папок в текущую папку?",
