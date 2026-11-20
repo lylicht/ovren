@@ -93,7 +93,7 @@ jobs:
           update('app/Cargo.toml', 'version = "1.3.0"', 'version = "1.3.2"');
           for (const name of [
             'mangodisk', 'mangodisk-cli', 'mangodisk-core', 'mangodisk-platform',
-            'mangodisk-privileged', 'mangodisk-privileged-protocol'
+            'mangodisk-privileged', 'mangodisk-privileged-protocol', 'xtask'
           ]) {
             update(
               'app/Cargo.lock',
