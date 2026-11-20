@@ -3,7 +3,7 @@ use std::{fmt::Display, path::Path};
 use mangodisk_core::{
     diagnostic_path, list_directory, search_directory, AnalysisService, DuplicateFileService,
     FileBrowserListing, FileBrowserSearchResult, LargeFileService, create_entry,
-    rename_entry, transfer_entries, trash_entries, FileTransferMode, FileMutationReport,
+    rename_entry, transfer_entries, trash_entries, FileTransferMode, FileMutationReport, FileTextPreview, preview_text,
 };
 use tauri::{AppHandle, Manager};
 use tauri_plugin_opener::OpenerExt;
@@ -27,6 +27,11 @@ pub async fn search_file_browser_directory(
         search_directory(Path::new(&path), &query)
     })
     .await
+}
+
+#[tauri::command]
+pub async fn preview_file_browser_entry(path: String) -> CommandResult<FileTextPreview> {
+    run_blocking("preview_file_browser_entry", move || preview_text(Path::new(&path))).await
 }
 
 #[tauri::command]
