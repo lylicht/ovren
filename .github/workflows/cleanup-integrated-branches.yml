@@ -1,0 +1,53 @@
+name: Clean up integrated Ovren branches
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: write
+
+jobs:
+  prune:
+    if: github.repository == 'lylicht/ovren'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete only merged or superseded task branches
+        env:
+          GH_TOKEN: \${{ github.token }}
+          GH_REPO: \${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          # PR #3 is the older logo implementation superseded by merged PR #4.
+          # PRs #4 and #5 may only be pruned after their own merge.
+          while IFS='|' read -r number branch policy; do
+            state="$(gh api "repos/$GH_REPO/pulls/$number" --jq '.state')"
+            merged="$(gh api "repos/$GH_REPO/pulls/$number" --jq '.merged')"
+            if [[ "$policy" == merged && "$merged" != true ]]; then
+              echo "Keeping $branch: PR #$number has not merged."
+              continue
+            fi
+            if [[ "$policy" == superseded && ( "$state" != closed || "$merged" == true ) ]]; then
+              echo "Keeping $branch: PR #$number has not been closed as superseded."
+              continue
+            fi
+            expected="$(gh api "repos/$GH_REPO/pulls/$number" --jq '.head.sha')"
+            current="$(gh api "repos/$GH_REPO/branches/$branch" --jq '.commit.sha' 2>/dev/null || true)"
+            if [[ -z "$current" ]]; then
+              echo "Already deleted: $branch."
+              continue
+            fi
+            if [[ "$current" != "$expected" ]]; then
+              echo "Keeping $branch: branch has changed since PR #$number."
+              continue
+            fi
+            gh api --method DELETE "repos/$GH_REPO/git/refs/heads/$branch"
+            echo "Deleted: $branch"
+          done <<'BRANCHES'
+          3|chore/desktop-orbital-icons|superseded
+          4|feat/official-orbital-desktop-icon|merged
+          5|feat/native-file-explorer|merged
+          BRANCHES
