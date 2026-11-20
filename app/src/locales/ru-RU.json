@@ -330,7 +330,13 @@
       "permissionDenied": "Доступ запрещён",
       "invalidInput": "Недопустимое имя или выбор",
       "failed": "Ошибка операции"
-    }
+    },
+    "previewText": "Просмотр текста",
+    "previewLimited": "Показаны первые 64 КиБ файла.",
+    "previewFailed": "Не удалось показать файл",
+    "importFiles": "Импорт файлов",
+    "importDescription": "Скопировать {count} выбранных файлов или папок в текущую папку?",
+    "copyHere": "Копировать сюда"
   },
   "systemMaintenance": {
     "title": "Техническое обслуживание системы",
