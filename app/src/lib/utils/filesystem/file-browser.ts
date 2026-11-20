@@ -52,5 +52,10 @@ export function browserSelectionRange(entries: readonly FileBrowserEntry[], from
 }
 
 export function browserName(path: string): string {
-  return path.replace(/[\\/]+$/u, '').split(/[\\/]/u).pop() || path;
+  return (
+    path
+      .replace(/[\\/]+$/u, '')
+      .split(/[\\/]/u)
+      .pop() || path
+  );
 }

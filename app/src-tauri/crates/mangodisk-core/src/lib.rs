@@ -56,11 +56,12 @@ pub use cleanup::{
 };
 pub use cleanup::{CleanupPlanService, CleanupScanService, CleanupService};
 pub use filesystem::{
-    metadata::diagnostic_path, DirectorySelectionOutcome, DirectorySelectionService,
-    FileBrowserEntry, FileBrowserListing, FileBrowserSearchResult, PermanentDeleteBatchResult,
-    PermanentDeleteCandidate, PermanentDeleteFailure, ResolvedDirectory, ScanExclusionOptions,
-    VolumeInfo, list_directory, search_directory, create_entry, rename_entry,
-    transfer_entries, trash_entries, FileTransferMode, FileMutationReport, FileMutationFailure, FileTextPreview, preview_text,
+    create_entry, list_directory, metadata::diagnostic_path, preview_text, rename_entry,
+    search_directory, transfer_entries, trash_entries, DirectorySelectionOutcome,
+    DirectorySelectionService, FileBrowserEntry, FileBrowserListing, FileBrowserSearchResult,
+    FileMutationFailure, FileMutationReport, FileTextPreview, FileTransferMode,
+    PermanentDeleteBatchResult, PermanentDeleteCandidate, PermanentDeleteFailure,
+    ResolvedDirectory, ScanExclusionOptions, VolumeInfo,
 };
 pub use history::{
     ApplicationLeftoverOperationDetails, ApplicationUninstallOperationDetails,

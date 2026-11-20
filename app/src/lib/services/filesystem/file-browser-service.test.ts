@@ -96,7 +96,9 @@ describe('file browser service', () => {
   it('preserves per-item copy, move and trash results from native commands', async () => {
     const report = { completed: ['/home/owner/item'], failed: [] };
     invokeMock.mockResolvedValue(report);
-    await expect(FileManagerService.transferBrowserEntries(['/home/owner/item'], '/tmp', 'copy')).resolves.toEqual(report);
+    await expect(FileManagerService.transferBrowserEntries(['/home/owner/item'], '/tmp', 'copy')).resolves.toEqual(
+      report
+    );
     expect(invokeMock).toHaveBeenCalledWith('transfer_file_browser_entries', {
       paths: ['/home/owner/item'],
       destination: '/tmp',

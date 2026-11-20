@@ -28,7 +28,13 @@ import { FolderSelectionService } from '@/lib/services/storage/folder-selection-
 import { NativeDragDropService, type NativeDragDropEvent } from '@/lib/services/shell/native-drag-drop-service';
 import { FormatService } from '@/lib/services/presentation/format-service';
 import { ByteSizeService } from '@/lib/services/settings/byte-size-service';
-import { browserName, browserSelectionRange, sortBrowserEntries, type BrowserSort, type BrowserView } from '@/lib/utils/filesystem/file-browser';
+import {
+  browserName,
+  browserSelectionRange,
+  sortBrowserEntries,
+  type BrowserSort,
+  type BrowserView,
+} from '@/lib/utils/filesystem/file-browser';
 import { useStorageScopeStore } from '@/stores/storage-scope-store';
 import { useAppStore } from '@/stores/app-store';
 
@@ -95,8 +101,14 @@ const canBack = computed(() => historyIndex.value > 0);
 const canForward = computed(() => historyIndex.value >= 0 && historyIndex.value < history.value.length - 1);
 const canPaste = computed(() => Boolean(path.value && clipboard.value?.paths.length));
 const canPreview = computed(() =>
-  Boolean(selectedEntry.value && !selectedEntry.value.isDirectory && !selectedEntry.value.isSymlink &&
-    /\.(txt|md|json|toml|ya?ml|xml|ini|log|csv|rs|tsx?|jsx?|py|go|java|kt|swift|html|css|sh)$/iu.test(selectedEntry.value.name))
+  Boolean(
+    selectedEntry.value &&
+    !selectedEntry.value.isDirectory &&
+    !selectedEntry.value.isSymlink &&
+    /\.(txt|md|json|toml|ya?ml|xml|ini|log|csv|rs|tsx?|jsx?|py|go|java|kt|swift|html|css|sh)$/iu.test(
+      selectedEntry.value.name
+    )
+  )
 );
 const recentFolders = computed(() => storageScopes.recentFolders.filter(folder => folder !== path.value).slice(0, 6));
 const analysisPath = computed(() =>
@@ -355,7 +367,9 @@ async function paste() {
     );
     reportResult(report);
     if (pending.mode === 'move') {
-      clipboard.value = report.failed.length ? { paths: report.failed.map(failure => failure.path), mode: 'move' } : null;
+      clipboard.value = report.failed.length
+        ? { paths: report.failed.map(failure => failure.path), mode: 'move' }
+        : null;
     }
   });
 }
@@ -417,8 +431,9 @@ async function dropOn(entry: FileBrowserEntry, event: DragEvent) {
     return;
   }
   const mode: FileTransferMode = event.ctrlKey || event.altKey ? 'copy' : 'move';
-  await mutate(async () => reportResult(await inBatches(paths, batch =>
-    FileManagerService.transferBrowserEntries(batch, entry.path, mode))));
+  await mutate(async () =>
+    reportResult(await inBatches(paths, batch => FileManagerService.transferBrowserEntries(batch, entry.path, mode)))
+  );
 }
 
 function onNativeDrop(event: NativeDragDropEvent) {
@@ -446,8 +461,9 @@ async function confirmImport() {
   importOpen.value = false;
   importPaths.value = [];
   if (!paths.length || !path.value) return;
-  await mutate(async () => reportResult(await inBatches(paths, batch =>
-    FileManagerService.transferBrowserEntries(batch, path.value, 'copy'))));
+  await mutate(async () =>
+    reportResult(await inBatches(paths, batch => FileManagerService.transferBrowserEntries(batch, path.value, 'copy')))
+  );
 }
 
 function onKeydown(event: KeyboardEvent) {
@@ -583,22 +599,46 @@ onBeforeUnmount(() => {
 
     <MdResultWorkspace class="file-browser-workspace">
       <div class="file-browser-nav" role="toolbar" :aria-label="t('fileBrowser.navigation')">
-        <Button variant="ghost" size="icon" :disabled="busy || !canBack" :aria-label="t('fileBrowser.back')" @click="goHistory(-1)">
+        <Button
+          variant="ghost"
+          size="icon"
+          :disabled="busy || !canBack"
+          :aria-label="t('fileBrowser.back')"
+          @click="goHistory(-1)"
+        >
           <MdIcon :name="ICON_NAMES.chevronLeft" :size="17" />
         </Button>
-        <Button variant="ghost" size="icon" :disabled="busy || !canForward" :aria-label="t('fileBrowser.forward')" @click="goHistory(1)">
+        <Button
+          variant="ghost"
+          size="icon"
+          :disabled="busy || !canForward"
+          :aria-label="t('fileBrowser.forward')"
+          @click="goHistory(1)"
+        >
           <MdIcon :name="ICON_NAMES.chevronRight" :size="17" />
         </Button>
         <Button variant="ghost" size="icon" :disabled="busy || !path" :aria-label="t('fileBrowser.goUp')" @click="goUp">
           <MdIcon :name="ICON_NAMES.chevronUp" :size="17" />
         </Button>
-        <Button variant="ghost" size="icon" :disabled="busy || !homePath" :aria-label="t('fileBrowser.home')" @click="goHome">
+        <Button
+          variant="ghost"
+          size="icon"
+          :disabled="busy || !homePath"
+          :aria-label="t('fileBrowser.home')"
+          @click="goHome"
+        >
           <MdIcon :name="ICON_NAMES.home" :size="17" />
         </Button>
         <form class="file-browser-address" @submit.prevent="navigateAddress">
           <Input ref="addressInput" v-model="address" :aria-label="t('fileBrowser.address')" :disabled="busy" />
         </form>
-        <Button variant="ghost" size="icon" :disabled="busy || !path" :aria-label="t('monitoring.refresh')" @click="refresh">
+        <Button
+          variant="ghost"
+          size="icon"
+          :disabled="busy || !path"
+          :aria-label="t('monitoring.refresh')"
+          @click="refresh"
+        >
           <MdIcon :name="ICON_NAMES.refresh" :size="17" />
         </Button>
       </div>
@@ -636,10 +676,22 @@ onBeforeUnmount(() => {
           </Button>
         </div>
         <div class="file-browser-view-group">
-          <Button variant="ghost" size="icon" :aria-label="t('fileBrowser.detailsView')" :aria-pressed="view === 'details'" @click="view = 'details'">
+          <Button
+            variant="ghost"
+            size="icon"
+            :aria-label="t('fileBrowser.detailsView')"
+            :aria-pressed="view === 'details'"
+            @click="view = 'details'"
+          >
             <MdIcon :name="ICON_NAMES.list" :size="17" />
           </Button>
-          <Button variant="ghost" size="icon" :aria-label="t('fileBrowser.gridView')" :aria-pressed="view === 'grid'" @click="view = 'grid'">
+          <Button
+            variant="ghost"
+            size="icon"
+            :aria-label="t('fileBrowser.gridView')"
+            :aria-pressed="view === 'grid'"
+            @click="view = 'grid'"
+          >
             <MdIcon :name="ICON_NAMES.grid" :size="17" />
           </Button>
         </div>
@@ -652,7 +704,17 @@ onBeforeUnmount(() => {
             <MdIcon :name="ICON_NAMES.search" :size="15" />
             {{ t('fileBrowser.search') }}
           </Button>
-          <Button v-if="searchResult" variant="ghost" size="sm" type="button" @click="searchResult = null; query = ''; selectedPaths = []">
+          <Button
+            v-if="searchResult"
+            variant="ghost"
+            size="sm"
+            type="button"
+            @click="
+              searchResult = null;
+              query = '';
+              selectedPaths = [];
+            "
+          >
             {{ t('common.close') }}
           </Button>
         </form>
@@ -666,7 +728,12 @@ onBeforeUnmount(() => {
             <option value="size">{{ t('fileBrowser.sortSize') }}</option>
             <option value="modified">{{ t('fileBrowser.sortModified') }}</option>
           </select>
-          <Button variant="ghost" size="icon" :aria-label="t('fileBrowser.reverseSort')" @click="descending = !descending">
+          <Button
+            variant="ghost"
+            size="icon"
+            :aria-label="t('fileBrowser.reverseSort')"
+            @click="descending = !descending"
+          >
             <MdIcon :name="ICON_NAMES.arrowUpDown" :size="15" />
           </Button>
         </div>
@@ -674,7 +741,9 @@ onBeforeUnmount(() => {
 
       <p v-if="errorMessage" class="file-browser-error" role="alert">{{ errorMessage }}</p>
       <p v-else-if="statusMessage" class="file-browser-message" role="status">{{ statusMessage }}</p>
-      <p v-if="searchResult?.truncated" class="file-browser-message" role="status">{{ t('fileBrowser.resultsLimited') }}</p>
+      <p v-if="searchResult?.truncated" class="file-browser-message" role="status">
+        {{ t('fileBrowser.resultsLimited') }}
+      </p>
       <p v-if="searchResult?.skippedCount" class="file-browser-message" role="status">
         {{ t('fileBrowser.skippedItems', { count: searchResult.skippedCount }) }}
       </p>
@@ -687,21 +756,40 @@ onBeforeUnmount(() => {
               <MdIcon :name="ICON_NAMES.home" :size="16" />
               {{ t('fileBrowser.home') }}
             </button>
-            <button v-for="volume in appStore.disks" :key="volume.mountPoint" class="file-browser-side-link" type="button" :disabled="busy" @click="loadDirectory(volume.mountPoint)">
+            <button
+              v-for="volume in appStore.disks"
+              :key="volume.mountPoint"
+              class="file-browser-side-link"
+              type="button"
+              :disabled="busy"
+              @click="loadDirectory(volume.mountPoint)"
+            >
               <MdIcon :name="ICON_NAMES.hardDrive" :size="16" />
               <span dir="auto">{{ volume.name }}</span>
             </button>
           </div>
           <div v-if="recentFolders.length" class="file-browser-side-section">
             <strong>{{ t('fileBrowser.recentFolders') }}</strong>
-            <button v-for="recent in recentFolders" :key="recent" class="file-browser-side-link" type="button" :disabled="busy" @click="loadDirectory(recent)">
+            <button
+              v-for="recent in recentFolders"
+              :key="recent"
+              class="file-browser-side-link"
+              type="button"
+              :disabled="busy"
+              @click="loadDirectory(recent)"
+            >
               <MdIcon :name="ICON_NAMES.folderClock" :size="16" />
               <span dir="auto">{{ browserName(recent) }}</span>
             </button>
           </div>
           <div class="file-browser-side-section">
             <strong>{{ t('fileBrowser.ovrenTools') }}</strong>
-            <button class="file-browser-side-link" type="button" :disabled="busy || !analysisPath" @click="emit('analyze', analysisPath)">
+            <button
+              class="file-browser-side-link"
+              type="button"
+              :disabled="busy || !analysisPath"
+              @click="emit('analyze', analysisPath)"
+            >
               <MdIcon :name="ICON_NAMES.analysis" :size="16" />
               {{ t('navigation.analysis') }}
             </button>
@@ -764,17 +852,39 @@ onBeforeUnmount(() => {
             <dt>{{ t('fileBrowser.location') }}</dt>
             <dd dir="auto">{{ selectedEntry.path }}</dd>
             <dt>{{ t('fileBrowser.kind') }}</dt>
-            <dd>{{ selectedEntry.isSymlink ? t('fileBrowser.linkKind') : selectedEntry.isDirectory ? t('fileBrowser.folderKind') : t('fileBrowser.fileKind') }}</dd>
+            <dd>
+              {{
+                selectedEntry.isSymlink
+                  ? t('fileBrowser.linkKind')
+                  : selectedEntry.isDirectory
+                    ? t('fileBrowser.folderKind')
+                    : t('fileBrowser.fileKind')
+              }}
+            </dd>
             <dt>{{ t('fileBrowser.sortSize') }}</dt>
             <dd>{{ ByteSizeService.bytes(selectedEntry.size) }}</dd>
             <dt>{{ t('fileBrowser.sortModified') }}</dt>
-            <dd>{{ selectedEntry.modifiedAtMs === null ? '—' : FormatService.dateTime(selectedEntry.modifiedAtMs, locale) }}</dd>
+            <dd>
+              {{
+                selectedEntry.modifiedAtMs === null ? '—' : FormatService.dateTime(selectedEntry.modifiedAtMs, locale)
+              }}
+            </dd>
           </dl>
-          <Button variant="outline" size="sm" :disabled="busy" @click="activate(selectedEntry)">{{ t('common.open') }}</Button>
+          <Button variant="outline" size="sm" :disabled="busy" @click="activate(selectedEntry)">{{
+            t('common.open')
+          }}</Button>
           <Button v-if="canPreview" variant="outline" size="sm" :disabled="busy" @click="openPreview">
             {{ t('fileBrowser.previewText') }}
           </Button>
-          <Button variant="ghost" size="sm" :disabled="busy" @click="FileManagerService.reveal(selectedEntry.path).catch(() => errorMessage = t('common.operationFailed'))">{{ t('common.showInFileManager') }}</Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            :disabled="busy"
+            @click="
+              FileManagerService.reveal(selectedEntry.path).catch(() => (errorMessage = t('common.operationFailed')))
+            "
+            >{{ t('common.showInFileManager') }}</Button
+          >
         </aside>
       </div>
 
@@ -787,19 +897,47 @@ onBeforeUnmount(() => {
     </MdResultWorkspace>
 
     <div v-if="menu" class="file-browser-context-overlay" @click="menu = null" @contextmenu.prevent="menu = null">
-      <div
-        class="file-browser-context"
-        role="menu"
-        :style="{ left: menu.x + 'px', top: menu.y + 'px' }"
-        @click.stop
-      >
-        <button role="menuitem" type="button" :disabled="!selectedEntry" @click="selectedEntry && activate(selectedEntry); menu = null">{{ t('common.open') }}</button>
+      <div class="file-browser-context" role="menu" :style="{ left: menu.x + 'px', top: menu.y + 'px' }" @click.stop>
+        <button
+          role="menuitem"
+          type="button"
+          :disabled="!selectedEntry"
+          @click="
+            selectedEntry && activate(selectedEntry);
+            menu = null;
+          "
+        >
+          {{ t('common.open') }}
+        </button>
         <button role="menuitem" type="button" @click="copyOrCut('copy')">{{ t('common.copy') }}</button>
         <button role="menuitem" type="button" @click="copyOrCut('move')">{{ t('fileBrowser.cut') }}</button>
-        <button role="menuitem" type="button" :disabled="selectedCount !== 1" @click="openRename">{{ t('fileBrowser.rename') }}</button>
+        <button role="menuitem" type="button" :disabled="selectedCount !== 1" @click="openRename">
+          {{ t('fileBrowser.rename') }}
+        </button>
         <button role="menuitem" type="button" @click="prepareTrash">{{ t('fileBrowser.moveToTrash') }}</button>
-        <button role="menuitem" type="button" :disabled="selectedCount !== 1" @click="detailsOpen = true; preview = null; menu = null">{{ t('fileBrowser.properties') }}</button>
-        <button v-if="canPreview" role="menuitem" type="button" @click="openPreview(); menu = null">{{ t('fileBrowser.previewText') }}</button>
+        <button
+          role="menuitem"
+          type="button"
+          :disabled="selectedCount !== 1"
+          @click="
+            detailsOpen = true;
+            preview = null;
+            menu = null;
+          "
+        >
+          {{ t('fileBrowser.properties') }}
+        </button>
+        <button
+          v-if="canPreview"
+          role="menuitem"
+          type="button"
+          @click="
+            openPreview();
+            menu = null;
+          "
+        >
+          {{ t('fileBrowser.previewText') }}
+        </button>
       </div>
     </div>
 
@@ -888,63 +1026,303 @@ onBeforeUnmount(() => {
 
 <style scoped>
 @reference "@assets/main.css";
-.file-browser-workspace { display: flex; min-height: 0; flex-direction: column; gap: 8px; height: 100%; }
-.file-browser-nav,.file-browser-actions,.file-browser-search-bar { display: flex; min-width: 0; align-items: center; gap: 6px; }
-.file-browser-nav { padding: 4px 2px; }
-.file-browser-nav :deep(button) { flex: none; }
-.file-browser-address { flex: 1; min-width: 100px; }
-.file-browser-address :deep(input) { font-family: inherit; }
-.file-browser-actions { justify-content: space-between; gap: 10px; flex-wrap: wrap; }
-.file-browser-action-group,.file-browser-view-group { display: flex; align-items: center; gap: 3px; flex-wrap: wrap; }
-.file-browser-view-group :deep(button[aria-pressed='true']) { @apply bg-primary/15 text-primary-text; }
-.file-browser-search-bar { justify-content: space-between; flex-wrap: wrap; }
-.file-browser-search-form { display: flex; flex: 1; min-width: 200px; align-items: center; gap: 5px; }
-.file-browser-search-form :deep(.result-search) { min-width: 120px; flex: 1; }
-.file-browser-display-options { display: flex; align-items: center; gap: 8px; }
-.file-browser-hidden-toggle { display: flex; align-items: center; gap: 6px; white-space: nowrap; font-size: var(--font-content-secondary); }
-.file-browser-sort { max-width: 130px; border: 1px solid var(--border); border-radius: 7px; padding: 5px; font-size: var(--font-content-secondary); @apply bg-background text-foreground; }
-.file-browser-error,.file-browser-message { margin: 0; padding: 5px 9px; font-size: var(--font-content-secondary); }
-.file-browser-error { @apply text-destructive-text; }
-.file-browser-message { @apply text-muted-foreground; }
-.file-browser-main { display: grid; grid-template-columns: 185px minmax(0,1fr); flex: 1; min-height: 0; overflow: hidden; border: 1px solid var(--border); border-radius: 9px; }
-.file-browser-main:has(.file-browser-details) { grid-template-columns: 165px minmax(0,1fr) 220px; }
-.file-browser-sidebar { display: flex; flex-direction: column; gap: 15px; padding: 12px 8px; overflow-y: auto; border-right: 1px solid var(--border); @apply bg-muted/20; }
-.file-browser-side-section { display: flex; min-width: 0; flex-direction: column; gap: 3px; }
-.file-browser-side-section > strong { padding: 6px 8px; font-size: var(--font-content-secondary); @apply text-muted-foreground; }
-.file-browser-side-link { display: flex; align-items: center; gap: 8px; width: 100%; min-width: 0; border: 0; border-radius: 6px; padding: 7px 8px; text-align: start; font-size: var(--font-content-secondary); @apply bg-transparent text-foreground; }
-.file-browser-side-link svg { flex: none; @apply text-primary-text; }
-.file-browser-side-link span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.file-browser-side-link:hover,.file-browser-side-link:focus-visible { @apply bg-muted; }
-.file-browser-results { display: flex; flex-direction: column; overflow: hidden; min-width: 0; min-height: 0; }
-.file-browser-column-headers { display: grid; grid-template-columns: minmax(0,1fr) 105px 160px; gap: 10px; padding: 8px 13px 8px 52px; border-bottom: 1px solid var(--border); font-size: var(--font-content-secondary); @apply bg-muted/20 text-muted-foreground; }
-.file-browser-column-headers span:not(:first-child) { text-align: end; }
-.file-browser-center { display: flex; flex: 1; align-items: center; justify-content: center; gap: 10px; @apply text-muted-foreground; }
-.file-browser-details { display: flex; flex-direction: column; gap: 9px; align-items: center; overflow: auto; padding: 18px 10px; border-left: 1px solid var(--border); }
-.file-browser-details > svg { @apply text-primary-text; }
-.file-browser-details > strong { max-width: 100%; overflow-wrap: anywhere; }
-.file-browser-details dl { width: 100%; }
-.file-browser-details dt { padding-top: 9px; font-size: var(--font-content-secondary); @apply text-muted-foreground; }
-.file-browser-details dd { margin: 2px 0; overflow-wrap: anywhere; font-size: var(--font-content-secondary); }
-.file-browser-details :deep(button) { width: 100%; }
-.file-browser-status { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; padding: 4px 9px; font-size: var(--font-content-secondary); @apply text-muted-foreground; }
-.file-browser-context-overlay { position: fixed; z-index: 80; inset: 0; }
-.file-browser-context { position: fixed; display: flex; flex-direction: column; width: 220px; gap: 2px; border: 1px solid var(--border); border-radius: 8px; padding: 5px; box-shadow: 0 5px 18px var(--shadow-subtle); @apply bg-popover; }
-.file-browser-context button { border: 0; border-radius: 6px; padding: 8px 10px; text-align: start; font-size: var(--font-content-body); @apply bg-transparent text-popover-foreground; }
-.file-browser-context button:hover:not(:disabled) { @apply bg-muted; }
-.file-browser-context button:disabled { opacity: .45; }
-.file-browser-dialog-body { display: flex; flex-direction: column; gap: 14px; padding: 12px var(--layout-dialog-body-inline-padding); }
-.file-browser-dialog-body :deep(.md-dialog-footer) { margin: 0 calc(-1 * var(--layout-dialog-body-inline-padding)) -12px; }
-.file-browser-text-preview { max-height: 45vh; max-width: 100%; overflow: auto; padding: 12px; border-radius: 8px; background: var(--muted); white-space: pre-wrap; overflow-wrap: anywhere; font: 12px/1.5 ui-monospace, monospace; }
+.file-browser-workspace {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+}
+.file-browser-nav,
+.file-browser-actions,
+.file-browser-search-bar {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 6px;
+}
+.file-browser-nav {
+  padding: 4px 2px;
+}
+.file-browser-nav :deep(button) {
+  flex: none;
+}
+.file-browser-address {
+  flex: 1;
+  min-width: 100px;
+}
+.file-browser-address :deep(input) {
+  font-family: inherit;
+}
+.file-browser-actions {
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.file-browser-action-group,
+.file-browser-view-group {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex-wrap: wrap;
+}
+.file-browser-view-group :deep(button[aria-pressed='true']) {
+  @apply bg-primary/15 text-primary-text;
+}
+.file-browser-search-bar {
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.file-browser-search-form {
+  display: flex;
+  flex: 1;
+  min-width: 200px;
+  align-items: center;
+  gap: 5px;
+}
+.file-browser-search-form :deep(.result-search) {
+  min-width: 120px;
+  flex: 1;
+}
+.file-browser-display-options {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.file-browser-hidden-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  font-size: var(--font-content-secondary);
+}
+.file-browser-sort {
+  max-width: 130px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 5px;
+  font-size: var(--font-content-secondary);
+  @apply bg-background text-foreground;
+}
+.file-browser-error,
+.file-browser-message {
+  margin: 0;
+  padding: 5px 9px;
+  font-size: var(--font-content-secondary);
+}
+.file-browser-error {
+  @apply text-destructive-text;
+}
+.file-browser-message {
+  @apply text-muted-foreground;
+}
+.file-browser-main {
+  display: grid;
+  grid-template-columns: 185px minmax(0, 1fr);
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+}
+.file-browser-main:has(.file-browser-details) {
+  grid-template-columns: 165px minmax(0, 1fr) 220px;
+}
+.file-browser-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 12px 8px;
+  overflow-y: auto;
+  border-right: 1px solid var(--border);
+  @apply bg-muted/20;
+}
+.file-browser-side-section {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+}
+.file-browser-side-section > strong {
+  padding: 6px 8px;
+  font-size: var(--font-content-secondary);
+  @apply text-muted-foreground;
+}
+.file-browser-side-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  border-radius: 6px;
+  padding: 7px 8px;
+  text-align: start;
+  font-size: var(--font-content-secondary);
+  @apply bg-transparent text-foreground;
+}
+.file-browser-side-link svg {
+  flex: none;
+  @apply text-primary-text;
+}
+.file-browser-side-link span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.file-browser-side-link:hover,
+.file-browser-side-link:focus-visible {
+  @apply bg-muted;
+}
+.file-browser-results {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+  min-height: 0;
+}
+.file-browser-column-headers {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 105px 160px;
+  gap: 10px;
+  padding: 8px 13px 8px 52px;
+  border-bottom: 1px solid var(--border);
+  font-size: var(--font-content-secondary);
+  @apply bg-muted/20 text-muted-foreground;
+}
+.file-browser-column-headers span:not(:first-child) {
+  text-align: end;
+}
+.file-browser-center {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  @apply text-muted-foreground;
+}
+.file-browser-details {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  align-items: center;
+  overflow: auto;
+  padding: 18px 10px;
+  border-left: 1px solid var(--border);
+}
+.file-browser-details > svg {
+  @apply text-primary-text;
+}
+.file-browser-details > strong {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.file-browser-details dl {
+  width: 100%;
+}
+.file-browser-details dt {
+  padding-top: 9px;
+  font-size: var(--font-content-secondary);
+  @apply text-muted-foreground;
+}
+.file-browser-details dd {
+  margin: 2px 0;
+  overflow-wrap: anywhere;
+  font-size: var(--font-content-secondary);
+}
+.file-browser-details :deep(button) {
+  width: 100%;
+}
+.file-browser-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  padding: 4px 9px;
+  font-size: var(--font-content-secondary);
+  @apply text-muted-foreground;
+}
+.file-browser-context-overlay {
+  position: fixed;
+  z-index: 80;
+  inset: 0;
+}
+.file-browser-context {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  width: 220px;
+  gap: 2px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 5px;
+  box-shadow: 0 5px 18px var(--shadow-subtle);
+  @apply bg-popover;
+}
+.file-browser-context button {
+  border: 0;
+  border-radius: 6px;
+  padding: 8px 10px;
+  text-align: start;
+  font-size: var(--font-content-body);
+  @apply bg-transparent text-popover-foreground;
+}
+.file-browser-context button:hover:not(:disabled) {
+  @apply bg-muted;
+}
+.file-browser-context button:disabled {
+  opacity: 0.45;
+}
+.file-browser-dialog-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 12px var(--layout-dialog-body-inline-padding);
+}
+.file-browser-dialog-body :deep(.md-dialog-footer) {
+  margin: 0 calc(-1 * var(--layout-dialog-body-inline-padding)) -12px;
+}
+.file-browser-text-preview {
+  max-height: 45vh;
+  max-width: 100%;
+  overflow: auto;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--muted);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font:
+    12px/1.5 ui-monospace,
+    monospace;
+}
 @container file-browser (max-width: 1050px) {
- .file-browser-main { grid-template-columns: 155px minmax(0,1fr); }
- .file-browser-main:has(.file-browser-details) { grid-template-columns: 135px minmax(0,1fr); }
- .file-browser-details { display: none; }
- .file-browser-column-headers { grid-template-columns: minmax(0,1fr) 105px; }
- .file-browser-column-headers span:last-child { display: none; }
+  .file-browser-main {
+    grid-template-columns: 155px minmax(0, 1fr);
+  }
+  .file-browser-main:has(.file-browser-details) {
+    grid-template-columns: 135px minmax(0, 1fr);
+  }
+  .file-browser-details {
+    display: none;
+  }
+  .file-browser-column-headers {
+    grid-template-columns: minmax(0, 1fr) 105px;
+  }
+  .file-browser-column-headers span:last-child {
+    display: none;
+  }
 }
 @container file-browser (max-width: 670px) {
- .file-browser-main,.file-browser-main:has(.file-browser-details) { grid-template-columns: minmax(0,1fr); }
- .file-browser-sidebar { display: none; }
- .file-browser-column-headers { grid-template-columns: minmax(0,1fr) 105px; }
+  .file-browser-main,
+  .file-browser-main:has(.file-browser-details) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .file-browser-sidebar {
+    display: none;
+  }
+  .file-browser-column-headers {
+    grid-template-columns: minmax(0, 1fr) 105px;
+  }
 }
 </style>

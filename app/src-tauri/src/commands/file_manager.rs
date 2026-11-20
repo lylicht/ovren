@@ -1,9 +1,10 @@
 use std::{fmt::Display, path::Path};
 
 use mangodisk_core::{
-    diagnostic_path, list_directory, search_directory, AnalysisService, DuplicateFileService,
-    FileBrowserListing, FileBrowserSearchResult, LargeFileService, create_entry,
-    rename_entry, transfer_entries, trash_entries, FileTransferMode, FileMutationReport, FileTextPreview, preview_text,
+    create_entry, diagnostic_path, list_directory, preview_text, rename_entry, search_directory,
+    transfer_entries, trash_entries, AnalysisService, DuplicateFileService, FileBrowserListing,
+    FileBrowserSearchResult, FileMutationReport, FileTextPreview, FileTransferMode,
+    LargeFileService,
 };
 use tauri::{AppHandle, Manager};
 use tauri_plugin_opener::OpenerExt;
@@ -31,7 +32,10 @@ pub async fn search_file_browser_directory(
 
 #[tauri::command]
 pub async fn preview_file_browser_entry(path: String) -> CommandResult<FileTextPreview> {
-    run_blocking("preview_file_browser_entry", move || preview_text(Path::new(&path))).await
+    run_blocking("preview_file_browser_entry", move || {
+        preview_text(Path::new(&path))
+    })
+    .await
 }
 
 #[tauri::command]
@@ -42,17 +46,16 @@ pub async fn create_file_browser_entry(
 ) -> CommandResult<String> {
     run_blocking("create_file_browser_entry", move || {
         create_entry(Path::new(&parent), &name, folder)
-    }).await
+    })
+    .await
 }
 
 #[tauri::command]
-pub async fn rename_file_browser_entry(
-    path: String,
-    name: String,
-) -> CommandResult<String> {
+pub async fn rename_file_browser_entry(path: String, name: String) -> CommandResult<String> {
     run_blocking("rename_file_browser_entry", move || {
         rename_entry(Path::new(&path), &name)
-    }).await
+    })
+    .await
 }
 
 #[tauri::command]
@@ -63,14 +66,13 @@ pub async fn transfer_file_browser_entries(
 ) -> CommandResult<FileMutationReport> {
     run_blocking("transfer_file_browser_entries", move || {
         transfer_entries(paths, Path::new(&destination), mode)
-    }).await
+    })
+    .await
 }
 
 #[tauri::command]
 pub async fn trash_file_browser_entries(paths: Vec<String>) -> CommandResult<FileMutationReport> {
-    run_blocking("trash_file_browser_entries", move || {
-        trash_entries(paths)
-    }).await
+    run_blocking("trash_file_browser_entries", move || trash_entries(paths)).await
 }
 
 #[tauri::command]

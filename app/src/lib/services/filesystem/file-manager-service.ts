@@ -1,7 +1,13 @@
 import { invoke } from '@tauri-apps/api/core';
 import { open } from '@tauri-apps/plugin-dialog';
 import { dirname, homeDir } from '@tauri-apps/api/path';
-import type { FileBrowserListing, FileBrowserSearchResult, FileMutationReport, FileTransferMode, FileTextPreview } from '@/lib/models/filesystem/file-browser';
+import type {
+  FileBrowserListing,
+  FileBrowserSearchResult,
+  FileMutationReport,
+  FileTransferMode,
+  FileTextPreview,
+} from '@/lib/models/filesystem/file-browser';
 
 /** Exposes native file-system item actions without leaking Tauri into pages. */
 export class FileManagerService {
@@ -39,7 +45,11 @@ export class FileManagerService {
     return invoke<string>('rename_file_browser_entry', { path, name });
   }
 
-  static transferBrowserEntries(paths: string[], destination: string, mode: FileTransferMode): Promise<FileMutationReport> {
+  static transferBrowserEntries(
+    paths: string[],
+    destination: string,
+    mode: FileTransferMode
+  ): Promise<FileMutationReport> {
     return invoke<FileMutationReport>('transfer_file_browser_entries', { paths, destination, mode });
   }
 

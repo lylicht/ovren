@@ -131,28 +131,107 @@ function modified(entry: FileBrowserEntry) {
 
 <style scoped>
 @reference "@assets/main.css";
-.browser-viewport { min-height: 0; flex: 1; overflow: auto; }
-.browser-virtual-space { position: relative; width: 100%; }
-.browser-virtual-row { position: absolute; inset: 0 0 auto; display: grid; width: 100%; }
-.browser-entry { display: grid; min-width: 0; grid-template-columns: 30px minmax(0, 1fr) 105px 160px; align-items: center; gap: 10px; border: 0; border-bottom: 1px solid var(--border); padding: 4px 12px; text-align: start; cursor: default; font-size: var(--font-content-body); @apply bg-transparent text-foreground; }
-.browser-entry:hover { @apply bg-muted/60; }
-.browser-entry:focus-visible { outline: 2px solid var(--ring); outline-offset: -2px; }
-.browser-entry.selected { @apply bg-primary/15; }
-.entry-icon { display: flex; align-items: center; justify-content: center; @apply text-primary-text; }
-.entry-name,.entry-size,.entry-modified,.entry-subtitle { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.entry-size,.entry-modified,.entry-subtitle { font-size: var(--font-content-secondary); @apply text-muted-foreground; }
-.entry-size,.entry-modified { text-align: end; }
-.as-grid .browser-virtual-row { gap: 0; }
-.browser-entry.grid-entry { display: flex; flex-direction: column; justify-content: center; gap: 5px; border: 1px solid transparent; border-radius: 9px; padding: 8px 6px; text-align: center; }
-.browser-entry.grid-entry.selected { border-color: var(--border-primary-subtle); }
-.grid-entry .entry-name { max-width: 100%; font-weight: 500; }
-.grid-entry .entry-subtitle { max-width: 100%; font-size: var(--font-content-meta); }
+.browser-viewport {
+  min-height: 0;
+  flex: 1;
+  overflow: auto;
+}
+.browser-virtual-space {
+  position: relative;
+  width: 100%;
+}
+.browser-virtual-row {
+  position: absolute;
+  inset: 0 0 auto;
+  display: grid;
+  width: 100%;
+}
+.browser-entry {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: 30px minmax(0, 1fr) 105px 160px;
+  align-items: center;
+  gap: 10px;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  padding: 4px 12px;
+  text-align: start;
+  cursor: default;
+  font-size: var(--font-content-body);
+  @apply bg-transparent text-foreground;
+}
+.browser-entry:hover {
+  @apply bg-muted/60;
+}
+.browser-entry:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: -2px;
+}
+.browser-entry.selected {
+  @apply bg-primary/15;
+}
+.entry-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @apply text-primary-text;
+}
+.entry-name,
+.entry-size,
+.entry-modified,
+.entry-subtitle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.entry-size,
+.entry-modified,
+.entry-subtitle {
+  font-size: var(--font-content-secondary);
+  @apply text-muted-foreground;
+}
+.entry-size,
+.entry-modified {
+  text-align: end;
+}
+.as-grid .browser-virtual-row {
+  gap: 0;
+}
+.browser-entry.grid-entry {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  padding: 8px 6px;
+  text-align: center;
+}
+.browser-entry.grid-entry.selected {
+  border-color: var(--border-primary-subtle);
+}
+.grid-entry .entry-name {
+  max-width: 100%;
+  font-weight: 500;
+}
+.grid-entry .entry-subtitle {
+  max-width: 100%;
+  font-size: var(--font-content-meta);
+}
 @container file-browser (max-width: 740px) {
-  .browser-entry:not(.grid-entry) { grid-template-columns: 28px minmax(0, 1fr) 96px; }
-  .browser-entry:not(.grid-entry) .entry-modified { display: none; }
+  .browser-entry:not(.grid-entry) {
+    grid-template-columns: 28px minmax(0, 1fr) 96px;
+  }
+  .browser-entry:not(.grid-entry) .entry-modified {
+    display: none;
+  }
 }
 @container file-browser (max-width: 460px) {
-  .browser-entry:not(.grid-entry) { grid-template-columns: 28px minmax(0, 1fr); }
-  .browser-entry:not(.grid-entry) .entry-size { display: none; }
+  .browser-entry:not(.grid-entry) {
+    grid-template-columns: 28px minmax(0, 1fr);
+  }
+  .browser-entry:not(.grid-entry) .entry-size {
+    display: none;
+  }
 }
 </style>

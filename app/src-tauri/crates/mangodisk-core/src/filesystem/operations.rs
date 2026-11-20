@@ -12,7 +12,6 @@ use serde::{Deserialize, Serialize};
 const MAX_BATCH: usize = 128;
 const MAX_DEPTH: usize = 256;
 
-
 const MAX_PREVIEW_BYTES: usize = 64 * 1024;
 
 #[derive(Debug, Serialize)]
@@ -29,13 +28,35 @@ pub fn preview_text(path: &Path) -> io::Result<FileTextPreview> {
     if !metadata.is_file() || metadata.file_type().is_symlink() {
         return Err(invalid("preview requires a regular file"));
     }
-    let extension = path.extension().and_then(|value| value.to_str()).unwrap_or("");
+    let extension = path
+        .extension()
+        .and_then(|value| value.to_str())
+        .unwrap_or("");
     if !matches!(
         extension.to_ascii_lowercase().as_str(),
-        "txt" | "md" | "json" | "toml" | "yaml" | "yml" | "xml" |
-        "ini" | "log" | "csv" | "rs" | "ts" | "tsx" | "js" |
-        "jsx" | "py" | "go" | "java" | "kt" | "swift" |
-        "html" | "css" | "sh"
+        "txt"
+            | "md"
+            | "json"
+            | "toml"
+            | "yaml"
+            | "yml"
+            | "xml"
+            | "ini"
+            | "log"
+            | "csv"
+            | "rs"
+            | "ts"
+            | "tsx"
+            | "js"
+            | "jsx"
+            | "py"
+            | "go"
+            | "java"
+            | "kt"
+            | "swift"
+            | "html"
+            | "css"
+            | "sh"
     ) {
         return Err(invalid("file format is not eligible for text preview"));
     }
@@ -84,7 +105,9 @@ fn validate_name(name: &str) -> io::Result<()> {
         || name != name.trim()
         || name == "."
         || name == ".."
-        || name.chars().any(|c| c.is_control() || c == '/' || c == '\\' || c == ':')
+        || name
+            .chars()
+            .any(|c| c.is_control() || c == '/' || c == '\\' || c == ':')
         || Path::new(name)
             .file_name()
             .is_none_or(|file| file.to_string_lossy() != name)
@@ -120,9 +143,13 @@ fn source(path: &Path) -> io::Result<PathBuf> {
     if !path.is_absolute() {
         return Err(invalid("expected absolute source"));
     }
-    let parent = path.parent().ok_or_else(|| invalid("cannot mutate volume root"))?;
+    let parent = path
+        .parent()
+        .ok_or_else(|| invalid("cannot mutate volume root"))?;
     let parent = directory(parent)?;
-    let name = path.file_name().ok_or_else(|| invalid("cannot mutate volume root"))?;
+    let name = path
+        .file_name()
+        .ok_or_else(|| invalid("cannot mutate volume root"))?;
     if name == "." || name == ".." {
         return Err(invalid("invalid source"));
     }
@@ -230,7 +257,10 @@ pub fn create_entry(parent: &Path, name: &str, folder: bool) -> io::Result<Strin
     if folder {
         fs::create_dir(&target)?;
     } else {
-        OpenOptions::new().write(true).create_new(true).open(&target)?;
+        OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(&target)?;
     }
     Ok(current_platform().display_path(&target))
 }
@@ -238,7 +268,10 @@ pub fn create_entry(parent: &Path, name: &str, folder: bool) -> io::Result<Strin
 pub fn rename_entry(path: &Path, name: &str) -> io::Result<String> {
     validate_name(name)?;
     let from = source(path)?;
-    let to = from.parent().ok_or_else(|| invalid("invalid source"))?.join(name);
+    let to = from
+        .parent()
+        .ok_or_else(|| invalid("invalid source"))?
+        .join(name);
     if from == to {
         return Err(invalid("source and target are identical"));
     }
@@ -248,7 +281,6 @@ pub fn rename_entry(path: &Path, name: &str) -> io::Result<String> {
     rename_no_replace(&from, &to)?;
     Ok(current_platform().display_path(&to))
 }
-
 
 #[cfg(unix)]
 fn c_path(path: &Path) -> io::Result<std::ffi::CString> {
@@ -298,8 +330,16 @@ fn rename_no_replace(from: &Path, to: &Path) -> io::Result<()> {
     use std::os::windows::ffi::OsStrExt;
     use windows_sys::Win32::Storage::FileSystem::MoveFileExW;
 
-    let from = from.as_os_str().encode_wide().chain(std::iter::once(0)).collect::<Vec<_>>();
-    let to = to.as_os_str().encode_wide().chain(std::iter::once(0)).collect::<Vec<_>>();
+    let from = from
+        .as_os_str()
+        .encode_wide()
+        .chain(std::iter::once(0))
+        .collect::<Vec<_>>();
+    let to = to
+        .as_os_str()
+        .encode_wide()
+        .chain(std::iter::once(0))
+        .collect::<Vec<_>>();
     // SAFETY: both buffers are valid NUL-terminated UTF-16; 0 deliberately
     // excludes MOVEFILE_REPLACE_EXISTING and MOVEFILE_COPY_ALLOWED.
     let result = unsafe { MoveFileExW(from.as_ptr(), to.as_ptr(), 0) };
@@ -324,7 +364,10 @@ fn transfer_one(from: &Path, destination: &Path, mode: FileTransferMode) -> io::
     } else if fs::symlink_metadata(&from)?.file_type().is_symlink() {
         return Err(invalid("links cannot be moved"));
     }
-    let target = destination.join(from.file_name().ok_or_else(|| invalid("missing source name"))?);
+    let target = destination.join(
+        from.file_name()
+            .ok_or_else(|| invalid("missing source name"))?,
+    );
     if from == target || fs::symlink_metadata(&target).is_ok() {
         return Err(io::Error::from(ErrorKind::AlreadyExists));
     }
@@ -380,7 +423,10 @@ pub fn trash_entries(paths: Vec<String>) -> io::Result<FileMutationReport> {
             Ok(path) => match trash::delete(&path) {
                 Ok(()) => report.completed.push(original),
                 Err(error) => {
-                    log::warn!("file_browser_trash_failed path={} error={error}", path.display());
+                    log::warn!(
+                        "file_browser_trash_failed path={} error={error}",
+                        path.display()
+                    );
                     report.failed.push(FileMutationFailure {
                         path: original,
                         reason: "failed",
@@ -453,7 +499,10 @@ mod tests {
         )
         .unwrap();
         assert!(report.failed.is_empty());
-        assert_eq!(fs::read(target.join("source/deep/file.txt")).unwrap(), b"original");
+        assert_eq!(
+            fs::read(target.join("source/deep/file.txt")).unwrap(),
+            b"original"
+        );
         let report = transfer_entries(
             vec![source.to_string_lossy().into_owned()],
             &target,
