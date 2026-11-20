@@ -410,6 +410,14 @@ async function navigate(page: PageId) {
   return false;
 }
 
+async function analyzeFileBrowserPath(path: string) {
+  if (await navigate(PAGE_IDS.analysis)) await analyze(path);
+}
+
+async function openFileBrowserTool(page: 'large-files' | 'duplicate-files') {
+  await navigate(page === 'large-files' ? PAGE_IDS.largeFiles : PAGE_IDS.duplicateFiles);
+}
+
 async function openAboutSettings() {
   await navigate(PAGE_IDS.settings);
   settingsFocusRevision.value += 1;
@@ -773,7 +781,11 @@ async function cancelDeepCleanup() {
           @load-more="duplicateFilesStore.loadMore"
           @open-exclusions="openScanExclusions"
         />
-        <FileBrowserPage v-else-if="store.currentPage === PAGE_IDS.fileBrowser" />
+        <FileBrowserPage
+          v-else-if="store.currentPage === PAGE_IDS.fileBrowser"
+          @analyze="analyzeFileBrowserPath"
+          @open-tool="openFileBrowserTool"
+        />
         <ApplicationUninstallPage
           v-else-if="store.currentPage === PAGE_IDS.applicationUninstall"
           :catalog="applicationStore.uninstallCatalog"
