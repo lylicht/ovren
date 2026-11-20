@@ -24,7 +24,6 @@ import type {
 } from '@/lib/models/filesystem/file-browser';
 import { ICON_NAMES } from '@/lib/models/presentation/ui';
 import { FileManagerService } from '@/lib/services/filesystem/file-manager-service';
-import { FolderSelectionService } from '@/lib/services/storage/folder-selection-service';
 import { NativeDragDropService, type NativeDragDropEvent } from '@/lib/services/shell/native-drag-drop-service';
 import { FormatService } from '@/lib/services/presentation/format-service';
 import { ByteSizeService } from '@/lib/services/settings/byte-size-service';
@@ -163,16 +162,6 @@ async function loadDirectory(target: string, mode: HistoryMode = 'push', index =
     if (request === requestId) errorMessage.value = t('fileBrowser.directoryError');
   } finally {
     if (request === requestId) busy.value = false;
-  }
-}
-
-async function chooseFolder() {
-  if (busy.value) return;
-  try {
-    const [selected] = await FolderSelectionService.select(false, t('scanScope.chooseFolder'), path.value || undefined);
-    if (selected) await loadDirectory(selected);
-  } catch {
-    errorMessage.value = t('common.operationFailed');
   }
 }
 
@@ -451,18 +440,6 @@ function onNativeDrop(event: NativeDragDropEvent) {
   importOpen.value = true;
 }
 
-async function pickImport() {
-  if (busy.value || !path.value) return;
-  try {
-    const selected = await FileManagerService.pickBrowserFiles();
-    if (!selected.length) return;
-    importPaths.value = selected;
-    importOpen.value = true;
-  } catch {
-    errorMessage.value = t('common.operationFailed');
-  }
-}
-
 async function confirmImport() {
   const paths = [...importPaths.value];
   importOpen.value = false;
@@ -606,13 +583,6 @@ onBeforeUnmount(() => {
     :title="t('navigation.file-browser')"
     :subtitle="path || undefined"
   >
-    <template #actions>
-      <Button variant="outline" :disabled="busy" @click="chooseFolder">
-        <MdIcon :name="ICON_NAMES.folderOpen" :size="16" />
-        {{ t('scanScope.chooseFolder') }}
-      </Button>
-    </template>
-
     <MdResultWorkspace class="file-browser-workspace">
       <div class="file-browser-nav" role="toolbar" :aria-label="t('fileBrowser.navigation')">
         <Button
@@ -668,10 +638,6 @@ onBeforeUnmount(() => {
           <Button variant="outline" size="sm" :disabled="busy || !path" @click="openCreate(false)">
             <MdIcon :name="ICON_NAMES.file" :size="15" />
             {{ t('fileBrowser.newFile') }}
-          </Button>
-          <Button variant="ghost" size="sm" :disabled="busy || !path" @click="pickImport">
-            <MdIcon :name="ICON_NAMES.download" :size="15" />
-            {{ t('fileBrowser.importFiles') }}
           </Button>
           <Button variant="ghost" size="sm" :disabled="busy || selectedCount !== 1" @click="openRename">
             {{ t('fileBrowser.rename') }}
@@ -836,9 +802,7 @@ onBeforeUnmount(() => {
             :title="t('fileBrowser.emptyRootTitle')"
             description=""
             compact
-          >
-            <Button variant="outline" @click="chooseFolder">{{ t('scanScope.chooseFolder') }}</Button>
-          </MdEmptyState>
+          />
           <MdEmptyState
             v-else-if="!visibleEntries.length"
             :icon-name="searchResult ? ICON_NAMES.search : ICON_NAMES.folder"

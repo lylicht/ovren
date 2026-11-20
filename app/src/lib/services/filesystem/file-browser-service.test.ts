@@ -6,11 +6,9 @@ import { FileManagerService } from './file-manager-service';
 const invokeMock = vi.hoisted(() => vi.fn());
 const dirnameMock = vi.hoisted(() => vi.fn());
 const homeDirMock = vi.hoisted(() => vi.fn());
-const dialogOpenMock = vi.hoisted(() => vi.fn());
 
 vi.mock('@tauri-apps/api/core', () => ({ invoke: invokeMock }));
 vi.mock('@tauri-apps/api/path', () => ({ dirname: dirnameMock, homeDir: homeDirMock }));
-vi.mock('@tauri-apps/plugin-dialog', () => ({ open: dialogOpenMock }));
 
 describe('file browser service', () => {
   beforeEach(() => invokeMock.mockReset());
@@ -52,21 +50,6 @@ describe('file browser service', () => {
     homeDirMock.mockResolvedValue('/home/owner');
     await expect(FileManagerService.homeDirectory()).resolves.toBe('/home/owner');
     expect(homeDirMock).toHaveBeenCalled();
-  });
-
-  it('selects external files without exposing the dialog plugin to the page', async () => {
-    dialogOpenMock.mockResolvedValue(['/external/a.txt', '/external/b.txt']);
-    await expect(FileManagerService.pickBrowserFiles('Import')).resolves.toEqual([
-      '/external/a.txt',
-      '/external/b.txt',
-    ]);
-    expect(dialogOpenMock).toHaveBeenCalledWith({
-      directory: false,
-      multiple: true,
-      title: 'Import',
-    });
-    dialogOpenMock.mockResolvedValue(null);
-    await expect(FileManagerService.pickBrowserFiles()).resolves.toEqual([]);
   });
 
   it('loads a bounded text preview from Rust', async () => {
